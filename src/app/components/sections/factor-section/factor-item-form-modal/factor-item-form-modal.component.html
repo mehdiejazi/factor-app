@@ -1,0 +1,80 @@
+<div class="modal-header bg-dark text-light">
+    <h5 class="modal-title" id="exampleModalLabel">
+        {{ title }}
+    </h5>
+    <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"
+        (click)="hideConfirmationModal()"></button>
+</div>
+
+
+<div class="modal-body bg-dark text-light">
+
+    <form class="row was-validated needs-validation" *ngIf="factorItem!=undefined">
+        <div class="col-12">
+            <div *ngIf="factorItem?.id" class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col text-success">
+                    شناسه:
+                    {{ factorItem.id }}
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <label class="form-label">محصول:</label>
+                    <div class="input-group">
+                        <input disabled type="text" class="form-control" placeholder="انتخاب محصول"
+                            name="owner-fullname" [(ngModel)]="factorItem.product.name" (click)="selectProduct()">
+                        <button type="button" class="btn btn-sm btn-primary" (click)="selectProduct()">انتخاب</button>
+                    </div>
+                </div>
+                <div class="col">
+                    <label class="form-label">قیمت:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="price" [(ngModel)]="factorItem.price">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <label class="form-label">تعداد:</label>
+                    <div class="input-group">
+                        <button type="button" class="btn btn-sm btn-success align-items-center d-flex" (click)="onClickIncQuantity(factorItem)">
+                            <mat-icon>add_circle</mat-icon>
+                        </button>
+                        <input type="text" class="form-control" name="quantity" [(ngModel)]="factorItem.quantity">
+                        <button type="button" class="btn btn-sm btn-danger align-items-center d-flex" (click)="onClickDecQuantity(factorItem)">
+                            <mat-icon>do_not_disturb_on</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="col">
+                    <label class="form-label">تخفیف:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="offPercent" [(ngModel)]="factorItem.offPercent">
+                        <mat-icon class="input-group-text text-light bg-secondary border-0">percent</mat-icon>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <label class="form-label">توضیحات:</label>
+                    <input [(ngModel)]="factorItem.description" name="description" type="text" class="form-control">
+                    <div class="invalid-feedback">لطفاً توضیحات را وارد نمایید</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer bg-dark text-light">
+    <div class="text-right">
+        <button type="submit" class="btn btn-sm btn-primary" (click)="onConfirm()">
+            تایید
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary ms-1" (click)="onCancel()">
+            انصراف
+        </button>
+    </div>
+</div>

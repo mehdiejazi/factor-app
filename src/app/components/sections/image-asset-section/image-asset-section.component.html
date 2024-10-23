@@ -1,0 +1,104 @@
+<div class="container">
+    <div class="row">
+        <div class="col d-flex align-items-center pb-2">
+            <mat-icon class="bg-info text-white border rounded-circle p-2 round-icon">photo_library</mat-icon>
+            <h3 class="ms-2 mt-2">مدیریت تصاویر</h3>
+        </div>
+    </div>
+    <div class="row" class="mb-3">
+        <div class="col">
+
+            <div class="mb-2">
+
+                <!-- <button type="button" class="btn btn-primary me-1">گالری تصاویر</button>
+                <button type="button" class="btn btn-primary me-1">افزودن تصویر</button> -->
+                <!-- <button type="button" class="btn btn-primary me-1" (click)="showGalleryModal()">تست گالری</button> -->
+
+            </div>
+
+        </div>
+    </div>
+    <div class="row mb-2">
+        <app-image-asset-upload (fillGallery)="fillGallery()"></app-image-asset-upload>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col">
+
+            <div *ngIf="errorMessages?.length>0" class="alert alert-danger mb-3">
+                <div *ngFor="let errorMessage of errorMessages">
+                    {{ errorMessage }}
+                </div>
+            </div>
+
+            <div *ngIf="warningMessages?.length>0" class="alert alert-warning mb-3">
+                <div *ngFor="let warningMessage of warningMessages">
+                    {{ warningMessage }}
+                </div>
+            </div>
+
+            <div *ngIf="informationMessages?.length>0" class="alert alert-info mb-3">
+                <div *ngFor="let informationMessage of informationMessages">
+                    {{ informationMessage }}
+                </div>
+            </div>
+
+            <app-alert class="mb-3" *ngIf="formSuccessful" [AlertType]="'Success'"
+                [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
+
+
+            <div *ngIf="errorMessages.length ==0 && !error?.message && !imageAssets"
+                class="alert alert-info pb-3 d-flex align-items-center">
+                <mat-icon>cloud_download</mat-icon>
+                <div class="ms-2">
+                    در حال واکشی اطلاعات ...
+                </div>
+            </div>
+
+            <div *ngIf="error?.message !imageAssets" class="alert alert-danger pb-3 d-flex align-items-center">
+                <mat-icon>error</mat-icon>
+                <div class="ms-2">
+                    خطا در واکشی اطلاعات
+                </div>
+            </div>
+
+            <div *ngIf="imageAssets?.length==0" class="alert alert-warning pb-3 d-flex align-items-center">
+                <mat-icon>error</mat-icon>
+                <div class="ms-2">
+                    تصویری جهت نمایش وجود ندارد
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <ng-container *ngFor="let image of imageAssets">
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="card card-gallery">
+                    <!-- {{image.url}} -->
+                    <img [lazyLoad]="image.url" class="img-card-gallery bg-light">
+                    <div class="card-body font-size10">
+                        <div class="card-text">
+                            <span>نام فایل: </span>
+                            <span class="fw-bold">{{ image.fileName }}</span>
+                        </div>
+                        <div class="card-text">
+                            <span>صاحب فایل:</span>
+                            <span class="fw-bold">{{ image.ownerUser?.fullName }}</span>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <a [href]="image.url" class="btn btn-sm btn-outline-primary me-2">نمایش تصویر</a>
+                        <button type="button" class="btn btn-sm btn-outline-danger" (click)="onClickDelete(image)">حذف</button>
+                    </div>
+
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+</div>

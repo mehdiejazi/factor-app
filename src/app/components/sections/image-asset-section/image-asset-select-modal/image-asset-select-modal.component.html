@@ -1,0 +1,59 @@
+<form (ngSubmit)="onConfirm()" *ngIf="active">
+
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+            {{ title }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="hideConfirmationModal()"></button>
+    </div>
+
+    <div class="modal-body">
+        <div class="container">
+            <div *ngIf="!imageAssets || imageAssets.length==0" class="alert alert-danger d-flex align-items-center">
+                <mat-icon>error</mat-icon>
+                <div class="ms-2">
+                    تصویری جهت نمایش وجود ندارد
+                </div>
+            </div>
+            <div *ngIf="imageAssets" class="row">
+                <ng-container *ngFor="let image of imageAssets | 
+              paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: imageAssets.length}">
+
+                    <div class="col-lg-3 col-md-5 mb-4">
+                        <div class="card card-gallery p-2 card-items">
+
+                            <img (click)="onCardClick($event,image)" [lazyLoad]="image.url"
+                                class="finger-cursor img-card-gallery-modal bg-light" data-bs-toggle="tooltip"
+                                data-bs-placement="top" [attr.title]="image.fileName" />
+
+                        </div>
+                    </div>
+
+                </ng-container>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <div class="text-center flex-fill" *ngIf="imageAssets">
+            <pagination-controls class="my-3" previousLabel="صفحه قبل" nextLabel="صفحه بعد"
+                (pageChange)="currentPage = $event" previousTitle="صفحه قبل" nextTitle="صفحه بعد"
+                firstTitle="صفحه اول" lastTitle="صفحه آخر" pageLinkClass="page-link" previousClass="page-item"
+                nextClass="page-item" firstClass="page-item" lastClass="page-item" activeClass="active"
+                ellipses="true" ellipsesFormat="[...]" pageItemClass="page-item" pageItemActiveClass="active"
+                previousAriaLabel="صفحه قبل" nextAriaLabel="صفحه بعد" firstAriaLabel="صفحه اول"
+                lastAriaLabel="صفحه آخر"></pagination-controls>
+        </div>
+        <div class="text-right">
+            <button type="submit" class="btn btn-sm btn-primary">
+                انتخاب تصویر
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary ms-1" (click)="onCancel()">
+                انصراف
+            </button>
+        </div>
+    </div>
+
+</form>

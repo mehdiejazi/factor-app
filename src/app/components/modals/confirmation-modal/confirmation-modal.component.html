@@ -1,0 +1,21 @@
+<form (ngSubmit)="onConfirm()" *ngIf="active">
+    <div class="modal-header bg-dark text-light">
+        <h5 class="modal-title" id="exampleModalLabel">
+            {{title}}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="hideConfirmationModal()"></button>
+    </div>
+    <div class="modal-body bg-dark text-light">
+        <p>{{body}}</p>
+    </div>
+    <div class="modal-footer bg-dark text-light">
+        <div class="text-right">
+            <button type="submit" class="btn btn-sm btn-modal btn-primary">
+                بلی
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary btn-modal ms-1" (click)="onCancel()">
+                خیر
+            </button>
+        </div>
+    </div>
+</form>

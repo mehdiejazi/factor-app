@@ -1,0 +1,78 @@
+<div class="modal-header bg-dark text-light">
+    <h5 class="modal-title" id="exampleModalLabel">
+        {{ title }}
+    </h5>
+    <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"
+        (click)="hideConfirmationModal()"></button>
+</div>
+
+
+<div class="modal-body bg-dark text-light">
+
+    <form class="row was-validated needs-validation" *ngIf="factor!=undefined">
+        <div class="col-12">
+            <div *ngIf="factor?.id" class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col text-success">
+                    شناسه:
+                    {{ factor.id }}
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <label class="form-label">مشتری:</label>
+                    <div class="input-group">
+                        <input disabled type="text" class="form-control" 
+                        placeholder="انتخاب مشتری" style="width: 250px;" name="owner-fullname"
+                        [(ngModel)]="factor.owner.fullName" (click)="selectCustomer()">
+                        <button type="button" class="btn btn-sm btn-primary" (click)="selectCustomer()">انتخاب</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <label class="form-label">توضیحات:</label>
+                    <input [(ngModel)]="factor.description" name="description" type="text" class="form-control" required>
+                    <div class="invalid-feedback">لطفاً توضیحات را وارد نمایید</div>
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <label class="form-label">تاریخ و ساعت:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control direction-ltr" disabled [(ngModel)]="sellDateTime"
+                            name="sellDateTime">
+                        <button type="button" class="btn btn-sm btn-primary"
+                            (click)="onClickDateSelect()">انتخاب</button>
+                    </div>
+
+                    <!-- <label class="form-label">تاریخ و ساعت:</label>
+                    <input [(ngModel)]="factor.sellDateTime" name="sellDateTime" type="text" class="form-control" required>
+                    <div class="invalid-feedback">لطفاً تاریخ فروش را وارد نمایید</div> -->
+                </div>
+            </div>
+
+            <!-- <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <label class="form-label">کد ملی:</label>
+                    <input [(ngModel)]="customer.nationalCode" name="nationalCode" type="text" class="form-control" required>
+                    <div class="invalid-feedback">لطفاً کدملی را وارد نمایید</div>
+                </div>
+            </div>  -->
+
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer bg-dark text-light">
+    <div class="text-right">
+        <button type="submit" class="btn btn-sm btn-primary" (click)="onConfirm()">
+            تایید
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary ms-1" (click)="onCancel()">
+            انصراف
+        </button>
+    </div>
+</div>

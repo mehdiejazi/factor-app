@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row">
+        <div class="col d-flex align-items-center pb-2">
+            <mat-icon class="bg-gradient text-white  rounded-circle p-2 round-icon">receipt</mat-icon>
+            <h3 class="ms-2 mt-2">صدور فاکتور</h3>
+        </div>
+    </div>
+
+
+    <div class="row" *ngIf="settings.getStore().id">
+        <!-- <app-factor-list></app-factor-list> -->
+        <router-outlet></router-outlet>
+    </div>
+
+    <div *ngIf="!settings.getStore().id" class="row">
+        <div class="alert alert-info pb-3">
+            لطفا یک فروشگاه را انتخاب نمایید
+        </div>
+    </div>
+
+</div>
+
+

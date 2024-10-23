@@ -1,0 +1,52 @@
+<!-- bg-dark-color1 -->
+<nav class="navbar sticky-top bg-gradient  navbar-expand-lg navbar-dark py-2">
+    <div class="d-flex align-items-center">
+        <a class="text-white px-3 pt-1 finger-pointer" (click)="sideBarClose()">
+            <mat-icon>menu</mat-icon>
+        </a>
+        <a href="#" class="navbar-brand mb-0 ms-0 pe-5 py-2 h3 d-flex align-items-center">
+            <!-- <img src="images/logo-app.png" height="32" width="32" /> -->
+            <mat-icon>av_timer</mat-icon>
+            <span class="ms-2">فاکتورنو</span>
+        </a>
+    </div>
+
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav d-flex align-items-center">
+            <li class="nav-item ps-4">
+                <div class="input-group">
+                    <input disabled type="text" class="form-control form-select-sm" 
+                    placeholder="انتخاب فروشگاه" style="width: 250px;"
+                    [(ngModel)]="settings.getStore().name" (click)="selectStore()">
+                    <button type="button" class="btn btn-sm btn-primary" (click)="selectStore()">انتخاب</button>
+                </div>
+            </li>
+        </ul>
+        <div class="me-2 ms-auto">
+            <button class="btn btn-sm btn-danger me-2" (click)="onClickLogout()">
+                خروج
+            </button>
+            
+            <img *ngIf="!settings.getUser().avatar" src="assets/images/noavatar.png" class="img-avatar rounded-circle">
+            <img *ngIf="settings.getUser().avatar" [lazyLoad]="settings.getUser().avatar.url" class="img-avatar rounded-circle">
+        </div>
+    </div>
+</nav>
+<!-- 
+<ng-template #popme>
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="..." class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                        additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template> -->

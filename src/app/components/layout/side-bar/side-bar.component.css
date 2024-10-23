@@ -1,0 +1,48 @@
+#sidebar {
+    font-weight: 400;
+    padding: 0;
+}
+
+#sidebar .collaping {
+    height: 0;
+}
+
+
+
+#sidebar .nav-link {
+    color: #fff;
+    margin-top: .1rem;
+    margin-bottom: .1rem;
+}
+
+.m-header {
+    color: #ffb197;
+    font-weight: 800;
+    font-size: 15px;
+    border-bottom: 2px solid #ffb197;
+
+}
+
+#sidebar .oi {
+    transition: .1s transform ease-out;
+}
+
+#sidebar .oi-caret-left {
+    transform: rotate(-90deg);
+}
+
+
+#sidebar .collapsed .oi-caret-left {
+    transform: rotate(0deg);
+}
+
+#sidebar .nav-link.active {
+    color: black !important;
+    background-color: #f8f9fa;
+    border-radius: .7rem;
+}
+
+
+.nav-pills .nav-link {
+    border-radius: 1.5rem;
+}

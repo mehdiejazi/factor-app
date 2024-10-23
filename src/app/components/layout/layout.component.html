@@ -1,0 +1,15 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="container-fluid ">
+  <div class="row">
+
+    <app-side-bar class="col-12 col-md-2 bg-dark-color2" id="sidebar"
+      *ngIf="settingsService.isSideBarOpen"></app-side-bar>
+    <div class="pt-3 bg-dark my-content text-light"
+      [ngClass]="{'col-12 col-md-10': settingsService.isSideBarOpen,'col-12': !settingsService.isSideBarOpen}">
+
+      <router-outlet></router-outlet>
+
+    </div>
+  </div>
+</div>

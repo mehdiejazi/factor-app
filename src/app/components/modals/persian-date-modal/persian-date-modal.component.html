@@ -1,0 +1,34 @@
+<form (ngSubmit)="onConfirm()" *ngIf="active">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+            {{title}}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="hideConfirmationModal()"></button>
+    </div>
+    <div class="modal-body d-flex justify-content-center">
+
+        <div style="width: 400px;" class="py-4">
+
+            <form [formGroup]="form">
+                <ng-persian-datepicker [timeEnable]="isTimeEnabled" [dateFormat]="dateFormat" [uiIsVisible]="true"
+                    [uiHideOnOutsideClick]="false" [uiHideAfterSelectDate]="false" (dateOnSelect)="onSelect($event)">
+                    <input type="text" class="form-control border-0 direction-ltr" placeholder="تاریخ انتشار"
+                        aria-label="انتخاب تاریخ" formControlName="dateValue" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="تاریخ و ساعت شروع" readonly>
+                </ng-persian-datepicker>
+            </form>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button type="submit" class="btn btn-sm btn-primary" (click)="onConfirm()">
+                انتخاب تاریخ
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary ms-1" (click)="onCancel()">
+                انصراف
+            </button>
+        </div>
+    </div>
+</form>

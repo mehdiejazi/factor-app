@@ -1,0 +1,50 @@
+<div *ngIf="AlertType=='Download' && !isClosed" class="mb-2 alert alert-info pb-3 d-flex align-items-center">
+    <mat-icon>cloud_download</mat-icon>
+    <div class="ms-2 fw-bold w-100">
+        {{TextMessage}}
+    </div>
+    <!-- <button type="button" class="btn-close flex-shrink-1" data-bs-dismiss="alert" aria-label="Close"></button> -->
+</div>
+
+<div *ngIf="AlertType=='Error' && !isClosed" class="mb-2 alert alert-danger pb-3 d-flex align-items-center">
+    <mat-icon>error</mat-icon>
+    <div class="ms-2 fw-bold w-100">
+        {{TextMessage}}
+    </div>
+    <button type="button" class="btn-close flex-shrink-1" data-bs-dismiss="alert" aria-label="Close"
+    (click)="onClickClose()"></button>
+</div>
+
+<div *ngIf="AlertType=='Success' && !isClosed" class="mb-2 alert alert-success pb-3 d-flex align-items-center">
+    <mat-icon>check_circle</mat-icon>
+    <div class="ms-2 fw-bold w-100">
+        {{TextMessage}}
+    </div>
+    <button type="button" class="btn-close flex-shrink-1" data-bs-dismiss="alert" aria-label="Close"
+    (click)="onClickClose()"></button>
+</div>
+
+<div *ngIf="AlertType=='Warning' && !isClosed" class="mb-2 alert alert-warning pb-3 d-flex align-items-center">
+    <mat-icon>warning</mat-icon>
+    <div class="ms-2 fw-bold w-100">
+        {{TextMessage}}
+    </div>
+    <button type="button" class="btn-close flex-shrink-1" data-bs-dismiss="alert" aria-label="Close"
+    (click)="onClickClose()"></button></div>
+
+<div *ngIf="AlertType=='Danger' && !isClosed" class="mb-2 alert alert-danger pb-3 d-flex align-items-center">
+    <mat-icon>cancel</mat-icon>
+    <div class="ms-2 fw-bold w-100">
+        {{TextMessage}}
+    </div>
+    <button type="button" class="btn-close flex-shrink-1" data-bs-dismiss="alert" aria-label="Close"
+    (click)="onClickClose()"></button></div>
+
+<div *ngIf="AlertType=='Info' && !isClosed" class="mb-2 alert alert-info pb-3 d-flex align-items-center">
+    <mat-icon>info_outline</mat-icon>
+    <div class="ms-2 fw-bold w-100">
+        {{TextMessage}}
+    </div>
+    <button type="button" class="btn-close flex-shrink-1" data-bs-dismiss="alert" aria-label="Close"
+    (click)="onClickClose()"></button>
+</div>
