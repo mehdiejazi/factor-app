@@ -1,0 +1,158 @@
+<div *ngIf="!error?.message && !blogPost" class="alert alert-info pb-3 d-flex align-items-center">
+    <mat-icon>cloud_download</mat-icon>
+    <div class="ms-2">
+        در حال واکشی اطلاعات ...
+    </div>
+</div>
+
+<div *ngIf="error?.message" class="alert alert-danger pb-3 d-flex align-items-center">
+    <mat-icon>error</mat-icon>
+    <div class="ms-2">
+        خطا در واکشی اطلاعات
+    </div>
+</div>
+
+<div *ngIf="blogPost" class="card mb-3">
+
+    <div class="py-4">
+
+        <form class="col was-validated needs-validation">
+
+            <div *ngIf="blogPost?.id" class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col-6 text-success">
+                    شناسه:
+                    {{ blogPost.id }}
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <div class="card">
+<!-- 
+                        <img *ngIf="!blogPost.coverImage" src="assets/images/noimage.png"
+                            class="card-img-top img-card-gallery "> -->
+                        <span *ngIf="!blogPost.coverImage" class="card-img-top img-card-gallery p-4" style="min-height: 200px;">
+                            تصویر کاور
+                        </span>
+
+                        <img *ngIf="blogPost.coverImage" [lazyLoad]="blogPost.coverImage.url"
+                            class="card-img-top img-card-gallery ">
+
+                        <button type="button" style="bottom: 1rem; right: 1rem;"
+                            class="btn btn-primary btn-sm me-1 d-inline position-absolute mt-9"
+                            (click)="selectCoverImage()">انتخاب تصویر</button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="عنوان" name="title"
+                            data-bs-toggle="tooltip" data-bs-placement="top" [(ngModel)]="blogPost.title" title="عنوان"
+                            required>
+                        <div class="invalid-feedback">لطفا عنوان را وارد نمایید</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <textarea class="form-control" rows="3" name="body" placeholder="خلاصه مطلب"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="خلاصه مطلب" [(ngModel)]="blogPost.body"
+                        required></textarea>
+                    <div class="invalid-feedback">لطفا خلاصه متن را وارد نمایید</div>
+                </div>
+            </div>
+
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <textarea class="form-control" rows="8" name="extendedBody" placeholder="متن اصلی"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="متن اصلی"
+                        [(ngModel)]="blogPost.extendedBody" required></textarea>
+                    <div class="invalid-feedback">لطفا متن اصلی را وارد نمایید</div>
+                </div>
+            </div>
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="chkIsStarRatingEnabled"
+                            name="isStarRatingEnabled" [(ngModel)]="blogPost.isStarRatingEnabled">
+                        <label class="form-check-label" for="chkIsStarRatingEnabled">
+                            امتیازدهی فعال شود
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <div class="card mb-2">
+                        <div class="card-header d-flex align-items-center">
+                            <span class="me-2">
+                                دسته بندی </span>
+                            <button type="button" (click)="onClickAddPostCategory()"
+                                class="btn btn-primary btn-sm me-1">درج
+                                جدید</button>
+                        </div>
+                        <div *ngIf="blogPost.postCategories.length > 0" class="p-3">
+
+                            <span *ngFor="let postCategory of blogPost.postCategories" class="badge bg-success me-2">
+                                <mat-icon class="small btn btn-light text-dark p-0 align-middle"
+                                    (click)="onClosePostCategory(postCategory)">
+                                    close
+                                </mat-icon>
+                                <span class="align-middle pe-1">
+                                    {{postCategory.name}}
+                                </span>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <div class="card mb-2">
+                        <div class="card-header d-flex align-items-center">
+                            <span class="me-2">
+                                پیوست‌ها
+                            </span>
+                            <button type="button" (click)="addImage()" class="btn btn-primary btn-sm me-1">درج
+                                جدید</button>
+                        </div>
+                        <div *ngIf="blogPost.images?.length>0" class="p-3 d-flex">
+
+                            <span *ngFor="let img of blogPost.images"
+                                class="d-flex align-items-center border border-secondary rounded me-2 bg-light">
+                                <a [href]="img.url" target="_blank">
+                                    <img [lazyLoad]="img.url" alt="تصویر" class="attach-img me-1">
+                                </a>
+                                <mat-icon class="text-danger fingerPointer" (click)="delImage(img)">
+                                    delete
+                                </mat-icon>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-1 px-md-4 py-1">
+                <div class="col">
+                    <button *ngIf="!blogPost.id" type="button" class="btn btn-success me-1"
+                        (click)="submitAddBlogPost()">ثبت مطلب</button>
+                    <button *ngIf="blogPost.id" type="button" class="btn btn-success me-1"
+                        (click)="submitUpdateBlogPost()">ویرایش مطلب</button>
+
+                    <button type="reset" class="btn btn-danger me-1">بازسازی فرم</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>

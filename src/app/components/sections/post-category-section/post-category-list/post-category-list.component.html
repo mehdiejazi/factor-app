@@ -8,11 +8,11 @@
 
 <div class="row" class="mb-4">
     <div class="col">
-         <app-alert *ngIf="!error?.message && !categories" AlertType="Download"
+         <app-alert *ngIf="!error?.message && !postCategories" AlertType="Download"
             TextMessage="در حال واکشی اطلاعات ..."></app-alert>
         <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'"
             [TextMessage]="errorMessage"></app-alert>
-        <app-alert *ngIf="categories?.length == 0" AlertType="Info"
+        <app-alert *ngIf="postCategories?.length == 0" AlertType="Info"
             TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
         <app-alert *ngIf="formSuccessful" [AlertType]="'Success'"
             [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
@@ -21,7 +21,7 @@
 </div>
 
 <div class="row">
-    @for (cat of categories; track cat.id) {
+    @for (cat of postCategories; track cat.id) {
 
     <div class="col-lg-4 col-12">
         <div class="card bg-gradient mb-4">
@@ -29,6 +29,9 @@
                 <div class="d-flex align-items-center fw-bold">
                     {{cat.name}}
                 </div>
+                <!-- <div class="d-flex align-items-center">
+                    {{cat.owner.fullName}}
+                </div> -->
                 <div class="d-flex align-items-center">
                     <span class="text-light d-flex align-items-center finger-cursor" (click)="onClickEdit(cat)">
                         <mat-icon>edit</mat-icon>

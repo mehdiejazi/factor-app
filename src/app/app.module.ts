@@ -56,6 +56,14 @@ import { PersianDateModalComponent } from './components/modals/persian-date-moda
 import { NgPersianDatepickerModule } from 'ng-persian-datepicker';
 import { FactorDetailComponent } from './components/sections/factor-section/factor-detail/factor-detail.component';
 import { FactorItemFormModalComponent } from './components/sections/factor-section/factor-item-form-modal/factor-item-form-modal.component';
+import { WeblogSectionComponent } from './components/sections/weblog-section/weblog-section.component';
+import { FormWeblogComponent } from './components/sections/weblog-section/form-weblog/form-weblog.component';
+import { GridWeblogComponent } from './components/sections/weblog-section/grid-weblog/grid-weblog.component';
+import { ViewWeblogComponent } from './components/sections/weblog-section/view-weblog/view-weblog.component';
+import { PostCategorySectionComponent } from './components/sections/post-category-section/post-category-section.component';
+import { PostCategoryListComponent } from './components/sections/post-category-section/post-category-list/post-category-list.component';
+import { PostCategoryFormModalComponent } from './components/sections/post-category-section/post-category-form-modal/post-category-form-modal.component';
+import { PostCategorySelectModalComponent } from './components/sections/post-category-section/post-category-select-modal/post-category-select-modal.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +112,14 @@ import { FactorItemFormModalComponent } from './components/sections/factor-secti
     PersianDateModalComponent,
     FactorDetailComponent,
     FactorItemFormModalComponent,
+    WeblogSectionComponent,
+    FormWeblogComponent,
+    GridWeblogComponent,
+    ViewWeblogComponent,
+    PostCategorySectionComponent,
+    PostCategoryListComponent,
+    PostCategoryFormModalComponent,
+    PostCategorySelectModalComponent,
     
   ],
   imports: [

@@ -60,36 +60,35 @@ export class LoginComponent implements OnInit {
     this.informationMessages = [];
     this.warningMessages = [];
 
-    this._authService.loginAsync(this.loginRequest).subscribe(
-      result => {
+    this._authService.loginAsync(this.loginRequest).subscribe(result => {
 
-        if (result.isSuccessful) {
+      if (result.isSuccessful) {
 
-          this.loginResponse = result.data;
-          this._settingsService.setUser(this.loginResponse.user);
-          this._settingsService.setToken(this.loginResponse.token);
-          this._settingsService.setRefreshToken(this.loginResponse.refreshToken);
+        this.loginResponse = result.data;
+        this._settingsService.setUser(this.loginResponse.user);
+        this._settingsService.setToken(this.loginResponse.token);
+        this._settingsService.setRefreshToken(this.loginResponse.refreshToken);
 
-          if (this.returnUrl != "")
-            this._router.navigate([this.returnUrl]);
-          else
-            this._router.navigate(['/dashboard']);
+        if (this.returnUrl != "")
+          this._router.navigate([this.returnUrl]);
+        else
+          this._router.navigate(['/dashboard']);
 
-        }
-        else {
+      }
+      else {
 
-          this.isLoading = false;
+        this.isLoading = false;
 
-          if (result.errorMessages)
-            result.errorMessages.forEach(er => this.errorMessages.push(er));
+        if (result.errorMessages)
+          result.errorMessages.forEach(er => this.errorMessages.push(er));
 
-          if (result.informationMessages)
-            result.informationMessages.forEach(er => this.informationMessages.push(er));
+        if (result.informationMessages)
+          result.informationMessages.forEach(er => this.informationMessages.push(er));
 
-          if (result.warningMessages)
-            result.warningMessages.forEach(er => this.warningMessages.push(er));
-        }
-      },
+        if (result.warningMessages)
+          result.warningMessages.forEach(er => this.warningMessages.push(er));
+      }
+    },
       error => {
         this.error = error;
         console.error(error?.message);

@@ -1,7 +1,7 @@
 <div class="row" class="mb-4">
     <div class="col">
         <div class="mb-2">
-            <button type="button" class="btn btn-success me-1">بستن فاکتور</button>
+            <button type="button" *ngIf="!factor?.isClosed" class="btn btn-success me-1">بستن فاکتور</button>
             <button type="button" class="btn btn-success me-1">حذف</button>
         </div>
     </div>
@@ -78,7 +78,7 @@
 </div>
 <div class="col">
     <div class="mb-2">
-        <button type="button" class="btn btn-success me-1" (click)="onClickAddNew()">آیتم جدید</button>
+        <button type="button" *ngIf="!factor?.isClosed" class="btn btn-success me-1" (click)="onClickAddNew()">آیتم جدید</button>
     </div>
 </div>
 
@@ -96,9 +96,11 @@
 
                     <div class="flex-shrink-1 d-flex align-items-center">
 
-                        <mat-icon class="me-1 finger-cursor" (click)="onClickIncQuantity(item)">add_circle</mat-icon>
+                        <mat-icon *ngIf="!factor?.isClosed" class="me-1 finger-cursor"
+                            (click)="onClickIncQuantity(item)">add_circle</mat-icon>
                         <span class="badge bg-gradient me-1">{{item.quantity | persianNumber}}</span>
-                        <mat-icon class="finger-cursor" (click)="onClickDecQuantity(item)">do_not_disturb_on</mat-icon>
+                        <mat-icon *ngIf="!factor?.isClosed" class="finger-cursor"
+                            (click)="onClickDecQuantity(item)">do_not_disturb_on</mat-icon>
 
                     </div>
                 </h5>
@@ -116,7 +118,7 @@
                 قیمت نهایی: {{(item.price * item.quantity) *
                 (1 - item.offPercent / 100) | rial | persianNumber}}
             </div>
-            <div class="card-footer text-light fw-bold d-flex">
+            <div class="card-footer text-light fw-bold d-flex" *ngIf="!factor?.isClosed">
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-outline-primary btn-sm me-1"
                         (click)="onClickEdit(item)">ویرایش</button>

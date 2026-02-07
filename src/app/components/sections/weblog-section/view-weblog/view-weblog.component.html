@@ -1,0 +1,47 @@
+<div *ngIf="blogPost" class="row">
+    <div class="col">
+
+        <div *ngIf="blogPost?.coverImage" class="card">
+            <div>
+                <img [lazyLoad]="blogPost.coverImage?.url" class="card-img-top img-post-header">
+
+                <p class="h2 d-inline position-absolute p-3" style="bottom: 0; right: 0;">
+                    {{blogPost.title}}
+                </p>
+            </div>
+        </div>
+        {{blogPost.coverImage.fileName}}
+        <div *ngIf="!blogPost.coverImage">
+            <div>
+                <p class="h2 mt-4">
+                    {{blogPost.title}}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="ms-3 mt-3 d-flex align-items-center">
+            <img *ngIf="!blogPost.owner?.avatar" src="assets/images/noavatar.png" class="rounded-circle img-post-metadata me-2">
+            <img *ngIf="blogPost.owner" [lazyLoad]="blogPost.owner.avatar.url"
+                class="rounded-circle img-post-metadata me-2">
+            <div class="me-2">{{blogPost.owner?.fullName}}</div>
+            <div class="me-2">{{blogPost.publishDateTime}}</div>
+        </div>
+
+        <div *ngIf="blogPost.postCategories.length > 0" class="ms-3 mt-3 h5">
+            <span *ngFor="let postCategory of blogPost.postCategories" class="badge rounded-pill bg-light me-2">
+                <span class="align-middle pe-1">
+                    {{postCategory.name}}
+                </span>
+            </span>
+        </div>
+
+        <div class="h5 mt-4">
+            {{blogPost.body}}
+        </div>
+
+        <div class="post-extendedbody mt-4 mb-5">
+            {{blogPost.extendedBody}}
+        </div>
+    </div>
+</div>

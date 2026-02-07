@@ -15,6 +15,11 @@ import { ImageAssetSectionComponent } from './components/sections/image-asset-se
 import { UserSectionComponent } from './components/sections/user-section/user-section.component';
 import { FactorListComponent } from './components/sections/factor-section/factor-list/factor-list.component';
 import { FactorDetailComponent } from './components/sections/factor-section/factor-detail/factor-detail.component';
+import { WeblogSectionComponent } from './components/sections/weblog-section/weblog-section.component';
+import { GridWeblogComponent } from './components/sections/weblog-section/grid-weblog/grid-weblog.component';
+import { FormWeblogComponent } from './components/sections/weblog-section/form-weblog/form-weblog.component';
+import { ViewWeblogComponent } from './components/sections/weblog-section/view-weblog/view-weblog.component';
+import { PostCategorySectionComponent } from './components/sections/post-category-section/post-category-section.component';
 
 
 const routes: Routes = [
@@ -33,12 +38,19 @@ const routes: Routes = [
         { path: 'detail', component: FactorDetailComponent, canActivate: [AuthGuard], },
         ]
       },
+      {
+        path: 'weblog',
+        component: WeblogSectionComponent,
+        children: [{ path: '', redirectTo: 'grid', pathMatch: 'full' },
+        { path: 'grid', component: GridWeblogComponent, canActivate: [AuthGuard], },
+        { path: 'form', component: FormWeblogComponent, canActivate: [AuthGuard], },
+        { path: 'view', component: ViewWeblogComponent, canActivate: [AuthGuard], }]
+      },
+      { path: 'postcats', component: PostCategorySectionComponent, canActivate: [AuthGuard], },
+      { path: 'slides', component: PostCategorySectionComponent, canActivate: [AuthGuard], },
       { path: 'customers', component: CustomerSectionComponent, canActivate: [AuthGuard], },
       { path: 'gallery', component: ImageAssetSectionComponent, canActivate: [AuthGuard], },
-      {
-        path: 'users', component: UserSectionComponent, canActivate: [AuthGuard],
-
-      },
+      { path: 'users', component: UserSectionComponent, canActivate: [AuthGuard], },
 
       { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 

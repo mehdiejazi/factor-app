@@ -10,7 +10,7 @@ export class SettingsService {
 
   public constructor() {
 
-    this.baseUrl = 'https://localhost:44386';
+    this.baseUrl = 'https://localhost:5001';
   }
   
   public isMobileSize: boolean = false;

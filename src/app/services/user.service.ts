@@ -24,8 +24,6 @@ export class UserService {
 
 private _baseUrl: string;
 
-
-
 public deleteByIdAsync(id: string): Observable<HttpRequestResultT<User>> {
   let url = `${this._baseUrl}/GetByIdAsync?id=${id}`;
 
