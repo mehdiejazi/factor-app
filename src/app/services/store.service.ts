@@ -169,9 +169,10 @@ export class StoreService {
 
     let response = this._httpClient.get<HttpRequestResultT<Store[]>>(url).pipe(map(result => {
 
-      result.data.forEach(store =>
-        store.logo.url = `${this._settingsService.baseUrl}${store.logo.url}`
-        );
+      result.data.forEach(store => {
+        if (store.logo?.url)
+          store.logo.url = `${this._settingsService.baseUrl}${store.logo.url}`
+      });
 
       if (result.errorMessages !== undefined)
         for (let i = 0; i < result.errorMessages.length; i++) {

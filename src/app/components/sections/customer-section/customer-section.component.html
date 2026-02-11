@@ -1,10 +1,5 @@
-<div class="container">
-    <div class="row">
-        <div class="col d-flex align-items-center pb-2">
-            <mat-icon class="bg-gradient text-white  rounded-circle p-2 round-icon">supervised_user_circle</mat-icon>
-            <h3 class="ms-2 mt-2">مشتریان </h3>
-        </div>
-    </div>
+﻿<div class="container">
+    <app-section-header></app-section-header>
 
     <div class="row" *ngIf="settings.getStore().id">
         <app-customer-list></app-customer-list>

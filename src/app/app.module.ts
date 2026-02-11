@@ -64,6 +64,7 @@ import { PostCategorySectionComponent } from './components/sections/post-categor
 import { PostCategoryListComponent } from './components/sections/post-category-section/post-category-list/post-category-list.component';
 import { PostCategoryFormModalComponent } from './components/sections/post-category-section/post-category-form-modal/post-category-form-modal.component';
 import { PostCategorySelectModalComponent } from './components/sections/post-category-section/post-category-select-modal/post-category-select-modal.component';
+import { SectionHeaderComponent } from './components/shared/section-header/section-header.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +121,7 @@ import { PostCategorySelectModalComponent } from './components/sections/post-cat
     PostCategoryListComponent,
     PostCategoryFormModalComponent,
     PostCategorySelectModalComponent,
+    SectionHeaderComponent,
     
   ],
   imports: [

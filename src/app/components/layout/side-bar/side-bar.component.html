@@ -1,98 +1,10 @@
-<ul class="nav nav-pills flex-column mb-auto py-3 " ngbNav #nav="ngbNav">
+﻿<ul class="nav nav-pills flex-column mb-auto py-3 " ngbNav #nav="ngbNav">
 
-  <li class="mb-2">
-    <a routerLink="/dashboard" routerLinkActive="bg-gradient"
+  <li class="mb-2" *ngFor="let item of menuItems">
+    <a [routerLink]="item.Route" routerLinkActive="bg-gradient"
       class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">home</mat-icon>
-      <span>داشبورد</span>
-    </a>
-  </li>
-
-  <li class="mb-2">
-    <a routerLink="/stores" routerLinkActive="bg-gradient"
-      class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">store</mat-icon>
-      <span>فروشگاه</span>
-    </a>
-  </li>
-
-  <li class="mb-2">
-    <a routerLink="/factors" routerLinkActive="bg-gradient"
-      class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">receipt</mat-icon>
-      <span>صدور فاکتور</span>
-    </a>
-  </li>
-
-  <li class="mb-2">
-    <a routerLink="/products" routerLinkActive="bg-gradient"
-      class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">shopping_cart</mat-icon>
-      <span>محصولات</span>
-    </a>
-  </li>
-
-  <li class="mb-2">
-    <a routerLink="/categories" routerLinkActive="bg-gradient"
-      class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">list</mat-icon>
-      <span>دسته بندی‌ محصولات</span>
-    </a>
-  </li>
-
-  <li class="mb-2">
-    <a routerLink="/customers" routerLinkActive="bg-gradient"
-      class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">supervised_user_circle</mat-icon>
-      <span>مشتریان</span>
-    </a>
-  </li>
- 
-  <li class="mb-2">
-    <a routerLink="/gallery" routerLinkActive="bg-gradient"
-      class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">photo_library</mat-icon>
-      <span>گالری تصاویر</span>
-    </a>
-  </li>
-
-  <li class="mb-2">
-    <a routerLink="/users" routerLinkActive="bg-gradient"
-      class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">supervisor_account</mat-icon>
-      <span>کاربران</span>
-    </a>
-  </li>
-
-  <li class="mb-2">
-    <a routerLink="/role" routerLinkActive="bg-gradient"
-      class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">vpn_key</mat-icon>
-      <span>نقش‌ها و دسترسی‌ها</span>
-    </a>
-  </li>
-
-  <li class="mb-2">
-    <a routerLink="/weblog" routerLinkActive="bg-gradient"
-      class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">library_books</mat-icon>
-      <span>وبلاگ</span>
-    </a>
-  </li>
-
-  <li class="mb-2">
-    <a routerLink="/postcats" routerLinkActive="bg-gradient"
-      class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">list_alt</mat-icon>
-      <span>دسته بندی مطالب</span>
-    </a>
-  </li>
-
-  <li class="mb-2">
-    <a routerLink="/slides" routerLinkActive="bg-gradient"
-      class="px-2 py-2 nav-link text-white d-flex align-items-center">
-      <mat-icon class="bi mx-1 material-icons-outlined">slideshow</mat-icon>
-      <span>اسلایدها</span>
+      <mat-icon class="bi mx-1 material-icons-outlined">{{ item.Icon }}</mat-icon>
+      <span>{{ item.Text }}</span>
     </a>
   </li>
 

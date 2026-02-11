@@ -28,7 +28,8 @@ export class AuthService {
     let response = this._httpClient.post<HttpRequestResultT<LoginResponse>>
       (url, request, this._settingsService.httpOptionsForm).pipe(map(result => {
 
-        result.data.user.avatar.url = `${this._settingsService.baseUrl}${result.data.user.avatar.url}`;
+        if (result.data.user.avatar?.url)
+          result.data.user.avatar.url = `${this._settingsService.baseUrl}${result.data.user.avatar.url}`;
 
         for (let i = 0; i < result.errorMessages.length; i++) {
 
