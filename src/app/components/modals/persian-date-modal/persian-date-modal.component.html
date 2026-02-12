@@ -1,34 +1,84 @@
-<form (ngSubmit)="onConfirm()" *ngIf="active">
-    <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">
-            {{title}}
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-            (click)="hideConfirmationModal()"></button>
-    </div>
-    <div class="modal-body d-flex justify-content-center">
+<form [formGroup]="form" (ngSubmit)="onConfirm()" *ngIf="active">
+  <div class="modal-header">
+    <h5 class="modal-title">{{ title }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="hideConfirmationModal()"></button>
+  </div>
 
-        <div style="width: 400px;" class="py-4">
+  <div class="modal-body">
+    <!-- تقویم -->
+    <div class="calendar-card">
+      <!-- Header -->
+      <div class="calendar-header d-flex justify-content-between align-items-center">
+        <button type="button" class="btn btn-sm calendar-nav-btn" (click)="previousMonth()">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+        <h5>{{ monthNames[currentJalaliMonth - 1] }} {{ currentJalaliYear | persianNumber }}</h5>
+        <button type="button" class="btn btn-sm calendar-nav-btn" (click)="nextMonth()">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
 
-            <form [formGroup]="form">
-                <ng-persian-datepicker [timeEnable]="isTimeEnabled" [dateFormat]="dateFormat" [uiIsVisible]="true"
-                    [uiHideOnOutsideClick]="false" [uiHideAfterSelectDate]="false" (dateOnSelect)="onSelect($event)">
-                    <input type="text" class="form-control border-0 direction-ltr" placeholder="تاریخ انتشار"
-                        aria-label="انتخاب تاریخ" formControlName="dateValue" data-bs-toggle="tooltip"
-                        data-bs-placement="top" title="تاریخ و ساعت شروع" readonly>
-                </ng-persian-datepicker>
-            </form>
-        </div>
+      <!-- Calendar Body -->
+      <div class="calendar-card-body">
+        <div class="calendar-grid">
+          <!-- Days of Week -->
+          <div class="calendar-day-header">شنبه</div>
+          <div class="calendar-day-header">یکشنبه</div>
+          <div class="calendar-day-header">دوشنبه</div>
+          <div class="calendar-day-header">سه‌شنبه</div>
+          <div class="calendar-day-header">چهارشنبه</div>
+          <div class="calendar-day-header">پنج‌شنبه</div>
+          <div class="calendar-day-header">جمعه</div>
 
-    </div>
-    <div class="modal-footer">
-        <div class="text-right">
-            <button type="submit" class="btn btn-sm btn-primary" (click)="onConfirm()">
-                انتخاب تاریخ
+          <!-- Days -->
+          <ng-container *ngFor="let day of calendarDays">
+            <button *ngIf="day" type="button" class="calendar-day" [class.selected]="form?.get('jDay')?.value === day"
+              (click)="selectDay(day)">
+              {{ day | persianNumber }}
             </button>
-            <button type="button" class="btn btn-sm btn-secondary ms-1" (click)="onCancel()">
-                انصراف
-            </button>
+            <div *ngIf="!day" class="calendar-empty"></div>
+          </ng-container>
         </div>
+      </div>
     </div>
+
+    <!-- Input Fields -->
+    <div class="date-inputs">
+      <div class="date-input-group">
+        <div>
+          <label>سال</label>
+          <input type="text" class="form-control form-control-sm text-center" formControlName="jYear" readonly [value]="(form?.get('jYear')?.value | persianNumber) || '-'">
+        </div>
+        <div>
+          <label>ماه</label>
+          <input type="text" class="form-control form-control-sm text-center" formControlName="jMonth" readonly [value]="(form?.get('jMonth')?.value | persianNumber) || '-'">
+        </div>
+        <div>
+          <label>روز</label>
+          <input type="text" class="form-control form-control-sm text-center" formControlName="jDay" readonly [value]="(form?.get('jDay')?.value | persianNumber) || '-'">
+        </div>
+      </div>
+
+      <!-- Time (if enabled) -->
+      <div *ngIf="isTimeEnabled" class="row mt-3">
+        <div class="col-6">
+          <label class="form-label fw-bold">ساعت</label>
+          <input type="number" class="form-control form-control-sm text-center" formControlName="hour" min="0" max="23">
+        </div>
+        <div class="col-6">
+          <label class="form-label fw-bold">دقیقه</label>
+          <input type="number" class="form-control form-control-sm text-center" formControlName="minute" min="0" max="59">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      انصراف
+    </button>
+    <button type="submit" class="btn btn-primary">
+      تایید
+    </button>
+  </div>
 </form>

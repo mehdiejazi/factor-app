@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SettingsService } from '../../../services/settings.service';
 
 @Component({
   selector: 'app-dashboard-section',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard-section.component.css'
 })
 export class DashboardSectionComponent {
-
+  public settings: SettingsService;
+  constructor(_settings: SettingsService) {
+    this.settings = _settings;
+  }
 }

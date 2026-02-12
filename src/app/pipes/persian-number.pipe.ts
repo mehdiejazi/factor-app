@@ -4,30 +4,17 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'persianNumber'
 })
 export class PersianNumberPipe implements PipeTransform {
-  numbersObject: { [x: string]: string } = {
-      '1': '١',
-      '2': '٢',
-      '3': '٣',
-      '4': '۴',
-      '5': '۵',
-      '6': '۶',
-      '7': '٧',
-      '8': '٨',
-      '9': '٩',
-      '0': '۰',
-    };
+  private readonly persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
 
-  public transform(n: number | string): string {
-      if (n === null || n === undefined) return '';
-      n = n + ''; // to make it a string if it was a number 
-      let newString = '';
-      for (let i = 0; i < n.length; i++) {
-        if (this.numbersObject[n.charAt(i)])
-          newString += this.numbersObject[n.charAt(i)];
-        else
-          newString += n.charAt(i);
-      }
-  
-      return newString;
+  transform(value: number | string | null | undefined): string {
+    if (value === null || value === undefined) {
+      return '';
     }
+
+    return String(value)
+      .replace(/[0-9]/g, (digit) => this.persianDigits[Number(digit)])
+      .replace(/[٠-٩]/g, (digit) => this.persianDigits[digit.charCodeAt(0) - 0x0660])
+      .replace(/,/g, '٬')
+      .replace(/\./g, '٫');
+  }
 }

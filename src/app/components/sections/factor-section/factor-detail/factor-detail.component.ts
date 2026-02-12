@@ -38,7 +38,6 @@ export class FactorDetailComponent implements OnInit {
 
           if (result.isSuccessful) {
             this.factor = result.data;
-            this.factor.isClosed = true;
           }
           else {
             this.errorMessages = result.errorMessages;

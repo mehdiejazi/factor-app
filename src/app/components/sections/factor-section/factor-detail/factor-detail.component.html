@@ -16,6 +16,7 @@
         <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'"
             [TextMessage]="errorMessage"></app-alert>
         <app-alert *ngIf="factor?.id==''" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
+        {{factor?.isClosed}}
         <app-alert *ngIf="factor?.isClosed" AlertType="Warning" TextMessage="این فاکتور بسته شده است"></app-alert>
 
         <app-alert *ngIf="formSuccessful" [AlertType]="'Success'"
@@ -108,7 +109,7 @@
 
                 <div class="card-text d-flex justify-content-around">
                     <div class="card-text">تخفیف: {{item.offPercent | persianNumber}}%</div>
-                    <div class="card-text">قیمت: {{item.price | rial | persianNumber}}</div>
+                    <div class="card-text">قیمت: {{item.price | rial}}</div>
                 </div>
 
 
@@ -116,7 +117,7 @@
             <div class=" d-flex justify-content-center bg-success py-2">
                 <mat-icon class="me-2">payments</mat-icon>
                 قیمت نهایی: {{(item.price * item.quantity) *
-                (1 - item.offPercent / 100) | rial | persianNumber}}
+                (1 - item.offPercent / 100) | rial}}
             </div>
             <div class="card-footer text-light fw-bold d-flex" *ngIf="!factor?.isClosed">
                 <div class="d-flex justify-content-center">
