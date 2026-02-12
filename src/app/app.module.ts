@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -65,6 +66,8 @@ import { PostCategoryListComponent } from './components/sections/post-category-s
 import { PostCategoryFormModalComponent } from './components/sections/post-category-section/post-category-form-modal/post-category-form-modal.component';
 import { PostCategorySelectModalComponent } from './components/sections/post-category-section/post-category-select-modal/post-category-select-modal.component';
 import { SectionHeaderComponent } from './components/shared/section-header/section-header.component';
+import { InvoiceViewComponent } from './components/sections/invoice-view/invoice-view.component';
+import { WeblogComponent } from './components/weblog/weblog.component';
 
 @NgModule({
   declarations: [
@@ -122,10 +125,12 @@ import { SectionHeaderComponent } from './components/shared/section-header/secti
     PostCategoryFormModalComponent,
     PostCategorySelectModalComponent,
     SectionHeaderComponent,
-    
+    InvoiceViewComponent,
+    WeblogComponent,
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     FormsModule,
     MatIconModule,

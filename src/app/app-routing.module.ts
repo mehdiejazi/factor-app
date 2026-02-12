@@ -20,6 +20,7 @@ import { GridWeblogComponent } from './components/sections/weblog-section/grid-w
 import { FormWeblogComponent } from './components/sections/weblog-section/form-weblog/form-weblog.component';
 import { ViewWeblogComponent } from './components/sections/weblog-section/view-weblog/view-weblog.component';
 import { PostCategorySectionComponent } from './components/sections/post-category-section/post-category-section.component';
+import { InvoiceViewComponent } from './components/sections/invoice-view/invoice-view.component';
 
 
 const routes: Routes = [
@@ -58,6 +59,7 @@ const routes: Routes = [
   },
   { path: 'home', component: HomeComponent, },
   { path: 'login', component: LoginComponent, },
+  { path: 'invoice', component: InvoiceViewComponent, },
   { path: '**', component: Error404Component }
 ];
 

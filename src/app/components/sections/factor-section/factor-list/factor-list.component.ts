@@ -42,13 +42,13 @@ export class FactorListComponent implements OnInit {
   public filter(filter: string) {
 
     switch (filter) {
-      case 'all': 
+      case 'all':
         this.filterFactors = this.factors;
         break
-      case 'deleted':  
+      case 'deleted':
         this.filterFactors = this.factors.filter(x => x.isDeleted == true);
         break
-      case 'not deleted':  
+      case 'not deleted':
         this.filterFactors = this.factors.filter(x => x.isDeleted == false);
         break
       default:
@@ -183,6 +183,13 @@ export class FactorListComponent implements OnInit {
   public onClickDetail(factor: Factor) {
 
     this._router.navigate(['/factors/detail'], { queryParams: { id: factor.id } });
+
+  }
+
+  public onClickViewInvoice(factor: Factor) {
+
+    const invoiceUrl = `${window.location.origin}/invoice?factor_id=${factor.id}`;
+    window.open(invoiceUrl, '_blank');
 
   }
 
