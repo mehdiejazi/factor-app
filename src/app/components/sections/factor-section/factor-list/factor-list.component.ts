@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { FactorService } from '../../../../services/factor.service';
 import { SettingsService } from '../../../../services/settings.service';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './factor-list.component.html',
   styleUrl: './factor-list.component.css'
 })
-export class FactorListComponent {
+export class FactorListComponent implements OnInit {
   public constructor(
     private _bsModalService: BsModalService,
     private _factorService: FactorService,
@@ -31,6 +31,7 @@ export class FactorListComponent {
   public errorMessages: string[] = [];
   public informationMessages: string[] = [];
   public warningMessages: string[] = [];
+  public isLoading: boolean = false;
 
   public ngOnInit(): void {
 
@@ -59,6 +60,7 @@ export class FactorListComponent {
 
 
   public fillTable() {
+    this.isLoading = true;
 
     this._factorService.getByStoreIdAsync(this._settingsService.getStore().id).subscribe(result => {
 
@@ -72,10 +74,12 @@ export class FactorListComponent {
       else {
         this.errorMessages = result.errorMessages;
       }
+      this.isLoading = false;
     },
       error => {
         this.error = error;
         console.error(error);
+        this.isLoading = false;
       }
     );
 

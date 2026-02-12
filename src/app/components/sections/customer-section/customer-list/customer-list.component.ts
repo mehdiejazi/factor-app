@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../../../../services/customer.service';
 import { SettingsService } from '../../../../services/settings.service';
 import { Customer } from '../../../../models/customer/customer';
@@ -11,7 +11,7 @@ import { ConfirmationModalComponent } from '../../../modals/confirmation-modal/c
   templateUrl: './customer-list.component.html',
   styleUrl: './customer-list.component.css'
 })
-export class CustomerListComponent {
+export class CustomerListComponent implements OnInit {
 
   public constructor(
     private _customerService: CustomerService,
@@ -27,6 +27,7 @@ export class CustomerListComponent {
   public errorMessages: string[] = [];
   public informationMessages: string[] = [];
   public warningMessages: string[] = [];
+  public isLoading: boolean = false;
 
   public ngOnInit(): void {
 
@@ -35,6 +36,7 @@ export class CustomerListComponent {
   }
 
   public fillTable() {
+    this.isLoading = true;
 
     this._customerService.getByStoreIdAsync(this._settingsService.getStore().id).subscribe(result => {
       if (result.isSuccessful) {
@@ -45,10 +47,12 @@ export class CustomerListComponent {
       else {
         this.errorMessages = result.errorMessages;
       }
+      this.isLoading = false;
     },
       error => {
         this.error = error;
         console.error(error);
+        this.isLoading = false;
       }
     );
 

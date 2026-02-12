@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { SettingsService } from '../../../../services/settings.service';
 import { PostCategoryService } from '../../../../services/post-category.service';
@@ -11,7 +11,7 @@ import { PostCategoryFormModalComponent } from '../post-category-form-modal/post
   templateUrl: './post-category-list.component.html',
   styleUrl: './post-category-list.component.css'
 })
-export class PostCategoryListComponent {
+export class PostCategoryListComponent implements OnInit {
 
   public constructor(
     private _bsModalService: BsModalService,
@@ -27,6 +27,7 @@ export class PostCategoryListComponent {
   public errorMessages: string[] = [];
   public informationMessages: string[] = [];
   public warningMessages: string[] = [];
+  public isLoading: boolean = false;
 
   public ngOnInit(): void {
 
@@ -35,6 +36,7 @@ export class PostCategoryListComponent {
   }
 
   public fillTable() {
+    this.isLoading = true;
 
     this._postCategoryService.getAllAsync().subscribe(result => {
       if (result.isSuccessful) {
@@ -45,17 +47,19 @@ export class PostCategoryListComponent {
       else {
         this.errorMessages = result.errorMessages;
       }
+      this.isLoading = false;
     },
       error => {
         this.error = error;
         console.error(error);
+        this.isLoading = false;
       }
     );
 
 
   }
 
-  public clickAddNew() {
+  public onClickAddNew() {
 
     let cat = new PostCategory();
 

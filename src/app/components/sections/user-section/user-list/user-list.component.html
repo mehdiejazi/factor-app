@@ -1,124 +1,66 @@
-<div class="row" class="mb-2">
-    <div class="col">
-        <div class="mb-4">
-            <button type="button" class="btn btn-success me-1" (click)="onClickAddNew()">جدید</button>
-        </div>
-    </div>
+﻿<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+    <button type="button" class="btn btn-success" (click)="onClickAddNew()">جدید</button>
 </div>
 
-<div class="row mb-2">
-    <div class="col">
-        <app-alert *ngIf="!error?.message && !users" AlertType="Download"
-            TextMessage="در حال واکشی اطلاعات ..."></app-alert>
-        <app-alert *ngIf="error?.message" [AlertType]="'Error'" [TextMessage]="'خطا در واکشی اطلاعات'"></app-alert>
-        <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'"
-            [TextMessage]="errorMessage"></app-alert>
-        <app-alert *ngIf="users?.length == 0" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
-        <app-alert *ngIf="formSuccessful" [AlertType]="'Success'"
-            [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
-
-    </div>
+<div class="mb-3">
+    <app-alert *ngIf="isLoading" AlertType="Download" TextMessage="در حال واکشی اطلاعات ..."></app-alert>
+    <app-alert *ngIf="error?.message" [AlertType]="'Error'" [TextMessage]="'خطا در واکشی اطلاعات'"></app-alert>
+    <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'" [TextMessage]="errorMessage"></app-alert>
+    <app-alert *ngIf="users?.length == 0 && !isLoading" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
+    <app-alert *ngIf="formSuccessful" [AlertType]="'Success'" [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
 </div>
 
-<div class="row mt-5">
-
-    @for (user of users; track user.id) {
-    <div class="col-lg-3 col-12">
-
-        <div class="card d-flex align-items-center mt-5">
-
-            <img *ngIf="!user.avatar" src="assets/images/noavatar.png"
-                class="card-img-top rounded-circle img-card-profile">
-            <img *ngIf="user.avatar" [src]="user.avatar.url" class="card-img-top rounded-circle img-card-profile">
-
-            <div class="card-body pb-0 pt-1">
-                <h4 class="card-title pt-3 fw-bold mb-3">{{ user.fullName }}</h4>
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2"> {{ user.userName }} </span>
-                    <span [ngClass]="{'bg-success': user.isActive , 'bg-danger' : !user.isActive}"
-                        class="badge  me-2">{{ user.isActive | active}} </span>
-                    <span class="badge bg-primary">{{ user.role.name }}</span>
-                </div>
-                <div class="d-flex align-items-center">
-                    فروشگاه‌ها:
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    @for (store of user.stores; track store.id) {
-                    <h5><span class="fw-bold text-color1 badge bg-light me-2">{{store.name}}</span></h5>
-                    }
-                </div>
-            </div>
-            <div class="card-footer">
-                    
-                <!-- [container]="'body'" -->
-                <div ngbDropdown >
-                    <button class="btn btn-secondary btn-sm" id="dropdownBasic1" ngbDropdownToggle>عملیات‌</button>
-                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                        <button ngbDropdownItem class="dropdown-item"
-                            (click)="viewUserProfile(user)">پروفایل</button>
-                        <button ngbDropdownItem class="dropdown-item" (click)="onClickEdit(user)">ویرایش</button>
-                        <button ngbDropdownItem class="dropdown-item" (click)="onClickDelete(user)">حذف</button>
-                        <button ngbDropdownItem class="dropdown-item" (click)="onClickForceChangePassword(user)">اجبار به تغییر رمز</button>
-                        <button ngbDropdownItem class="dropdown-item" (click)="activationToggle(user)">
-                            فعال/غیر فعال
-                        </button>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-
-    </div>
-    }
-</div>
-
-<!-- <div class="table-responsive">
-    <table *ngIf="users" class="table table-hover bg-white table-sm text-center table-dark table-striped">
-        <thead class="text-light">
+<div class="table-responsive" *ngIf="users?.length">
+    <table class="table table-hover table-sm bg-white align-middle">
+        <thead class="bg-secondary text-light">
             <tr>
                 <th scope="col">تصویر</th>
-                <th scope="col">نام کاربری</th>
                 <th scope="col">نام</th>
-                <th scope="col">نام خانوادگی</th>
-                <th scope="col">تایید موبایل</th>
-                <th scope="col">تایید ایمیل</th>
+                <th scope="col">نام کاربری</th>
+                <th scope="col">نقش</th>
                 <th scope="col">وضعیت</th>
-                <th scope="col">نقش کابر</th>
-                <th scope="col">جنسیت</th>
-                <th scope="col">عملیات</th>
+                <th scope="col">فروشگاه‌ها</th>
+                <th scope="col" class="text-end">عملیات</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users ">
+            @for (user of users; track user.id) {
+            <tr>
                 <td>
-                    <img *ngIf="user.avatar" [lazyLoad]="user.avatar.url" class="rounded-circle img-post-metadata me-2">
-                    <img *ngIf="!user.avatar" src="assets/noavatar.png" class="rounded-circle img-post-metadata me-2">
+                    <img *ngIf="!user.avatar" src="assets/images/noavatar.png" class="table-avatar" alt="User avatar">
+                    <img *ngIf="user.avatar" [src]="user.avatar.url" class="table-avatar" alt="User avatar">
                 </td>
-                <td>{{ user.userName }}</td>
-                <td>{{ user.firstName }}</td>
-                <td>{{ user.lastName }}</td>
-                <td>
-                    <img *ngIf="user.mobileNumberIsVerified" class="text-primary me-1 icon-verifed"
-                        src="assets/tick.png" alt="tick">
-                </td>
-                <td>
-                    <img *ngIf="user.emailIsVerified" class="text-primary me-1 icon-verifed" src="assets/tick.png"
-                        alt="tick">
-                </td>
-                <td>
-                    <span *ngIf="user.isActive" class="badge bg-success">{{ user.isActive | active}} </span>
-                    <span *ngIf="!user.isActive" class="badge bg-danger">{{ user.isActive | active}} </span>
-                </td>
+                <td class="fw-semibold">{{ user.fullName }}</td>
+                <td><span class="badge bg-light text-dark border">{{ user.userName }}</span></td>
                 <td><span class="badge bg-primary">{{ user.role.name }}</span></td>
-                <td> {{ user.gender | gender}} </td>
                 <td>
-                    <div ngbDropdown [container]="'body'">
-                        <button class="btn btn-secondary btn-sm" id="dropdownBasic1" ngbDropdownToggle>عملیات‌</button>
-                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <span [ngClass]="{'bg-success': user.isActive , 'bg-danger' : !user.isActive}"
+                        class="badge">{{ user.isActive | active}} </span>
+                </td>
+                <td>
+                    <div class="d-flex flex-wrap gap-1">
+                        @for (store of user.stores; track store.id) {
+                        <span class="badge bg-light text-dark border">{{store.name}}</span>
+                        }
+                    </div>
+                </td>
+                <td class="text-end">
+                    <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-secondary btn-sm" [id]="'userActions' + user.id" ngbDropdownToggle>عملیات</button>
+                        <div ngbDropdownMenu [attr.aria-labelledby]="'userActions' + user.id">
+                            <button ngbDropdownItem class="dropdown-item"
+                                (click)="viewUserProfile(user)">پروفایل</button>
+                            <button ngbDropdownItem class="dropdown-item" (click)="onClickEdit(user)">ویرایش</button>
+                            <button ngbDropdownItem class="dropdown-item" (click)="onClickDelete(user)">حذف</button>
+                            <button ngbDropdownItem class="dropdown-item" (click)="onClickForceChangePassword(user)">اجبار به تغییر رمز</button>
+                            <button ngbDropdownItem class="dropdown-item" (click)="activationToggle(user)">
+                                فعال/غیر فعال
+                            </button>
                         </div>
                     </div>
                 </td>
             </tr>
+            }
         </tbody>
-    </table> -->
+    </table>
+</div>

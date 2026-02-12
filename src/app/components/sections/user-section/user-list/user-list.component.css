@@ -1,9 +1,6 @@
-.img-card-profile {
-    margin-top: -6rem;
-    width: 65%;
-    aspect-ratio: 1/1;
+.table-avatar {
+    width: 44px;
+    height: 44px;
     object-fit: cover;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    border: #5a5a5a;
-    border-width: 5px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 6px;
 }

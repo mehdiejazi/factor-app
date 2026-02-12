@@ -16,13 +16,14 @@ export class StoreListComponent implements OnInit {
     private _bsModalService: BsModalService,
     private _storeService: StoreService) { }
 
-  public stores: Store[];
+  public stores: Store[] = [];
 
   public error: Error;
   public formSuccessful: boolean;
   public errorMessages: string[] = [];
   public informationMessages: string[] = [];
   public warningMessages: string[] = [];
+  public isLoading: boolean = false;
 
   public ngOnInit(): void {
 
@@ -31,6 +32,7 @@ export class StoreListComponent implements OnInit {
   }
 
   public fillTable() {
+    this.isLoading = true;
 
     this._storeService.getByOwnerAsync().subscribe(result => {
       if (result.isSuccessful) {
@@ -39,10 +41,12 @@ export class StoreListComponent implements OnInit {
       else {
         this.errorMessages = result.errorMessages;
       }
+      this.isLoading = false;
     },
       error => {
         this.error = error;
         console.error(error);
+        this.isLoading = false;
       }
     );
 

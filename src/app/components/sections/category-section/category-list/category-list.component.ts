@@ -27,6 +27,7 @@ export class CategoryListComponent implements OnInit {
   public errorMessages: string[] = [];
   public informationMessages: string[] = [];
   public warningMessages: string[] = [];
+  public isLoading: boolean = false;
 
   public ngOnInit(): void {
 
@@ -35,6 +36,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   public fillTable() {
+    this.isLoading = true;
 
     this._categoryService.getByStoreIdAsync(this._settingsService.getStore().id).subscribe(result => {
       if (result.isSuccessful) {
@@ -45,17 +47,19 @@ export class CategoryListComponent implements OnInit {
       else {
         this.errorMessages = result.errorMessages;
       }
+      this.isLoading = false;
     },
       error => {
         this.error = error;
         console.error(error);
+        this.isLoading = false;
       }
     );
 
 
   }
 
-  public clickAddNew() {
+  public onClickAddNew() {
 
     let cat = new Category();
 

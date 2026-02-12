@@ -1,43 +1,42 @@
-<div class="row" class="mb-4">
-    <div class="col">
-        <div class="mb-2">
-            <button type="button" class="btn btn-success me-1" (click)="onClickAddNew()">جدید</button>
-        </div>
-    </div>
+﻿<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+    <button type="button" class="btn btn-success" (click)="onClickAddNew()">جدید</button>
 </div>
 
-<div class="row" class="mb-4">
-    <div class="col">
-         <app-alert *ngIf="!error?.message && !customers" AlertType="Download"
-            TextMessage="در حال واکشی اطلاعات ..."></app-alert>
-        <!-- <app-alert *ngIf="error?.message" [AlertType]="'Error'" [TextMessage]="'خطا در واکشی اطلاعات'"></app-alert> -->
-        <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'"
-            [TextMessage]="errorMessage"></app-alert>
-        <app-alert *ngIf="customers?.length == 0" AlertType="Info"
-            TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
-        <app-alert *ngIf="formSuccessful" [AlertType]="'Success'"
-            [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
-
-    </div>
+<div class="mb-3">
+    <app-alert *ngIf="isLoading" AlertType="Download" TextMessage="در حال واکشی اطلاعات ..."></app-alert>
+    <app-alert *ngIf="error?.message" [AlertType]="'Error'" [TextMessage]="'خطا در واکشی اطلاعات'"></app-alert>
+    <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'" [TextMessage]="errorMessage"></app-alert>
+    <app-alert *ngIf="customers?.length == 0 && !isLoading" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
+    <app-alert *ngIf="formSuccessful" [AlertType]="'Success'" [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
 </div>
 
-<div class="row">
-    @for (customer of customers; track customer.id) {
-    <div class="col-lg-4 col-12">
-        <div class="card bg-gradient mb-4">
-            <div class="card-body d-flex justify-content-between">
-                <div class="d-flex align-items-center fw-bold">
-                    {{customer.fullName}}
-                </div>
-                <div class="d-flex align-items-center">
-                     <span class="text-light d-flex align-items-center finger-cursor" (click)="onClickEdit(customer)">
-                        <mat-icon>edit</mat-icon>
-                    </span>
-                    <span class="text-light d-flex align-items-center finger-cursor" (click)="onClickDelete(customer)"><mat-icon>delete</mat-icon></span>
-                    <a href="#" class="text-light d-flex align-items-center"><mat-icon>view_headline</mat-icon></a> 
-                </div>
-            </div>
-        </div>
-    </div>
-    }
+<div class="table-responsive" *ngIf="customers?.length">
+    <table class="table table-hover table-sm bg-white align-middle">
+        <thead class="bg-secondary text-light">
+            <tr>
+                <th scope="col">نام</th>
+                <th scope="col" class="text-end">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (customer of customers; track customer.id) {
+            <tr>
+                <td class="fw-semibold">{{customer.fullName}}</td>
+                <td class="text-end">
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-outline-secondary" (click)="onClickEdit(customer)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" (click)="onClickDelete(customer)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary">
+                            <mat-icon>view_headline</mat-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
 </div>

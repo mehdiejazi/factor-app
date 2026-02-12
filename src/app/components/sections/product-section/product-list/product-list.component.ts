@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Product } from '../../../../models/product/product';
 import { ProductService } from '../../../../services/product.service';
@@ -12,20 +12,21 @@ import { ConfirmationModalComponent } from '../../../modals/confirmation-modal/c
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
 
   public constructor(
     private _bsModalService: BsModalService,
     private _productService: ProductService,
     private _settingsService: SettingsService) { }
 
-  public products: Product[];
+  public products: Product[] = [];
 
   public error: Error;
   public formSuccessful: boolean;
   public errorMessages: string[] = [];
   public informationMessages: string[] = [];
   public warningMessages: string[] = [];
+  public isLoading: boolean = false;
 
   public ngOnInit(): void {
 
@@ -34,6 +35,7 @@ export class ProductListComponent {
   }
 
   public fillTable() {
+    this.isLoading = true;
 
     this._productService.getByStoreIdAsync(this._settingsService.getStore().id).subscribe(result => {
       if (result.isSuccessful) {
@@ -44,16 +46,18 @@ export class ProductListComponent {
       else {
         this.errorMessages = result.errorMessages;
       }
+      this.isLoading = false;
     },
       error => {
         this.error = error;
         console.error(error);
+        this.isLoading = false;
       }
     );
 
   }
 
-  public clickAddNew() {
+  public onClickAddNew() {
 
     let product = new Product();
     product.category = new Category();
@@ -180,4 +184,3 @@ export class ProductListComponent {
   }
 
 }
-

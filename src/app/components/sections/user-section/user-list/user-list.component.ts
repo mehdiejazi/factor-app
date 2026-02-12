@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../services/user.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { SettingsService } from '../../../../services/settings.service';
 import { Router } from '@angular/router';
 import * as Interfaces from '../../../../interfaces/user/user';
+import { User } from '../../../../models/user/user';
 import { ConfirmationModalComponent } from '../../../modals/confirmation-modal/confirmation-modal.component';
 import { UserFormModalComponent } from '../user-form-modal/user-form-modal.component';
 
@@ -12,7 +13,7 @@ import { UserFormModalComponent } from '../user-form-modal/user-form-modal.compo
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
 })
-export class UserListComponent {
+export class UserListComponent implements OnInit {
 
   public constructor(
     private _userService: UserService,
@@ -28,12 +29,13 @@ export class UserListComponent {
 
   }
 
-  public users: Interfaces.User[];
+  public users: Interfaces.User[] = [];
   public error: Error;
   public formSuccessful: boolean;
   public errorMessages: string[] = [];
   public informationMessages: string[] = [];
   public warningMessages: string[] = [];
+  public isLoading: boolean = false;
 
   public onClickForceChangePassword(user: Interfaces.User) {
 
@@ -168,10 +170,49 @@ export class UserListComponent {
   }
 
   public onClickAddNew() {
-    throw new Error('Method not implemented.');
+    const user = new User();
+    user.stores = [];
+    user.isActive = true;
+
+    const modal = this._bsModalService.show(UserFormModalComponent,
+      { class: 'modal-xl modal-dialog-centered modal-dialog' });
+
+    (<UserFormModalComponent>modal.content).showConfirmationModal(user);
+    (<UserFormModalComponent>modal.content).onClose.subscribe(result => {
+      if (result == true) {
+
+        let newUser = modal.content.user;
+        this._userService.insertAsync(newUser).subscribe(result1 => {
+
+          if (result1.isSuccessful) {
+
+            this.formSuccessful = true;
+            this.fillTable();
+          }
+          else {
+
+            this.errorMessages = result1.errorMessages;
+
+          }
+
+          if (result1.informationMessages !== null)
+            this.informationMessages = result1.informationMessages;
+
+          if (result1.warningMessages !== null)
+            this.warningMessages = result1.warningMessages;
+        },
+          error => {
+
+            this.error = error;
+
+          }
+        );
+      }
+    });
   }
 
   public fillTable() {
+    this.isLoading = true;
 
     this._userService.getAllAsync().subscribe(result => {
 
@@ -182,12 +223,14 @@ export class UserListComponent {
           user.avatar.url = this._settingsService.baseUrl + user.avatar.url
 
       });
+      this.isLoading = false;
 
     },
       error => {
 
         this.error = error;
         console.error(error);
+        this.isLoading = false;
 
       }
     );
