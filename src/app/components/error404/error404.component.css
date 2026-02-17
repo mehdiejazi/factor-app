@@ -1,0 +1,108 @@
+.error-shell {
+  min-height: 100vh;
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 1.5rem;
+  background:
+    radial-gradient(circle at 16% 18%, rgba(127, 134, 0, 0.26) 0, rgba(127, 134, 0, 0) 36%),
+    radial-gradient(circle at 88% 82%, rgba(47, 125, 53, 0.24) 0, rgba(47, 125, 53, 0) 42%),
+    linear-gradient(145deg, #1a1f1b 0%, #242d27 45%, #263238 100%);
+}
+
+.error-glow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 999px;
+  filter: blur(58px);
+  opacity: 0.34;
+  pointer-events: none;
+}
+
+.error-glow--primary {
+  background-color: #7f8600;
+  top: -130px;
+  right: -110px;
+}
+
+.error-glow--secondary {
+  background-color: #2f7d35;
+  bottom: -170px;
+  left: -140px;
+}
+
+.error-card {
+  width: min(620px, 100%);
+  border-radius: 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(14, 19, 16, 0.75);
+  box-shadow: rgba(0, 0, 0, 0.45) 0 18px 42px;
+  backdrop-filter: blur(8px);
+  color: #f7faf8;
+  text-align: center;
+  padding: 2.3rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.error-overline {
+  margin-bottom: 0.35rem;
+  color: #e4e8ba;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.error-code {
+  margin: 0;
+  font-size: clamp(4rem, 16vw, 7.2rem);
+  line-height: 0.9;
+  font-weight: 800;
+  background: linear-gradient(130deg, #d9e767 0%, #8ebc4a 50%, #9bd8a1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.error-title {
+  margin-top: 0.75rem;
+  margin-bottom: 0.6rem;
+  font-size: clamp(1.35rem, 5vw, 2rem);
+  font-weight: 700;
+}
+
+.error-description {
+  margin: 0 auto;
+  color: rgba(247, 250, 248, 0.85);
+  max-width: 37rem;
+  line-height: 1.8;
+}
+
+.error-actions {
+  margin-top: 1.4rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.error-meta {
+  margin-top: 1.2rem;
+  display: inline-block;
+  padding: 0.24rem 0.72rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background-color: rgba(255, 255, 255, 0.08);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 576px) {
+  .error-card {
+    padding: 1.8rem 1.1rem;
+  }
+
+  .error-actions .btn {
+    width: 100%;
+  }
+}

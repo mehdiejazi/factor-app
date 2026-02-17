@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Error404Component } from './components/error404/error404.component';
+import { Error403Component } from './components/error403/error403.component';
 import { AuthGuard } from './utils/auth-gaurd';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
@@ -60,10 +61,14 @@ const routes: Routes = [
 
     ]
   },
+  { path: '403', component: Error403Component, },
+  { path: '404', component: Error404Component, },
+  { path: 'error403', redirectTo: '403', pathMatch: 'full' },
+  { path: 'error404', redirectTo: '404', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, },
   { path: 'login', component: LoginComponent, },
   { path: 'invoice', component: InvoiceViewComponent, },
-  { path: '**', component: Error404Component }
+  { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({

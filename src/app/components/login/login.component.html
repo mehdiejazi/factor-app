@@ -1,68 +1,140 @@
-<div class="content bg-gradient">
-    <div class="container">
-        <div class="row" style="min-height: calc(100vh);">
-            <div class="col-12 col-md-6 d-flex justify-content-center align-items-center flex-column">
-                <div class="card w-100 login-card">
-                    <div class="card-body px-4 pb-4">
-                        <mat-icon
-                            class="login-icon text-dark  bg-secondary rounded-circle p-2 mb-3">person_outline</mat-icon>
-                        <h2 class="mb-5">ورود کاربران</h2>
-                        <!-- <p>با شماره موبایل خود وارد شوید!</p> -->
-                        <div class="d-grid gap-4 mb-4">
-                            <div class="input-group">
-                                <div class="input-group-text text-dark bg-secondary"><mat-icon>person</mat-icon></div>
-                                <input class="form-control form-control-lg p-2 text-center" type="text" dir="ltr"
-                                    [(ngModel)]="loginRequest.userName">
-                            </div>
-
-                            <div class="input-group">
-                                <div class="input-group-text text-dark bg-secondary"><mat-icon>lock</mat-icon></div>
-                                <input class="form-control form-control-lg p-2 text-center" type="password" dir="ltr"
-                                    [(ngModel)]="loginRequest.password">
-                            </div>
-
-                            <button *ngIf="isLoading == false" class="btn btn-lg btn-primary" type="button"
-                                (click)="onClickLogin()">
-                                ورود
-                            </button>
-
-                            <button *ngIf="isLoading"
-                                class="btn btn-lg btn-primary d-flex align-items-center justify-content-center"
-                                type="button" disabled>
-                                <div class="spinner-border spinner-border-sm text-light me-2" role="status"> </div>
-                                <span>لطفا منتظر بمانید ...</span>
-                            </button>
-
-                            <button type="button" class="btn btn-sm btn-outline-light">رمز عبور خود را فراموش
-                                کرده‌ام!</button>
-
-                        </div>
-
-                        @if(errorMessages.length>0){
-                        <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error"
-                            [TextMessage]="errorMessage"></app-alert>
-                        }
-
-                        @if(informationMessages.length>0){
-                        <app-alert *ngFor="let informationMessage of informationMessages" AlertType="Info"
-                            [TextMessage]="informationMessage"></app-alert>
-                        }
-
-                        @if(warningMessages.length>0){
-                        <app-alert *ngFor="let warningMessage of warningMessages" AlertType="Warning"
-                            [TextMessage]="warningMessage"></app-alert>
-                        }
-                        
-                    </div>
-                    <p class="text-light">کلیه حقوق محفوظ است</p>
-                </div>
-
-            </div>
-
-            <div class="col-12 col-md-6 d-flex justify-content-center align-items-center flex-column py-3">
-                <img src="../../../assets/images/Work time-amico.svg" alt="login">
-            </div>
-
+<div class="login-wrapper">
+  <!-- بخش چپ - فرم ورود -->
+  <div class="login-left">
+    <div class="login-form-container">
+      <!-- هدر فرم -->
+      <div class="login-header">
+        <div class="login-logo-icon">
+          <mat-icon class="logo-icon">store</mat-icon>
         </div>
+        <h1 class="login-title">سامانه فروشگاه</h1>
+        <p class="login-subtitle">به سامانه مدیریت فروشگاه خوش آمدید</p>
+      </div>
+
+      <!-- فرم ورود -->
+      <form class="login-form" (ngSubmit)="onClickLogin()">
+        <!-- فیلد نام کاربری -->
+        <div class="form-group">
+          <label class="form-label">نام کاربری</label>
+          <div class="input-wrapper">
+            <mat-icon class="input-icon">person</mat-icon>
+            <input 
+              type="text" 
+              class="form-input" 
+              placeholder="نام کاربری را وارد کنید"
+              dir="ltr"
+              [(ngModel)]="loginRequest.userName"
+              name="userName"
+              required>
+          </div>
+        </div>
+
+        <!-- فیلد رمز عبور -->
+        <div class="form-group">
+          <label class="form-label">رمز عبور</label>
+          <div class="input-wrapper">
+            <mat-icon class="input-icon">lock</mat-icon>
+            <input 
+              type="password" 
+              class="form-input" 
+              placeholder="رمز عبور را وارد کنید"
+              dir="ltr"
+              [(ngModel)]="loginRequest.password"
+              name="password"
+              required>
+          </div>
+        </div>
+
+        <!-- دکمه ورود -->
+        <button 
+          *ngIf="!isLoading" 
+          type="submit" 
+          class="btn-login">
+          <span>ورود به سامانه</span>
+          <mat-icon class="btn-icon">arrow_back</mat-icon>
+        </button>
+
+        <!-- دکمه در حال لود -->
+        <button 
+          *ngIf="isLoading"
+          type="button" 
+          class="btn-login btn-loading"
+          disabled>
+          <div class="spinner"></div>
+          <span>لطفا منتظر بمانید...</span>
+        </button>
+
+        <!-- لینک فراموشی رمز -->
+        <button 
+          type="button" 
+          class="btn-forgot"
+          (click)="$event.preventDefault()">
+          رمز عبور خود را فراموش کرده‌ام
+        </button>
+      </form>
+
+      <!-- پیام‌های خطا -->
+      <div class="alerts-container" *ngIf="errorMessages.length > 0">
+        <app-alert 
+          *ngFor="let errorMessage of errorMessages" 
+          AlertType="Error"
+          [TextMessage]="errorMessage">
+        </app-alert>
+      </div>
+
+      <!-- پیام‌های اطلاعاتی -->
+      <div class="alerts-container" *ngIf="informationMessages.length > 0">
+        <app-alert 
+          *ngFor="let informationMessage of informationMessages" 
+          AlertType="Info"
+          [TextMessage]="informationMessage">
+        </app-alert>
+      </div>
+
+      <!-- پیام‌های هشدار -->
+      <div class="alerts-container" *ngIf="warningMessages.length > 0">
+        <app-alert 
+          *ngFor="let warningMessage of warningMessages" 
+          AlertType="Warning"
+          [TextMessage]="warningMessage">
+        </app-alert>
+      </div>
+
+      <!-- فوتر -->
+      <div class="login-footer">
+        <p class="copyright">© 2024 تمام حقوق محفوظ است</p>
+      </div>
     </div>
+  </div>
+
+  <!-- بخش راست - تصویر و ترفندهای -->
+  <div class="login-right">
+    <div class="login-illustration">
+      <div class="illustration-content">
+        <img src="../../../assets/images/Work time-amico.svg" alt="login illustration" class="illustration-img">
+        <div class="illustration-text">
+          <h3>از راحتی‌های سامانه استفاده کنید</h3>
+          <div class="benefits-wrapper">
+            <div class="benefit-card">
+              <mat-icon class="benefit-icon">done_all</mat-icon>
+              <span class="benefit-text">مدیریت ساده و سریع فروشگاه</span>
+            </div>
+            <div class="benefit-card">
+              <mat-icon class="benefit-icon">analytics</mat-icon>
+              <span class="benefit-text">گزارش‌های دقیق و جامع فروش</span>
+            </div>
+            <div class="benefit-card">
+              <mat-icon class="benefit-icon">inventory_2</mat-icon>
+              <span class="benefit-text">کنترل کامل موجودی انبار</span>
+            </div>
+            <div class="benefit-card">
+              <mat-icon class="benefit-icon">people</mat-icon>
+              <span class="benefit-text">مدیریت کارآمد مشتریان</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

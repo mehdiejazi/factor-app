@@ -1,1 +1,21 @@
-<p>error404 works!</p>
+<main class="error-shell error-shell--404">
+  <div class="error-glow error-glow--primary"></div>
+  <div class="error-glow error-glow--secondary"></div>
+
+  <section class="error-card" aria-labelledby="error404Title">
+    <p class="error-overline">مسیر نامعتبر</p>
+    <h1 id="error404Title" class="error-code">404</h1>
+    <h2 class="error-title">صفحه پیدا نشد</h2>
+    <p class="error-description">
+      آدرسی که وارد کرده‌اید وجود ندارد یا ممکن است جابه‌جا شده باشد.
+      از گزینه‌های زیر برای ادامه استفاده کنید.
+    </p>
+
+    <div class="error-actions">
+      <a routerLink="/dashboard" class="btn btn-success">بازگشت به داشبورد</a>
+      <a routerLink="/home" class="btn btn-outline-light">صفحه اصلی</a>
+    </div>
+
+    <div class="error-meta">HTTP 404</div>
+  </section>
+</main>
