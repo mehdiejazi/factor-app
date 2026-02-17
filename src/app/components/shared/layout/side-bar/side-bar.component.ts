@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { SettingsService } from '../../../services/settings.service';
-import { SideMenuService, SideMenuItem } from '../../../services/side-menu.service';
+import { SettingsService } from '../../../../services/settings.service';
+import { SideMenuItem, SideMenuService } from '../../../../services/side-menu.service';
+
 
 @Component({
   selector: 'app-side-bar',

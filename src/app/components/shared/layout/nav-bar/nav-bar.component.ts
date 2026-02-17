@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { SettingsService } from '../../../../services/settings.service';
+import { StoreSelectModalComponent } from '../../../sections/store-section/store-select-modal/store-select-modal.component';
 
 
 @Component({

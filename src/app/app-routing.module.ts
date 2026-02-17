@@ -5,7 +5,7 @@ import { AuthGuard } from './utils/auth-gaurd';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { DashboardSectionComponent } from './components/sections/dashboard-section/dashboard-section.component';
-import { LayoutComponent } from './components/layout/layout.component';
+import { LayoutComponent } from './components/shared/layout/layout.component';
 import { StoreSectionComponent } from './components/sections/store-section/store-section.component';
 import { CategorySectionComponent } from './components/sections/category-section/category-section.component';
 import { ProductSectionComponent } from './components/sections/product-section/product-section.component';
