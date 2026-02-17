@@ -16,37 +16,47 @@
 }
 
 :root {
-  --color1: #7b7b00;
-  --color2: #2E7D32;
+  --color1: #6f7500;
+  --color2: #2f7d35;
 
-  --color-dark1: #212121;
-  --color-dark2: #424242;
+  --color-dark1: #1f2420;
+  --color-dark2: #313a33;
   --color-dark3: #263238;
+
+  --text-primary: #3f3f3f;
+  --text-on-dark: #f7faf8;
+  --text-muted-on-dark: #e1e9e3;
+  --text-accent-on-dark: #f0f4b8;
+  --surface-card: rgba(255, 255, 255, 0.08);
+  --surface-card-border: rgba(255, 255, 255, 0.2);
 }
 
 .text-color1{
-  color: var(--color1);
+  color: var(--text-accent-on-dark);
 }
 
 .text-color2{
-  color: var(--color2);
+  color: var(--text-on-dark);
 }
 
 
 .bg-dark-color1 {
   background-color: var(--color-dark1);
+  color: var(--text-on-dark);
 }
 
 .bg-dark-color2 {
   background-color: var(--color-dark2);
+  color: var(--text-on-dark);
 }
 
-.bg-dark-color1 {
+.bg-dark-color3 {
   background-color: var(--color-dark3);
+  color: var(--text-on-dark);
 }
 
 .bg-gradient {
-  background-image: linear-gradient(70deg, var(--color1) 0%, var(--color2) 100%) !important;
+  background-image: linear-gradient(120deg, #7f8600 0%, var(--color1) 45%, var(--color2) 100%) !important;
 }
 
 
@@ -89,7 +99,7 @@ body {
   text-align: right;
   font-family: Vazir;
   font-weight: 300;
-  color: #5a5a5a;
+  color: var(--text-primary);
   height: 100%;
 
 }
@@ -105,8 +115,8 @@ body {
 }
 
 .card {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.25) !important;
+  background-color: var(--surface-card);
+  border-color: var(--surface-card-border) !important;
   --bs-text-opacity: 1;
   color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
 }

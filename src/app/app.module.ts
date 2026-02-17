@@ -14,9 +14,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './interceptors/jwt-interceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardSectionComponent } from './components/sections/dashboard-section/dashboard-section.component';
-import { LayoutComponent } from './components/layout/layout.component';
-import { NavBarComponent } from './components/layout/nav-bar/nav-bar.component';
-import { SideBarComponent } from './components/layout/side-bar/side-bar.component';
+import { LayoutComponent } from './components/shared/layout/layout.component';
+import { NavBarComponent } from './components/shared/layout/nav-bar/nav-bar.component';
+import { SideBarComponent } from './components/shared/layout/side-bar/side-bar.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { StoreSectionComponent } from './components/sections/store-section/store-section.component';
 import { StoreListComponent } from './components/sections/store-section/store-list/store-list.component';
@@ -65,7 +65,7 @@ import { PostCategorySectionComponent } from './components/sections/post-categor
 import { PostCategoryListComponent } from './components/sections/post-category-section/post-category-list/post-category-list.component';
 import { PostCategoryFormModalComponent } from './components/sections/post-category-section/post-category-form-modal/post-category-form-modal.component';
 import { PostCategorySelectModalComponent } from './components/sections/post-category-section/post-category-select-modal/post-category-select-modal.component';
-import { SectionHeaderComponent } from './components/shared/section-header/section-header.component';
+import { SectionHeaderComponent } from './components/shared/layout/section-header/section-header.component';
 import { InvoiceViewComponent } from './components/sections/invoice-view/invoice-view.component';
 import { WeblogComponent } from './components/weblog/weblog.component';
 

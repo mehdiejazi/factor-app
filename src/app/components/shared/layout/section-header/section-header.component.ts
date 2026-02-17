@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { SideMenuService } from '../../../services/side-menu.service';
+import { SideMenuService } from '../../../../services/side-menu.service';
 
 @Component({
   selector: 'app-section-header',
