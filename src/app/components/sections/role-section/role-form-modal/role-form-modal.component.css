@@ -1,0 +1,25 @@
+.permission-wrap {
+  max-height: 320px;
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0.65rem;
+}
+
+.permission-table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text-on-dark);
+  --bs-table-border-color: rgba(255, 255, 255, 0.12);
+}
+
+.permission-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.08);
+  z-index: 1;
+}
+
+.permission-url {
+  direction: ltr;
+  display: inline-block;
+  unicode-bidi: plaintext;
+}

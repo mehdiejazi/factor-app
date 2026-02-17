@@ -21,6 +21,7 @@ import { WeblogFormComponent } from './components/sections/weblog-section/weblog
 import { WeblogViewComponent } from './components/sections/weblog-section/weblog-view/weblog-view.component';
 import { PostCategorySectionComponent } from './components/sections/post-category-section/post-category-section.component';
 import { InvoiceViewComponent } from './components/sections/invoice-view/invoice-view.component';
+import { RoleSectionComponent } from './components/sections/role-section/role-section.component';
 
 
 const routes: Routes = [
@@ -53,6 +54,7 @@ const routes: Routes = [
       { path: 'customers', component: CustomerSectionComponent, canActivate: [AuthGuard], },
       { path: 'gallery', component: ImageAssetSectionComponent, canActivate: [AuthGuard], },
       { path: 'users', component: UserSectionComponent, canActivate: [AuthGuard], },
+      { path: 'role', component: RoleSectionComponent, canActivate: [AuthGuard], },
 
       { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 

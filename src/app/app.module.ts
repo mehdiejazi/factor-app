@@ -68,6 +68,9 @@ import { PostCategorySelectModalComponent } from './components/sections/post-cat
 import { SectionHeaderComponent } from './components/shared/layout/section-header/section-header.component';
 import { InvoiceViewComponent } from './components/sections/invoice-view/invoice-view.component';
 import { WeblogComponent } from './components/weblog/weblog.component';
+import { RoleSectionComponent } from './components/sections/role-section/role-section.component';
+import { RoleListComponent } from './components/sections/role-section/role-list/role-list.component';
+import { RoleFormModalComponent } from './components/sections/role-section/role-form-modal/role-form-modal.component';
 
 @NgModule({
   declarations: [
@@ -127,6 +130,9 @@ import { WeblogComponent } from './components/weblog/weblog.component';
     SectionHeaderComponent,
     InvoiceViewComponent,
     WeblogComponent,
+    RoleSectionComponent,
+    RoleListComponent,
+    RoleFormModalComponent,
   ],
   imports: [
     BrowserModule,

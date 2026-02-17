@@ -1,0 +1,106 @@
+<div class="modal-header bg-dark text-light">
+    <h5 class="modal-title" id="exampleModalLabel">
+        {{ title }}
+    </h5>
+    <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"
+        (click)="hideConfirmationModal()"></button>
+</div>
+
+<div class="modal-body bg-dark text-light">
+    <form class="row was-validated needs-validation" *ngIf="role != undefined">
+        <div class="col-12">
+            <div *ngIf="role?.id" class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col text-success">
+                    شناسه:
+                    {{ role.id }}
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <label class="form-label">نام نقش:</label>
+                    <input [(ngModel)]="role.name" name="name" type="text" class="form-control" required>
+                    <div class="invalid-feedback">لطفاً نام نقش را وارد نمایید</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">توضیحات:</label>
+                    <input [(ngModel)]="role.description" name="description" type="text" class="form-control">
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col-md-4">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" id="isDefault" [(ngModel)]="role.isDefault"
+                            name="isDefault">
+                        <label class="form-check-label" for="isDefault">
+                            نقش پیش‌فرض
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" id="selectAllPermissions"
+                            [checked]="areAllPermissionsSelected()" (change)="onToggleSelectAll($event)">
+                        <label class="form-check-label" for="selectAllPermissions">
+                            انتخاب/عدم انتخاب همه دسترسی‌ها
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-hover mb-3 px-md-4 py-1">
+                <div class="col">
+                    <label class="form-label">دسترسی‌ها:</label>
+                    <app-alert *ngIf="isLoadingPermissions" AlertType="Download"
+                        TextMessage="در حال واکشی دسترسی‌ها ..."></app-alert>
+                    <app-alert *ngFor="let errorMessage of permissionErrorMessages" [AlertType]="'Error'"
+                        [TextMessage]="errorMessage"></app-alert>
+
+                    <div class="permission-wrap" *ngIf="!isLoadingPermissions && actionPermissions?.length">
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle mb-0 permission-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">انتخاب</th>
+                                        <th scope="col">کنترلر</th>
+                                        <th scope="col">اکشن</th>
+                                        <th scope="col">آدرس</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (permission of actionPermissions; track permission.id) {
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" class="form-check-input"
+                                                [checked]="isPermissionSelected(permission.id)"
+                                                (change)="onPermissionToggle(permission.id, $event)">
+                                        </td>
+                                        <td>{{ permission.controllerName }}</td>
+                                        <td>{{ permission.actionName }}</td>
+                                        <td><span class="permission-url">{{ permission.url }}</span></td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div *ngIf="!isLoadingPermissions && actionPermissions?.length == 0" class="text-muted">
+                        دسترسی قابل انتخابی وجود ندارد.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer bg-dark text-light">
+    <div class="text-right">
+        <button type="submit" class="btn btn-sm btn-primary" (click)="onConfirm()">
+            تایید
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary ms-1" (click)="onCancel()">
+            انصراف
+        </button>
+    </div>
+</div>
