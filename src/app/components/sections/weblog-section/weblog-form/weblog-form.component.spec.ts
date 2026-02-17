@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormWeblogComponent } from './form-weblog.component';
+import { WeblogFormComponent } from './weblog-form.component';
 
-describe('FormWeblogComponent', () => {
-  let component: FormWeblogComponent;
-  let fixture: ComponentFixture<FormWeblogComponent>;
+describe('WeblogFormComponent', () => {
+  let component: WeblogFormComponent;
+  let fixture: ComponentFixture<WeblogFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormWeblogComponent ]
+      declarations: [ WeblogFormComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormWeblogComponent);
+    fixture = TestBed.createComponent(WeblogFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

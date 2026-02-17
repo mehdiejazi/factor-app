@@ -7,11 +7,11 @@ import { BlogPostService } from '../../../../services/blog-post.service';
 
 
 @Component({
-  selector: 'app-view-weblog',
-  templateUrl: './view-weblog.component.html',
-  styleUrls: ['./view-weblog.component.css']
+  selector: 'app-weblog-view',
+  templateUrl: './weblog-view.component.html',
+  styleUrls: ['./weblog-view.component.css']
 })
-export class ViewWeblogComponent implements OnInit {
+export class WeblogViewComponent implements OnInit {
 
   // public customOptions: OwlOptions;
 
@@ -22,6 +22,7 @@ export class ViewWeblogComponent implements OnInit {
   public informationMessages: string[];
 
   public blogPost: BlogPost;
+  public isLoading: boolean = true;
 
   public constructor(private _bsModalService: BsModalService,
     private _blogPostService: BlogPostService,
@@ -37,12 +38,15 @@ export class ViewWeblogComponent implements OnInit {
           result => {
 
             this.blogPost = result.data;
+            this.normalizePostAssets(this.blogPost);
+            this.isLoading = false;
             
           },
           error => {
 
             this.error = error;
             console.error(error);
+            this.isLoading = false;
 
           }
         );
@@ -51,10 +55,44 @@ export class ViewWeblogComponent implements OnInit {
 
         this.blogPost = new BlogPost();
         this.blogPost.postCategories = [];
+        this.isLoading = false;
       }
 
     });
 
     // this.initOwlCarousel();
+  }
+
+  private normalizePostAssets(post: BlogPost): void {
+    if (!post) {
+      return;
+    }
+
+    if (post.coverImage?.url) {
+      post.coverImage.url = this.normalizeUrl(post.coverImage.url);
+    }
+
+    if (post.owner?.avatar?.url) {
+      post.owner.avatar.url = this.normalizeUrl(post.owner.avatar.url);
+    }
+
+    if (post.images?.length) {
+      post.images = post.images.map(image => ({
+        ...image,
+        url: image?.url ? this.normalizeUrl(image.url) : image?.url
+      }));
+    }
+  }
+
+  private normalizeUrl(url: string): string {
+    if (!url) {
+      return url;
+    }
+
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+
+    return `${this._settingsService.baseUrl}${url}`;
   }
 }

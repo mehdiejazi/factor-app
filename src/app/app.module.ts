@@ -58,9 +58,9 @@ import { NgPersianDatepickerModule } from 'ng-persian-datepicker';
 import { FactorDetailComponent } from './components/sections/factor-section/factor-detail/factor-detail.component';
 import { FactorItemFormModalComponent } from './components/sections/factor-section/factor-item-form-modal/factor-item-form-modal.component';
 import { WeblogSectionComponent } from './components/sections/weblog-section/weblog-section.component';
-import { FormWeblogComponent } from './components/sections/weblog-section/form-weblog/form-weblog.component';
-import { GridWeblogComponent } from './components/sections/weblog-section/grid-weblog/grid-weblog.component';
-import { ViewWeblogComponent } from './components/sections/weblog-section/view-weblog/view-weblog.component';
+import { WeblogFormComponent } from './components/sections/weblog-section/weblog-form/weblog-form.component';
+import { WeblogListComponent } from './components/sections/weblog-section/weblog-list/weblog-list.component';
+import { WeblogViewComponent } from './components/sections/weblog-section/weblog-view/weblog-view.component';
 import { PostCategorySectionComponent } from './components/sections/post-category-section/post-category-section.component';
 import { PostCategoryListComponent } from './components/sections/post-category-section/post-category-list/post-category-list.component';
 import { PostCategoryFormModalComponent } from './components/sections/post-category-section/post-category-form-modal/post-category-form-modal.component';
@@ -117,9 +117,9 @@ import { WeblogComponent } from './components/weblog/weblog.component';
     FactorDetailComponent,
     FactorItemFormModalComponent,
     WeblogSectionComponent,
-    FormWeblogComponent,
-    GridWeblogComponent,
-    ViewWeblogComponent,
+    WeblogFormComponent,
+    WeblogListComponent,
+    WeblogViewComponent,
     PostCategorySectionComponent,
     PostCategoryListComponent,
     PostCategoryFormModalComponent,

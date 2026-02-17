@@ -5,8 +5,8 @@
   </div>
 
   <!-- Error State -->
-  <div *ngIf="error && !loading" class="alert alert-danger m-4">
-    {{ error }}
+  <div *ngIf="error && !loading" class="m-4">
+    <app-alert AlertType="Error" [TextMessage]="error"></app-alert>
   </div>
 
   <!-- Invoice Content -->

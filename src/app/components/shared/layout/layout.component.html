@@ -1,14 +1,16 @@
-<app-nav-bar></app-nav-bar>
+<app-nav-bar class="fade layout-nav" [class.show]="navReady"></app-nav-bar>
 
 <div class="container-fluid ">
-  <div class="row">
+  <div class="row" dir="ltr">
 
-    <app-side-bar class="col-12 col-md-2 bg-dark-color2" id="sidebar"
+    <app-side-bar class="col-12 col-md-2 order-1 order-md-2 bg-dark-color2 layout-sidebar" id="sidebar" dir="rtl"
       *ngIf="settingsService.isSideBarOpen"></app-side-bar>
-    <div class="pt-3 bg-dark my-content text-light"
+    <div class="pt-3 bg-dark my-content text-light layout-content order-2 order-md-1" dir="rtl"
       [ngClass]="{'col-12 col-md-10': settingsService.isSideBarOpen,'col-12': !settingsService.isSideBarOpen}">
 
-      <router-outlet></router-outlet>
+      <div class="fade route-stage" [class.show]="routeReady">
+        <router-outlet></router-outlet>
+      </div>
 
     </div>
   </div>

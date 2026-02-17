@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewWeblogComponent } from './view-weblog.component';
+import { WeblogViewComponent } from './weblog-view.component';
 
-describe('ViewWeblogComponent', () => {
-  let component: ViewWeblogComponent;
-  let fixture: ComponentFixture<ViewWeblogComponent>;
+describe('WeblogViewComponent', () => {
+  let component: WeblogViewComponent;
+  let fixture: ComponentFixture<WeblogViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewWeblogComponent ]
+      declarations: [ WeblogViewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewWeblogComponent);
+    fixture = TestBed.createComponent(WeblogViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,99 +1,89 @@
-﻿<div class="container">
+<div class="container gallery-page">
     <app-section-header></app-section-header>
-    <div class="row" class="mb-3">
-        <div class="col">
 
-            <div class="mb-2">
-
-                <!-- <button type="button" class="btn btn-primary me-1">گالری تصاویر</button>
-                <button type="button" class="btn btn-primary me-1">افزودن تصویر</button> -->
-                <!-- <button type="button" class="btn btn-primary me-1" (click)="showGalleryModal()">تست گالری</button> -->
-
+    <div class="card gallery-toolbar-card mb-3">
+        <div class="card-body gallery-toolbar-body">
+            <div>
+                <h5 class="gallery-title mb-1">گالری تصاویر</h5>
+                <p class="gallery-subtitle mb-0">مدیریت تصاویر آپلود شده و دسترسی سریع به فایل‌ها</p>
             </div>
 
-        </div>
-    </div>
-    <div class="row mb-2">
-        <app-image-asset-upload (fillGallery)="fillGallery()"></app-image-asset-upload>
-    </div>
-
-
-
-    <div class="row">
-        <div class="col">
-
-            <div *ngIf="errorMessages?.length>0" class="alert alert-danger mb-3">
-                <div *ngFor="let errorMessage of errorMessages">
-                    {{ errorMessage }}
+            <div class="gallery-toolbar-controls">
+                <div class="gallery-search-box">
+                    <mat-icon class="small">search</mat-icon>
+                    <input type="text" class="form-control" [(ngModel)]="searchText"
+                        placeholder="جستجو در نام فایل یا نام نویسنده">
                 </div>
-            </div>
 
-            <div *ngIf="warningMessages?.length>0" class="alert alert-warning mb-3">
-                <div *ngFor="let warningMessage of warningMessages">
-                    {{ warningMessage }}
-                </div>
-            </div>
-
-            <div *ngIf="informationMessages?.length>0" class="alert alert-info mb-3">
-                <div *ngFor="let informationMessage of informationMessages">
-                    {{ informationMessage }}
-                </div>
-            </div>
-
-            <app-alert class="mb-3" *ngIf="formSuccessful" [AlertType]="'Success'"
-                [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
-
-
-            <div *ngIf="errorMessages.length ==0 && !error?.message && !imageAssets"
-                class="alert alert-info pb-3 d-flex align-items-center">
-                <mat-icon>cloud_download</mat-icon>
-                <div class="ms-2">
-                    در حال واکشی اطلاعات ...
-                </div>
-            </div>
-
-            <div *ngIf="error?.message !imageAssets" class="alert alert-danger pb-3 d-flex align-items-center">
-                <mat-icon>error</mat-icon>
-                <div class="ms-2">
-                    خطا در واکشی اطلاعات
-                </div>
-            </div>
-
-            <div *ngIf="imageAssets?.length==0" class="alert alert-warning pb-3 d-flex align-items-center">
-                <mat-icon>error</mat-icon>
-                <div class="ms-2">
-                    تصویری جهت نمایش وجود ندارد
+                <div class="gallery-stats">
+                    <div class="gallery-stat-box">
+                        <span>کل تصاویر</span>
+                        <strong>{{ (imageAssets?.length || 0) | persianNumber }}</strong>
+                    </div>
+                    <div class="gallery-stat-box">
+                        <span>نتایج</span>
+                        <strong>{{ filteredImageAssets.length | persianNumber }}</strong>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
 
-        <ng-container *ngFor="let image of imageAssets">
-            <div class="col-lg-3 col-md-6 mb-4">
+    <div class="row mb-3">
+        <div class="col">
+            <app-image-asset-upload (fillGallery)="fillGallery()"></app-image-asset-upload>
+        </div>
+    </div>
 
-                <div class="card card-gallery">
-                    <!-- {{image.url}} -->
-                    <img [lazyLoad]="image.url" class="img-card-gallery bg-light">
-                    <div class="card-body font-size10">
-                        <div class="card-text">
-                            <span>نام فایل: </span>
-                            <span class="fw-bold">{{ image.fileName }}</span>
-                        </div>
-                        <div class="card-text">
-                            <span>صاحب فایل:</span>
-                            <span class="fw-bold">{{ image.ownerUser?.fullName }}</span>
-                        </div>
-                    </div>
+    <div class="mb-3">
+        <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error" [TextMessage]="errorMessage"></app-alert>
+        <app-alert *ngFor="let warningMessage of warningMessages" AlertType="Warning" [TextMessage]="warningMessage"></app-alert>
+        <app-alert *ngFor="let informationMessage of informationMessages" AlertType="Info" [TextMessage]="informationMessage"></app-alert>
+        <app-alert class="mb-3" *ngIf="formSuccessful" AlertType="Success" TextMessage="اطلاعات با موفقیت ثبت گردید"></app-alert>
 
-                    <div class="card-footer">
-                        <a [href]="image.url" class="btn btn-sm btn-outline-primary me-2">نمایش تصویر</a>
-                        <button type="button" class="btn btn-sm btn-outline-danger" (click)="onClickDelete(image)">حذف</button>
-                    </div>
+        <app-alert *ngIf="errorMessages.length == 0 && !error?.message && !imageAssets" AlertType="Download"
+            TextMessage="در حال واکشی اطلاعات ..."></app-alert>
 
+        <app-alert *ngIf="error?.message && !imageAssets" AlertType="Error" TextMessage="خطا در واکشی اطلاعات"></app-alert>
+
+        <app-alert *ngIf="imageAssets?.length == 0" AlertType="Warning" TextMessage="تصویری برای نمایش وجود ندارد"></app-alert>
+
+        <app-alert *ngIf="imageAssets?.length && filteredImageAssets.length == 0" AlertType="Info"
+            TextMessage="تصویری با فیلتر جستجوی فعلی پیدا نشد"></app-alert>
+    </div>
+
+    <div class="gallery-grid" *ngIf="filteredImageAssets.length">
+        <article class="gallery-tile" *ngFor="let image of filteredImageAssets; trackBy: trackImageAsset">
+            <div class="gallery-tile-media">
+                <img [lazyLoad]="image.url" [alt]="image.fileName" class="gallery-image bg-light">
+
+                <div class="gallery-tile-overlay">
+                    <span class="gallery-chip" [title]="image.ownerUser?.fullName || '-'">
+                        <mat-icon class="small">person</mat-icon>
+                        {{ image.ownerUser?.fullName || '-' }}
+                    </span>
+
+                    <span class="gallery-chip" [title]="image.insertDateTime || '-'">
+                        <mat-icon class="small">schedule</mat-icon>
+                        {{ image.insertDateTime || '-' }}
+                    </span>
                 </div>
             </div>
-        </ng-container>
 
+            <div class="gallery-tile-body">
+                <h6 class="gallery-file-name mb-0" [title]="image.fileName">{{ image.fileName || '-' }}</h6>
+
+                <div class="gallery-tile-actions">
+                    <a [href]="image.url" target="_blank" rel="noopener" class="btn btn-outline-light btn-sm app-list-action">
+                        <mat-icon class="small me-1">visibility</mat-icon>
+                        نمایش
+                    </a>
+                    <button type="button" class="btn btn-outline-danger btn-sm app-list-action" (click)="onClickDelete(image)">
+                        <mat-icon class="small me-1">delete</mat-icon>
+                        حذف
+                    </button>
+                </div>
+            </div>
+        </article>
     </div>
 </div>

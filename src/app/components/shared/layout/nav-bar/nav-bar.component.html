@@ -1,5 +1,5 @@
 <!-- bg-dark-color1 -->
-<nav class="navbar sticky-top bg-gradient  navbar-expand-lg navbar-dark py-2">
+<nav class="navbar sticky-top bg-gradient navbar-expand-lg navbar-dark py-2 nav-enter">
     <div class="d-flex align-items-center">
         <a class="text-white px-3 pt-1 finger-pointer" (click)="sideBarClose()">
             <mat-icon>menu</mat-icon>
@@ -12,21 +12,11 @@
     </div>
 
     <div class="collapse navbar-collapse">
-        <ul class="navbar-nav d-flex align-items-center">
-            <li class="nav-item ps-4">
-                <div class="input-group">
-                    <input disabled type="text" class="form-control form-select-sm" 
-                    placeholder="انتخاب فروشگاه" style="width: 250px;"
-                    [(ngModel)]="settings.getStore().name" (click)="selectStore()">
-                    <button type="button" class="btn btn-sm btn-primary" (click)="selectStore()">انتخاب</button>
-                </div>
-            </li>
-        </ul>
         <div class="me-2 ms-auto">
             <button class="btn btn-sm btn-danger me-2" (click)="onClickLogout()">
                 خروج
             </button>
-            
+
             <img *ngIf="!settings.getUser().avatar" src="assets/images/noavatar.png" class="img-avatar rounded-circle">
             <img *ngIf="settings.getUser().avatar" [lazyLoad]="settings.getUser().avatar.url" class="img-avatar rounded-circle">
         </div>

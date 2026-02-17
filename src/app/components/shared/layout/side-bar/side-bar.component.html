@@ -1,11 +1,27 @@
-﻿<ul class="nav nav-pills flex-column mb-auto py-3 " ngbNav #nav="ngbNav">
+<div class="store-profile-card mx-2 mt-2 mb-1 finger-cursor" (click)="onClickSelectStore()">
+  <div class="store-avatar-wrap">
+    <img *ngIf="storeLogoUrl" [lazyLoad]="storeLogoUrl" class="store-avatar" alt="store-logo">
+    <div *ngIf="!storeLogoUrl" class="store-avatar-placeholder">
+      <mat-icon>storefront</mat-icon>
+    </div>
+  </div>
 
+  <div class="store-profile-meta">
+    <small class="store-profile-label">فروشگاه فعال</small>
+    <strong class="store-profile-name">{{ storeName }}</strong>
+    <small class="store-profile-hint">برای تغییر کلیک کنید</small>
+  </div>
+
+  <mat-icon class="store-profile-arrow">chevron_left</mat-icon>
+</div>
+
+<ul class="nav nav-pills flex-column mb-auto py-1 px-2" ngbNav #nav="ngbNav">
   <li class="mb-2" *ngFor="let item of menuItems">
-    <a [routerLink]="item.Route" routerLinkActive="bg-gradient"
+    <a [routerLink]="item.Route"
+      routerLinkActive="bg-gradient active text-light rounded-5"
       class="px-2 py-2 nav-link text-white d-flex align-items-center">
       <mat-icon class="bi mx-1 material-icons-outlined">{{ item.Icon }}</mat-icon>
       <span>{{ item.Text }}</span>
     </a>
   </li>
-
 </ul>

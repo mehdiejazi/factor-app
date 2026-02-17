@@ -1,4 +1,4 @@
-﻿<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+﻿<div class="app-list-toolbar">
     <button type="button" class="btn btn-success" (click)="onClickAddNew()">جدید</button>
 </div>
 
@@ -10,9 +10,9 @@
     <app-alert *ngIf="formSuccessful" [AlertType]="'Success'" [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
 </div>
 
-<div class="table-responsive" *ngIf="users?.length">
-    <table class="table table-hover table-sm bg-white align-middle">
-        <thead class="bg-secondary text-light">
+<div class="table-responsive app-list-table-wrap" *ngIf="users?.length">
+    <table class="table table-hover table-sm align-middle app-list-table">
+        <thead>
             <tr>
                 <th scope="col">تصویر</th>
                 <th scope="col">نام</th>
@@ -31,32 +31,26 @@
                     <img *ngIf="user.avatar" [src]="user.avatar.url" class="table-avatar" alt="User avatar">
                 </td>
                 <td class="fw-semibold">{{ user.fullName }}</td>
-                <td><span class="badge bg-light text-dark border">{{ user.userName }}</span></td>
-                <td><span class="badge bg-primary">{{ user.role.name }}</span></td>
+                <td><span class="app-list-chip">{{ user.userName }}</span></td>
+                <td><span class="app-list-chip app-list-status--primary">{{ user.role.name }}</span></td>
                 <td>
-                    <span [ngClass]="{'bg-success': user.isActive , 'bg-danger' : !user.isActive}"
-                        class="badge">{{ user.isActive | active}} </span>
+                    <span [ngClass]="{ 'app-list-status--success': user.isActive , 'app-list-status--danger': !user.isActive }"
+                        class="app-list-chip">{{ user.isActive | active}}</span>
                 </td>
                 <td>
                     <div class="d-flex flex-wrap gap-1">
                         @for (store of user.stores; track store.id) {
-                        <span class="badge bg-light text-dark border">{{store.name}}</span>
+                        <span class="app-list-chip">{{store.name}}</span>
                         }
                     </div>
                 </td>
                 <td class="text-end">
-                    <div ngbDropdown class="d-inline-block">
-                        <button class="btn btn-secondary btn-sm" [id]="'userActions' + user.id" ngbDropdownToggle>عملیات</button>
-                        <div ngbDropdownMenu [attr.aria-labelledby]="'userActions' + user.id">
-                            <button ngbDropdownItem class="dropdown-item"
-                                (click)="viewUserProfile(user)">پروفایل</button>
-                            <button ngbDropdownItem class="dropdown-item" (click)="onClickEdit(user)">ویرایش</button>
-                            <button ngbDropdownItem class="dropdown-item" (click)="onClickDelete(user)">حذف</button>
-                            <button ngbDropdownItem class="dropdown-item" (click)="onClickForceChangePassword(user)">اجبار به تغییر رمز</button>
-                            <button ngbDropdownItem class="dropdown-item" (click)="activationToggle(user)">
-                                فعال/غیر فعال
-                            </button>
-                        </div>
+                    <div class="app-list-actions flex-wrap justify-content-end">
+                        <button type="button" class="btn btn-outline-light btn-sm app-list-action" (click)="viewUserProfile(user)">پروفایل</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm app-list-action" (click)="onClickEdit(user)">ویرایش</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm app-list-action" (click)="onClickDelete(user)">حذف</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm app-list-action" (click)="onClickForceChangePassword(user)">اجبار تغییر رمز</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm app-list-action" (click)="activationToggle(user)">فعال/غیرفعال</button>
                     </div>
                 </td>
             </tr>

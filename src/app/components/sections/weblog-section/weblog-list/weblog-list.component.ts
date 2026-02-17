@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BlogPostService } from '../../../../services/blog-post.service';
@@ -8,11 +8,11 @@ import { ConfirmationModalComponent } from '../../../modals/confirmation-modal/c
 
 
 @Component({
-  selector: 'app-grid-weblog',
-  templateUrl: './grid-weblog.component.html',
-  styleUrls: ['./grid-weblog.component.css']
+  selector: 'app-weblog-list',
+  templateUrl: './weblog-list.component.html',
+  styleUrls: ['./weblog-list.component.css']
 })
-export class GridWeblogComponent implements OnInit {
+export class WeblogListComponent implements OnInit {
 
   public constructor(
     private _blogPostService: BlogPostService,
@@ -172,3 +172,5 @@ export class GridWeblogComponent implements OnInit {
 
 
 }
+
+

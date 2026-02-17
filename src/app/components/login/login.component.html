@@ -39,27 +39,18 @@
                         </div>
 
                         @if(errorMessages.length>0){
-                        <div class="alert alert-danger py-1 mb-2">
-                            <div *ngFor="let errorMessage of errorMessages">
-                                <div>{{ errorMessage }}</div>
-                            </div>
-                        </div>
+                        <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error"
+                            [TextMessage]="errorMessage"></app-alert>
                         }
 
                         @if(informationMessages.length>0){
-                        <div class="alert alert-info py-1 mb-2">
-                            <div *ngFor="let informationMessage of informationMessages">
-                                <p>{{ informationMessage }}</p>
-                            </div>
-                        </div>
+                        <app-alert *ngFor="let informationMessage of informationMessages" AlertType="Info"
+                            [TextMessage]="informationMessage"></app-alert>
                         }
 
                         @if(warningMessages.length>0){
-                        <div class="alert alert-warning py-1 mb-2">
-                            <div *ngFor="let warningMessages of warningMessages">
-                                <p>{{ warningMessages }}</p>
-                            </div>
-                        </div>
+                        <app-alert *ngFor="let warningMessage of warningMessages" AlertType="Warning"
+                            [TextMessage]="warningMessage"></app-alert>
                         }
                         
                     </div>

@@ -1,48 +1,98 @@
-#sidebar {
-    font-weight: 400;
-    padding: 0;
+:host {
+  display: block;
+  font-weight: 400;
+  padding: 0;
 }
 
-#sidebar .collaping {
-    height: 0;
+:host .collaping {
+  height: 0;
 }
 
-
-
-#sidebar .nav-link {
-    color: #fff;
-    margin-top: .1rem;
-    margin-bottom: .1rem;
+:host .nav-link {
+  color: #fff;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
 }
 
-.m-header {
-    color: #ffb197;
-    font-weight: 800;
-    font-size: 15px;
-    border-bottom: 2px solid #ffb197;
-
+:host .nav-link.active,
+:host .nav-link.bg-gradient,
+:host .nav-pills .nav-link.active {
+  background-color: #f8f9fa;
+  border-radius: 0.7rem;
 }
-
-#sidebar .oi {
-    transition: .1s transform ease-out;
-}
-
-#sidebar .oi-caret-left {
-    transform: rotate(-90deg);
-}
-
-
-#sidebar .collapsed .oi-caret-left {
-    transform: rotate(0deg);
-}
-
-#sidebar .nav-link.active {
-    color: black !important;
-    background-color: #f8f9fa;
-    border-radius: .7rem;
-}
-
 
 .nav-pills .nav-link {
-    border-radius: 1.5rem;
+  border-radius: 1.5rem;
+}
+
+.store-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 0.85rem;
+  background-color: rgba(255, 255, 255, 0.08);
+  transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+.store-profile-card:hover {
+  transform: translateY(-1px);
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.store-avatar-wrap {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+}
+
+.store-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.store-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #f5f9f6;
+}
+
+.store-profile-meta {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.store-profile-label {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.store-profile-name {
+  font-size: 0.86rem;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.store-profile-hint {
+  font-size: 0.67rem;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.store-profile-arrow {
+  margin-inline-start: auto;
+  color: rgba(255, 255, 255, 0.85);
 }

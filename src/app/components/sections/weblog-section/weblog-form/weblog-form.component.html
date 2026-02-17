@@ -1,16 +1,6 @@
-<div *ngIf="!error?.message && !blogPost" class="alert alert-info pb-3 d-flex align-items-center">
-    <mat-icon>cloud_download</mat-icon>
-    <div class="ms-2">
-        در حال واکشی اطلاعات ...
-    </div>
-</div>
+﻿<app-alert *ngIf="!error?.message && !blogPost" AlertType="Download" TextMessage="در حال واکشی اطلاعات ..."></app-alert>
 
-<div *ngIf="error?.message" class="alert alert-danger pb-3 d-flex align-items-center">
-    <mat-icon>error</mat-icon>
-    <div class="ms-2">
-        خطا در واکشی اطلاعات
-    </div>
-</div>
+<app-alert *ngIf="error?.message" AlertType="Error" TextMessage="خطا در واکشی اطلاعات"></app-alert>
 
 <div *ngIf="blogPost" class="card mb-3">
 

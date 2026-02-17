@@ -1,4 +1,4 @@
-<form (ngSubmit)="onConfirm()" *ngIf="active">
+﻿<form (ngSubmit)="onConfirm()" *ngIf="active">
 
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
@@ -10,12 +10,8 @@
 
     <div class="modal-body">
         <div class="container">
-            <div *ngIf="!imageAssets || imageAssets.length==0" class="alert alert-danger d-flex align-items-center">
-                <mat-icon>error</mat-icon>
-                <div class="ms-2">
-                    تصویری جهت نمایش وجود ندارد
-                </div>
-            </div>
+            <app-alert *ngIf="!imageAssets || imageAssets.length==0" AlertType="Error"
+                TextMessage="تصویری جهت نمایش وجود ندارد"></app-alert>
             <div *ngIf="imageAssets" class="row">
                 <ng-container *ngFor="let image of imageAssets | 
               paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: imageAssets.length}">

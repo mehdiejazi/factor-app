@@ -81,7 +81,7 @@ export class StoreListComponent implements OnInit {
             else {
 
               this.errorMessages = result.errorMessages;
-              this.errorMessages.forEach(x => alert(x));
+              //this.errorMessages.forEach(x => alert(x));
             }
 
             if (result.informationMessages !== null)

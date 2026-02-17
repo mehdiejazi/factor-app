@@ -1,3 +1,59 @@
 .bg-secondary-blue {
     background-color: #3949AB;
 }
+
+.layout-nav.fade {
+    transition: opacity .25s ease-out;
+}
+
+.layout-sidebar {
+    animation: sidebar-enter .2s ease-out both;
+}
+
+.layout-content {
+    transition: none;
+}
+
+.route-stage {
+    min-height: calc(100vh - 92px);
+}
+
+.route-stage.fade {
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity .16s ease-out, transform .16s ease-out;
+}
+
+.route-stage.fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .layout-nav.fade,
+    .layout-content,
+    .route-stage {
+        transition: none;
+        transform: none;
+    }
+
+    .route-stage.fade {
+        opacity: 1;
+    }
+
+    .layout-sidebar {
+        animation: none;
+    }
+}
+
+@keyframes sidebar-enter {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

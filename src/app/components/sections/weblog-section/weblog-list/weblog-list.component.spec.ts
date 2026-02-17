@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GridWeblogComponent } from './grid-weblog.component';
+import { WeblogListComponent } from './weblog-list.component';
 
-describe('GridWeblogComponent', () => {
-  let component: GridWeblogComponent;
-  let fixture: ComponentFixture<GridWeblogComponent>;
+describe('WeblogListComponent', () => {
+  let component: WeblogListComponent;
+  let fixture: ComponentFixture<WeblogListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GridWeblogComponent ]
+      declarations: [ WeblogListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GridWeblogComponent);
+    fixture = TestBed.createComponent(WeblogListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

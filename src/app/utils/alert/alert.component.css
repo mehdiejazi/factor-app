@@ -1,0 +1,55 @@
+.alert-shell {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 0.7rem;
+  background-color: var(--color-dark2);
+  color: var(--text-on-dark);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.16);
+  margin-bottom: 0.5rem;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  overflow: hidden;
+}
+
+.alert-shell.is-fading {
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+}
+
+.alert-shell .alert-message {
+  font-weight: 500;
+}
+
+.alert-shell mat-icon {
+  font-size: 1.2rem !important;
+}
+
+.alert-download {
+  border-inline-start: 4px solid #64b5f6;
+  background-image: linear-gradient(90deg, rgba(100, 181, 246, 0.18), rgba(49, 58, 51, 0.92));
+}
+
+.alert-info-tone {
+  border-inline-start: 4px solid #4fc3f7;
+  background-image: linear-gradient(90deg, rgba(79, 195, 247, 0.16), rgba(49, 58, 51, 0.92));
+}
+
+.alert-success-tone {
+  border-inline-start: 4px solid #66bb6a;
+  background-image: linear-gradient(90deg, rgba(102, 187, 106, 0.16), rgba(49, 58, 51, 0.92));
+}
+
+.alert-warning-tone {
+  border-inline-start: 4px solid #ffb74d;
+  background-image: linear-gradient(90deg, rgba(255, 183, 77, 0.2), rgba(49, 58, 51, 0.92));
+}
+
+.alert-error,
+.alert-danger-tone {
+  border-inline-start: 4px solid #ef5350;
+  background-image: linear-gradient(90deg, rgba(239, 83, 80, 0.18), rgba(49, 58, 51, 0.92));
+}
+
+.alert-shell .btn-close {
+  filter: invert(1) grayscale(1) brightness(1.8);
+  opacity: 0.75;
+}

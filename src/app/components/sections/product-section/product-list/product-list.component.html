@@ -1,4 +1,4 @@
-﻿<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+﻿<div class="app-list-toolbar">
     <button type="button" class="btn btn-success" (click)="onClickAddNew()">جدید</button>
 </div>
 
@@ -10,9 +10,9 @@
     <app-alert *ngIf="formSuccessful" [AlertType]="'Success'" [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
 </div>
 
-<div class="table-responsive" *ngIf="products?.length">
-    <table class="table table-hover table-sm bg-white align-middle">
-        <thead class="bg-secondary text-light">
+<div class="table-responsive app-list-table-wrap" *ngIf="products?.length">
+    <table class="table table-hover table-sm align-middle app-list-table">
+        <thead>
             <tr>
                 <th scope="col">نام</th>
                 <th scope="col">دسته بندی</th>
@@ -24,12 +24,12 @@
             @for (product of products; track product.id) {
             <tr>
                 <td class="fw-semibold">{{product.name}}</td>
-                <td><span class="badge bg-light text-dark border">{{product.category.name}}</span></td>
+                <td><span class="app-list-chip">{{product.category.name}}</span></td>
                 <td class="text-end">{{product.price | rial }}</td>
                 <td class="text-end">
-                    <div class="btn-group btn-group-sm">
-                        <button type="button" class="btn btn-outline-primary" (click)="onClickEdit(product)">ویرایش</button>
-                        <button type="button" class="btn btn-outline-danger" (click)="onClickDelete(product)">حذف</button>
+                    <div class="app-list-actions">
+                        <button type="button" class="btn btn-outline-primary btn-sm app-list-action" (click)="onClickEdit(product)">ویرایش</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm app-list-action" (click)="onClickDelete(product)">حذف</button>
                     </div>
                 </td>
             </tr>

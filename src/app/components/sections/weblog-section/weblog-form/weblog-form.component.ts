@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { SettingsService } from '../../../../services/settings.service';
@@ -11,11 +11,11 @@ import { PostCategory } from '../../../../models/post-category/post-category';
 import { PostCategorySelectModalComponent } from '../../post-category-section/post-category-select-modal/post-category-select-modal.component';
 
 @Component({
-  selector: 'app-form-weblog',
-  templateUrl: './form-weblog.component.html',
-  styleUrls: ['./form-weblog.component.css']
+  selector: 'app-weblog-form',
+  templateUrl: './weblog-form.component.html',
+  styleUrls: ['./weblog-form.component.css']
 })
-export class FormWeblogComponent implements OnInit {
+export class WeblogFormComponent implements OnInit {
 
   // public customOptions: OwlOptions;
 
@@ -144,7 +144,7 @@ export class FormWeblogComponent implements OnInit {
       return false;
     }
 
-    alert(22);
+    //alert(22);
     form.classList.add('was-validated');
     return true;
 
@@ -241,3 +241,4 @@ export class FormWeblogComponent implements OnInit {
   }
 
 }
+

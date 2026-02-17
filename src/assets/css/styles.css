@@ -124,3 +124,212 @@ body {
 .finger-cursor {
   cursor: pointer;
 }
+
+/* Unified list tables */
+.app-list-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.app-list-filters {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.app-list-filters .btn {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-on-dark);
+}
+
+.app-list-filters .btn:hover,
+.app-list-filters .btn-check:checked + .btn {
+  background-color: rgba(255, 255, 255, 0.14);
+  color: var(--text-on-dark);
+}
+
+.app-list-table-wrap {
+  border: 1px solid var(--surface-card-border);
+  border-radius: 0.8rem;
+  background-color: rgba(31, 36, 32, 0.74);
+  box-shadow: rgba(0, 0, 0, 0.2) 0 6px 16px;
+  overflow: hidden;
+}
+
+.app-list-table {
+  margin-bottom: 0;
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text-on-dark);
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.05);
+  --bs-table-border-color: rgba(255, 255, 255, 0.1);
+}
+
+.app-list-table thead th {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted-on-dark);
+  font-weight: 600;
+  border-bottom-color: var(--surface-card-border);
+  white-space: nowrap;
+}
+
+.app-list-table tbody td {
+  color: var(--text-on-dark);
+}
+
+.app-list-table a {
+  color: #b7f08c;
+  text-decoration: none;
+}
+
+.app-list-table a:hover {
+  color: #d8ffb7;
+  text-decoration: underline;
+}
+
+.app-list-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-on-dark);
+}
+
+.app-list-status--success {
+  background-color: rgba(76, 175, 80, 0.22);
+  border-color: rgba(76, 175, 80, 0.4);
+}
+
+.app-list-status--danger {
+  background-color: rgba(239, 83, 80, 0.22);
+  border-color: rgba(239, 83, 80, 0.4);
+}
+
+.app-list-status--primary {
+  background-color: rgba(79, 195, 247, 0.2);
+  border-color: rgba(79, 195, 247, 0.45);
+}
+
+.app-list-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.app-list-action.btn {
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.45rem;
+}
+
+.app-list-action.btn-outline-secondary,
+.app-list-action.btn-outline-primary,
+.app-list-action.btn-outline-danger,
+.app-list-action.btn-outline-light {
+  color: var(--text-on-dark);
+}
+
+.app-list-action.btn-outline-secondary {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.app-list-action.btn-outline-primary {
+  border-color: rgba(79, 195, 247, 0.55);
+}
+
+.app-list-action.btn-outline-danger {
+  border-color: rgba(239, 83, 80, 0.55);
+}
+
+.app-list-action.btn-outline-light {
+  border-color: rgba(255, 255, 255, 0.42);
+}
+
+.app-list-action.btn-outline-secondary:hover,
+.app-list-action.btn-outline-primary:hover,
+.app-list-action.btn-outline-danger:hover,
+.app-list-action.btn-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: var(--text-on-dark);
+}
+
+.app-list-menu-btn {
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  color: var(--text-on-dark) !important;
+}
+
+.app-list-menu-btn:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Unified dark modal theme */
+.modal-backdrop.show {
+  opacity: 0.72;
+}
+
+.modal-content {
+  border-radius: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(160deg, rgba(31, 36, 32, 0.98) 0%, rgba(38, 50, 56, 0.98) 100%);
+  color: var(--text-on-dark);
+  box-shadow: rgba(0, 0, 0, 0.45) 0 14px 28px;
+}
+
+.modal-header,
+.modal-body,
+.modal-footer {
+  background-color: transparent !important;
+  color: var(--text-on-dark) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+.modal-title {
+  color: var(--text-on-dark);
+  font-weight: 700;
+}
+
+.modal-header .btn-close {
+  filter: invert(1) grayscale(1);
+  opacity: 0.78;
+}
+
+.modal-header .btn-close:hover {
+  opacity: 1;
+}
+
+.modal-body .text-muted {
+  color: var(--text-muted-on-dark) !important;
+}
+
+.modal-body .form-control,
+.modal-body .form-select,
+.modal-body textarea,
+.modal-body input,
+.modal-body select {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: var(--text-on-dark);
+}
+
+.modal-body .form-control:focus,
+.modal-body .form-select:focus,
+.modal-body textarea:focus,
+.modal-body input:focus,
+.modal-body select:focus {
+  border-color: rgba(127, 134, 0, 0.78);
+  box-shadow: 0 0 0 0.2rem rgba(127, 134, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.12);
+  color: var(--text-on-dark);
+}
+
+.modal-body .form-control::placeholder {
+  color: rgba(241, 246, 242, 0.66);
+}
+
+.modal-footer .btn {
+  border-radius: 0.55rem;
+}

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterStateSnapshot } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
 import { SettingsService } from '../../../../services/settings.service';
-import { StoreSelectModalComponent } from '../../../sections/store-section/store-select-modal/store-select-modal.component';
 
 
 @Component({
@@ -18,7 +16,6 @@ export class NavBarComponent implements OnInit {
 
   public constructor(
     private _settingsService: SettingsService,
-    private _bsModalService: BsModalService,
     private _router:Router) {
 
     this.settings = _settingsService;
@@ -43,27 +40,6 @@ export class NavBarComponent implements OnInit {
   public sideBarClose() {
 
     this.settings.isSideBarOpen = !this.settings.isSideBarOpen;
-
-  }
-
-  public selectStore(){
-
-    const modal = this._bsModalService.show(StoreSelectModalComponent,
-      { class: 'modal-xl modal-dialog-centered modal-dialog' });
-
-    (<StoreSelectModalComponent>modal.content).showConfirmationModal();
-    (<StoreSelectModalComponent>modal.content).onClose.subscribe(result => {
-
-      if (result == true) {
-
-        let selectedStore = modal.content.selectedStore;
-        this.settings.setStore(selectedStore);
-
-        window.location.reload();
-
-      }
-
-    });
 
   }
 

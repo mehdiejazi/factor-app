@@ -1,4 +1,4 @@
-﻿<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+﻿<div class="app-list-toolbar">
     <button type="button" class="btn btn-success" (click)="onClickAddNew()">جدید</button>
 </div>
 
@@ -10,9 +10,9 @@
     <app-alert *ngIf="formSuccessful" [AlertType]="'Success'" [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
 </div>
 
-<div class="table-responsive" *ngIf="postCategories?.length">
-    <table class="table table-hover table-sm bg-white align-middle">
-        <thead class="bg-secondary text-light">
+<div class="table-responsive app-list-table-wrap" *ngIf="postCategories?.length">
+    <table class="table table-hover table-sm align-middle app-list-table">
+        <thead>
             <tr>
                 <th scope="col">نام</th>
                 <th scope="col" class="text-end">عملیات</th>
@@ -23,16 +23,9 @@
             <tr>
                 <td class="fw-semibold">{{cat.name}}</td>
                 <td class="text-end">
-                    <div class="btn-group btn-group-sm">
-                        <button type="button" class="btn btn-outline-secondary" (click)="onClickEdit(cat)">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button type="button" class="btn btn-outline-danger" (click)="onClickDelete(cat)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary">
-                            <mat-icon>view_headline</mat-icon>
-                        </button>
+                    <div class="app-list-actions">
+                        <button type="button" class="btn btn-outline-primary btn-sm app-list-action" (click)="onClickEdit(cat)">ویرایش</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm app-list-action" (click)="onClickDelete(cat)">حذف</button>
                     </div>
                 </td>
             </tr>
