@@ -1,6 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { LanguageService } from '../../../i18n/language.service';
 import { SettingsService } from '../../../services/settings.service';
 
 @Component({
@@ -17,7 +18,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   private _routerEventsSub: Subscription | null = null;
 
-  public constructor(private _settingsService: SettingsService, private _router: Router) {
+  public constructor(
+    private _settingsService: SettingsService,
+    private _router: Router,
+    public readonly languageService: LanguageService
+  ) {
     this.settingsService = _settingsService;
   }
 

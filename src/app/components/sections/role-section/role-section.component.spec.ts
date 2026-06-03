@@ -1,6 +1,13 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoleSectionComponent } from './role-section.component';
+
+@Component({ selector: 'app-role-list', template: '' })
+class MockRoleListComponent {}
+
+@Component({ selector: 'app-section-header', template: '' })
+class MockSectionHeaderComponent {}
 
 describe('RoleSectionComponent', () => {
   let component: RoleSectionComponent;
@@ -8,7 +15,11 @@ describe('RoleSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RoleSectionComponent]
+      declarations: [
+        RoleSectionComponent,
+        MockRoleListComponent,
+        MockSectionHeaderComponent
+      ]
     })
     .compileComponents();
 

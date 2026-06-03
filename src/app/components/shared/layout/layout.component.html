@@ -1,17 +1,21 @@
 <app-nav-bar class="fade layout-nav" [class.show]="navReady"></app-nav-bar>
 
-<div class="container-fluid ">
-  <div class="row" dir="ltr">
+<div class="layout-shell" [class.layout-shell--rtl]="languageService.isRtl" [class.layout-shell--ltr]="!languageService.isRtl">
+  <div
+    class="layout-main"
+    [class.layout-main--rtl]="languageService.isRtl"
+    [class.layout-main--ltr]="!languageService.isRtl"
+    [attr.dir]="languageService.direction">
+    <app-side-bar
+      *ngIf="settingsService.isSideBarOpen"
+      id="sidebar"
+      class="layout-sidebar bg-dark-color2"
+      [attr.dir]="languageService.direction"></app-side-bar>
 
-    <app-side-bar class="col-12 col-md-2 order-1 order-md-2 bg-dark-color2 layout-sidebar" id="sidebar" dir="rtl"
-      *ngIf="settingsService.isSideBarOpen"></app-side-bar>
-    <div class="pt-3 bg-dark my-content text-light layout-content order-2 order-md-1" dir="rtl"
-      [ngClass]="{'col-12 col-md-10': settingsService.isSideBarOpen,'col-12': !settingsService.isSideBarOpen}">
-
+    <div class="layout-content bg-dark text-light" [attr.dir]="languageService.direction">
       <div class="fade route-stage" [class.show]="routeReady">
         <router-outlet></router-outlet>
       </div>
-
     </div>
   </div>
 </div>

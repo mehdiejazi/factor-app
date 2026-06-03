@@ -95,13 +95,29 @@ mat-icon.small {
 }
 
 body {
-  direction: rtl;
-  text-align: right;
-  font-family: Vazir;
   font-weight: 300;
   color: var(--text-primary);
   height: 100%;
+}
 
+body.rtl {
+  direction: rtl;
+  text-align: right;
+  font-family: Vazir, sans-serif;
+}
+
+body.ltr {
+  direction: ltr;
+  text-align: left;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
 }
 
 .img-avatar {
@@ -332,4 +348,38 @@ body {
 
 .modal-footer .btn {
   border-radius: 0.55rem;
+}
+
+.ltr .btn-group > .btn-group:not(:first-child),
+.ltr .btn-group > :not(.btn-check:first-child) + .btn {
+  margin-right: 0;
+  margin-left: calc(-1 * var(--bs-border-width));
+}
+
+.ltr .btn-group > .btn-group:not(:last-child) > .btn,
+.ltr .btn-group > .btn.dropdown-toggle-split:first-child,
+.ltr .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+  border-top-left-radius: var(--bs-border-radius);
+  border-bottom-left-radius: var(--bs-border-radius);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.ltr .btn-group > .btn-group:not(:first-child) > .btn,
+.ltr .btn-group > .btn:nth-child(n+3),
+.ltr .btn-group > :not(.btn-check) + .btn {
+  border-top-right-radius: var(--bs-border-radius);
+  border-bottom-right-radius: var(--bs-border-radius);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.ltr .card,
+.ltr .table,
+.ltr .modal-content,
+.ltr .alert,
+.ltr .form-control,
+.ltr .form-select,
+.ltr .input-group-text {
+  text-align: left;
 }

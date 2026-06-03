@@ -1,13 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { LanguageService } from '../i18n/language.service';
 
 @Pipe({
-  name: 'rial'
+  name: 'rial',
+  pure: false
 })
 export class RialPipe implements PipeTransform {
-  private readonly rialLabel = 'ریال';
-  private readonly locale = 'fa-IR';
+  public constructor(private readonly languageService: LanguageService) {}
 
-  transform(value: number | string | null | undefined): string {
+  public transform(value: number | string | null | undefined): string {
     if (value === null || value === undefined || value === '') {
       return '';
     }
@@ -17,11 +18,13 @@ export class RialPipe implements PipeTransform {
       return '';
     }
 
-    const formattedValue = new Intl.NumberFormat(this.locale, {
+    const locale = this.languageService.currentLanguage === 'fa' ? 'fa-IR' : 'en-US';
+    const currencyLabel = this.languageService.currentLanguage === 'fa' ? 'ریال' : 'IRR';
+    const formattedValue = new Intl.NumberFormat(locale, {
       maximumFractionDigits: 0,
     }).format(Math.round(numericValue));
 
-    return `${formattedValue} ${this.rialLabel}`;
+    return `${formattedValue} ${currencyLabel}`;
   }
 
   private parseNumericValue(value: number | string): number {

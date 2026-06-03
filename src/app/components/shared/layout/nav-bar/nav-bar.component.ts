@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppLanguage, LanguageService } from '../../../../i18n/language.service';
 import { SettingsService } from '../../../../services/settings.service';
 
 
@@ -16,7 +17,8 @@ export class NavBarComponent implements OnInit {
 
   public constructor(
     private _settingsService: SettingsService,
-    private _router:Router) {
+    private _router: Router,
+    public readonly languageService: LanguageService) {
 
     this.settings = _settingsService;
 
@@ -41,6 +43,10 @@ export class NavBarComponent implements OnInit {
 
     this.settings.isSideBarOpen = !this.settings.isSideBarOpen;
 
+  }
+
+  public setLanguage(language: AppLanguage): void {
+    this.languageService.setLanguage(language);
   }
 
 }

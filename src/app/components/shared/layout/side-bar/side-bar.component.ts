@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { LanguageService } from '../../../../i18n/language.service';
 import { SettingsService } from '../../../../services/settings.service';
 import { SideMenuItem, SideMenuService } from '../../../../services/side-menu.service';
 import { Store } from '../../../../interfaces/store/store';
@@ -23,7 +24,8 @@ export class SideBarComponent implements OnInit {
   public constructor(
     private _settingsService: SettingsService,
     private _sideMenuService: SideMenuService,
-    private _bsModalService: BsModalService) {
+    private _bsModalService: BsModalService,
+    public readonly languageService: LanguageService) {
     this.settings = _settingsService;
     this.menuItems = _sideMenuService.items;
   }

@@ -22,6 +22,8 @@ import { WeblogFormComponent } from './components/sections/weblog-section/weblog
 import { WeblogViewComponent } from './components/sections/weblog-section/weblog-view/weblog-view.component';
 import { PostCategorySectionComponent } from './components/sections/post-category-section/post-category-section.component';
 import { InvoiceViewComponent } from './components/sections/invoice-view/invoice-view.component';
+import { StorePublicComponent } from './components/store-public/store-public.component';
+import { RoleSectionComponent } from './components/sections/role-section/role-section.component';
 
 
 const routes: Routes = [

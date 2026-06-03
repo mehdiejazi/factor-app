@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppLanguage, LanguageService } from './i18n/language.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'factor-app';
+  public constructor(public readonly languageService: LanguageService) {}
+
+  public setLanguage(language: AppLanguage): void {
+    this.languageService.setLanguage(language);
+  }
 }

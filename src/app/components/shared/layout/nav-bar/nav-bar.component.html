@@ -1,42 +1,38 @@
-<!-- bg-dark-color1 -->
-<nav class="navbar sticky-top bg-gradient navbar-expand-lg navbar-dark py-2 nav-enter">
-    <div class="d-flex align-items-center">
-        <a class="text-white px-3 pt-1 finger-pointer" (click)="sideBarClose()">
-            <mat-icon>menu</mat-icon>
-        </a>
-        <a href="#" class="navbar-brand mb-0 ms-0 pe-5 py-2 h3 d-flex align-items-center">
-            <!-- <img src="images/logo-app.png" height="32" width="32" /> -->
-            <mat-icon>av_timer</mat-icon>
-            <span class="ms-2">فاکتورنو</span>
-        </a>
+<nav class="app-navbar bg-gradient nav-enter" [attr.dir]="languageService.direction">
+  <div class="app-navbar__group app-navbar__group--brand">
+    <button type="button" class="app-navbar__icon-button" (click)="sideBarClose()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <a href="#" class="app-navbar__brand">
+      <mat-icon>av_timer</mat-icon>
+      <span>فاکتورنو</span>
+    </a>
+  </div>
+
+  <div class="app-navbar__group app-navbar__group--actions">
+    <div class="app-language-switcher" data-localization-skip="true">
+      <button
+        type="button"
+        class="app-language-switcher__button"
+        [class.app-language-switcher__button--active]="languageService.currentLanguage === 'fa'"
+        (click)="setLanguage('fa')">
+        فارسی
+      </button>
+      <button
+        type="button"
+        class="app-language-switcher__button"
+        [class.app-language-switcher__button--active]="languageService.currentLanguage === 'en'"
+        (click)="setLanguage('en')">
+        English
+      </button>
     </div>
 
-    <div class="collapse navbar-collapse">
-        <div class="me-2 ms-auto">
-            <button class="btn btn-sm btn-danger me-2" (click)="onClickLogout()">
-                خروج
-            </button>
+    <button type="button" class="app-navbar__logout" (click)="onClickLogout()">
+      خروج
+    </button>
 
-            <img *ngIf="!settings.getUser().avatar" src="assets/images/noavatar.png" class="img-avatar rounded-circle">
-            <img *ngIf="settings.getUser().avatar" [lazyLoad]="settings.getUser().avatar.url" class="img-avatar rounded-circle">
-        </div>
-    </div>
+    <img *ngIf="!settings.getUser().avatar" src="assets/images/noavatar.png" class="img-avatar rounded-circle">
+    <img *ngIf="settings.getUser().avatar" [lazyLoad]="settings.getUser().avatar.url" class="img-avatar rounded-circle">
+  </div>
 </nav>
-<!-- 
-<ng-template #popme>
-    <div class="card mb-3" style="max-width: 540px;">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="..." class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                        additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</ng-template> -->
