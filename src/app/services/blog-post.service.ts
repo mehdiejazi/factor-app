@@ -138,7 +138,8 @@ export class BlogPostService {
 
       if (result.isSuccessful) {
 
-        result.data.coverImage.url = this._settingsService.baseUrl + result.data.coverImage.url;
+        if (result.data.coverImageId)
+          result.data.coverImage.url = this._settingsService.baseUrl + result.data.coverImage.url;
 
         result.data.images.forEach(img => {
           img.url = this._settingsService.baseUrl + img.url;

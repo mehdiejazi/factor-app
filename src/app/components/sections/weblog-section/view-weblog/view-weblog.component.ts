@@ -37,7 +37,7 @@ export class ViewWeblogComponent implements OnInit {
           result => {
 
             this.blogPost = result.data;
-            
+            alert(this.blogPost.id);
           },
           error => {
 

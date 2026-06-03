@@ -10,7 +10,7 @@
                 </p>
             </div>
         </div>
-        {{blogPost.coverImage.fileName}}
+        <!-- {{blogPost.coverImage.fileName}} -->
         <div *ngIf="!blogPost.coverImage">
             <div>
                 <p class="h2 mt-4">
@@ -21,8 +21,8 @@
 
 
         <div class="ms-3 mt-3 d-flex align-items-center">
-            <img *ngIf="!blogPost.owner?.avatar" src="assets/images/noavatar.png" class="rounded-circle img-post-metadata me-2">
-            <img *ngIf="blogPost.owner" [lazyLoad]="blogPost.owner.avatar.url"
+            <img *ngIf="!blogPost.owner.avatar" src="assets/images/noavatar.png" class="rounded-circle img-post-metadata me-2">
+            <img *ngIf="blogPost.owner.avatar" [lazyLoad]="blogPost.owner.avatar.url"
                 class="rounded-circle img-post-metadata me-2">
             <div class="me-2">{{blogPost.owner?.fullName}}</div>
             <div class="me-2">{{blogPost.publishDateTime}}</div>

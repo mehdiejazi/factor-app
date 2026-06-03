@@ -1,7 +1,12 @@
 .img-post-header {
-    -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0.2)));
-    mask-image: gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0.2)));
-  
+    -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgb(255, 255, 255)), to(rgba(0, 0, 0, 0.2)));
+    mask-image: gradient(linear, left top, left bottom, from(rgb(255, 255, 255)), to(rgba(0, 0, 0, 0.2)));
+
     object-fit: cover;
     height: 400px;
   }
+
+.img-post-metadata{
+  width: 32px;
+  height: 32px;
+}

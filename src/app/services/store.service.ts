@@ -203,9 +203,19 @@ export class StoreService {
   }
 
   public getByStoreEnglishNameAsync(storeEnglishName: string): Observable<HttpRequestResultT<Store>> {
-    let url = `${this._baseUrl}/GetByStoreEnglishNameAsync?storeEnglishName=${storeEnglishName}`;
+    const escapedStoreEnglishName = encodeURIComponent(storeEnglishName);
+    let url = `${this._baseUrl}/GetByStoreEnglishNameAsync?storeEnglishName=${escapedStoreEnglishName}`;
 
     let response = this._httpClient.get<HttpRequestResultT<Store>>(url).pipe(map(result => {
+      if (result?.data?.logo?.url) {
+        const logoUrl = result.data.logo.url;
+        if (!logoUrl.startsWith('http://') && !logoUrl.startsWith('https://')) {
+          result.data.logo.url = logoUrl.startsWith('/')
+            ? `${this._settingsService.baseUrl}${logoUrl}`
+            : `${this._settingsService.baseUrl}/${logoUrl}`;
+        }
+      }
+
       if (result.errorMessages !== undefined)
         for (let i = 0; i < result.errorMessages.length; i++) {
 

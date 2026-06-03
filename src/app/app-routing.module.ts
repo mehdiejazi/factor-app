@@ -21,9 +21,11 @@ import { FormWeblogComponent } from './components/sections/weblog-section/form-w
 import { ViewWeblogComponent } from './components/sections/weblog-section/view-weblog/view-weblog.component';
 import { PostCategorySectionComponent } from './components/sections/post-category-section/post-category-section.component';
 import { InvoiceViewComponent } from './components/sections/invoice-view/invoice-view.component';
+import { StorePublicComponent } from './components/store-public/store-public.component';
 
 
 const routes: Routes = [
+  { path: 's/:storeEnglishName', component: StorePublicComponent },
   {
     path: '', component: LayoutComponent, canActivate: [AuthGuard],
     children: [
