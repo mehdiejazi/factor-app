@@ -1,0 +1,62 @@
+﻿<div class="mb-3">
+    <app-alert *ngIf="!error?.message && !blogPosts" AlertType="Download" TextMessage="در حال واکشی اطلاعات ..."></app-alert>
+    <app-alert *ngIf="error?.message" AlertType="Error" TextMessage="خطا در واکشی اطلاعات"></app-alert>
+</div>
+
+<div class="table-responsive app-list-table-wrap" *ngIf="blogPosts?.length">
+    <table class="table table-hover table-sm align-middle app-list-table">
+        <thead>
+            <tr>
+                <th scope="col">عنوان</th>
+                <th scope="col">نمایش</th>
+                <th scope="col">امتیاز</th>
+                <th scope="col">انتشار</th>
+                <th scope="col">داغ</th>
+                <th scope="col">امتیازدهی</th>
+                <th scope="col">تاریخ ثبت</th>
+                <th scope="col">تاریخ انتشار</th>
+                <th scope="col">تاریخ بروزرسانی</th>
+                <th scope="col" class="text-end">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let blogPost of blogPosts">
+                <td class="fw-semibold">{{ blogPost.title }}</td>
+                <td>{{ blogPost.visitCount | persianNumber }}</td>
+                <td>{{ blogPost.starRate | persianNumber }}</td>
+                <td>
+                    <span class="app-list-chip" [ngClass]="blogPost.isPublished ? 'app-list-status--success' : 'app-list-status--danger'">
+                        {{ blogPost.isPublished ? 'منتشر شده' : 'پیش نویس' }}
+                    </span>
+                </td>
+                <td>
+                    <span class="app-list-chip" [ngClass]="blogPost.isHot ? 'app-list-status--danger' : ''">
+                        {{ blogPost.isHot ? 'بله' : 'خیر' }}
+                    </span>
+                </td>
+                <td>
+                    <span class="app-list-chip" [ngClass]="blogPost.isStarRatingEnabled ? 'app-list-status--primary' : ''">
+                        {{ blogPost.isStarRatingEnabled ? 'فعال' : 'غیرفعال' }}
+                    </span>
+                </td>
+                <td>{{ blogPost.insertDateTime }}</td>
+                <td>{{ blogPost.publishDateTime }}</td>
+                <td>{{ blogPost.updateDateTime }}</td>
+                <td class="text-end">
+                    <div class="app-list-actions flex-wrap justify-content-end">
+                        <button type="button" class="btn btn-outline-light btn-sm app-list-action" (click)="viewPost(blogPost)">نمایش</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm app-list-action" (click)="editPost(blogPost)">ویرایش</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm app-list-action" (click)="toggleIsPublished(blogPost)">
+                            {{ blogPost.isPublished ? 'عدم انتشار' : 'انتشار' }}
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm app-list-action" (click)="toggleIsHot(blogPost)">
+                            {{ blogPost.isHot ? 'حذف داغ' : 'داغ کردن' }}
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<app-alert *ngIf="blogPosts && blogPosts.length === 0 && !error?.message" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>

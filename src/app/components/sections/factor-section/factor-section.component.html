@@ -8,9 +8,7 @@
     </div>
 
     <div *ngIf="!settings.getStore().id" class="row">
-        <div class="alert alert-info pb-3">
-            لطفا یک فروشگاه را انتخاب نمایید
-        </div>
+        <app-alert AlertType="Info" TextMessage="لطفا یک فروشگاه را انتخاب نمایید"></app-alert>
     </div>
 
 </div>

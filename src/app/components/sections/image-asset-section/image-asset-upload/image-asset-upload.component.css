@@ -1,0 +1,61 @@
+.gallery-upload-card {
+  border: 1px dashed rgba(255, 255, 255, 0.28);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.gallery-upload-header h6 {
+  color: var(--text-on-dark);
+  font-weight: 700;
+}
+
+.gallery-upload-header p {
+  color: var(--text-muted-on-dark);
+  font-size: 0.85rem;
+}
+
+.gallery-upload-controls .form-label {
+  color: var(--text-on-dark);
+}
+
+.gallery-upload-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.gallery-upload-actions .form-control {
+  flex: 1;
+  min-width: 220px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-on-dark);
+}
+
+.gallery-upload-actions .form-control::file-selector-button {
+  border: none;
+  background-color: rgba(255, 255, 255, 0.12);
+  color: var(--text-on-dark);
+  padding: 0.3rem 0.7rem;
+  margin-left: 0.5rem;
+  border-radius: 0.35rem;
+}
+
+.gallery-upload-actions .btn {
+  min-width: 110px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-upload-file {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--text-muted-on-dark);
+}
+
+@media (max-width: 576px) {
+  .gallery-upload-actions .btn {
+    width: 100%;
+  }
+}

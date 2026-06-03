@@ -1,46 +1,27 @@
-<div class="card mb-3 p-2">
-    <div class="row">
+<div class="card gallery-upload-card">
+    <div class="card-body">
+        <div class="gallery-upload-header mb-3">
+            <h6 class="mb-1">بارگذاری تصویر جدید</h6>
+            <p class="mb-0">برای افزودن تصویر، فایل را انتخاب و بارگذاری کنید.</p>
+        </div>
 
-        <div class="col-12 py-3 px-4">
+        <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error" [TextMessage]="errorMessage"></app-alert>
+        <app-alert *ngFor="let warningMessage of warningMessages" AlertType="Warning" [TextMessage]="warningMessage"></app-alert>
+        <app-alert *ngFor="let informationMessage of informationMessages" AlertType="Info" [TextMessage]="informationMessage"></app-alert>
+        <app-alert class="mb-3" *ngIf="formSuccessful" AlertType="Success" TextMessage="اطلاعات با موفقیت ثبت گردید"></app-alert>
+        <app-alert *ngIf="error?.message" AlertType="Error" TextMessage="خطا در بارگذاری اطلاعات"></app-alert>
 
-            <div *ngIf="errorMessages?.length>0" class="alert alert-danger mb-3">
-                <div *ngFor="let errorMessage of errorMessages">
-                    {{ errorMessage }}
-                </div>
+        <div class="gallery-upload-controls">
+            <label class="form-label mb-2">انتخاب تصویر</label>
+            <div class="gallery-upload-actions">
+                <input #fileUpload type="file" class="form-control" accept="image/*" aria-label="upload image"
+                    (change)="onChange($event)">
+                <button class="btn btn-success" type="button" [disabled]="!file" (click)="onUpload()">
+                    <mat-icon class="small me-1">cloud_upload</mat-icon>
+                    بارگذاری
+                </button>
             </div>
-
-            <div *ngIf="warningMessages?.length>0" class="alert alert-warning mb-3">
-                <div *ngFor="let warningMessage of warningMessages">
-                    {{ warningMessage }}
-                </div>
-            </div>
-
-            <div *ngIf="informationMessages?.length>0" class="alert alert-info mb-3">
-                <div *ngFor="let informationMessage of informationMessages">
-                    {{ informationMessage }}
-                </div>
-            </div>
-
-            <app-alert class="mb-3" *ngIf="formSuccessful" [AlertType]="'Success'"
-                [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
-
-            <div *ngIf="error?.message" class="alert alert-danger pb-3 d-flex align-items-center">
-                <mat-icon>error</mat-icon>
-                <div class="ms-2">
-                    خطا در بارگذاری اطلاعات
-                </div>
-            </div>
-
-            <p>تصویر موردنظر را انتخاب کنید:</p>
-
-            <div class="mb-3">
-                <input #fileUpload type="file" class="form-control" aria-label="آپلود تصویر" (change)="onChange($event)">
-            </div>
-
-            <div>
-                <button class="btn btn-primary" type="submit" (click)="onUpload()">بارگذاری</button>
-            </div>
-
+            <small class="gallery-upload-file" *ngIf="file">فایل انتخاب‌شده: {{ file.name }}</small>
         </div>
     </div>
 </div>

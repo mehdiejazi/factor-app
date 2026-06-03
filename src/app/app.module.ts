@@ -14,9 +14,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './interceptors/jwt-interceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardSectionComponent } from './components/sections/dashboard-section/dashboard-section.component';
-import { LayoutComponent } from './components/layout/layout.component';
-import { NavBarComponent } from './components/layout/nav-bar/nav-bar.component';
-import { SideBarComponent } from './components/layout/side-bar/side-bar.component';
+import { LayoutComponent } from './components/shared/layout/layout.component';
+import { NavBarComponent } from './components/shared/layout/nav-bar/nav-bar.component';
+import { SideBarComponent } from './components/shared/layout/side-bar/side-bar.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { StoreSectionComponent } from './components/sections/store-section/store-section.component';
 import { StoreListComponent } from './components/sections/store-section/store-list/store-list.component';
@@ -58,17 +58,16 @@ import { NgPersianDatepickerModule } from 'ng-persian-datepicker';
 import { FactorDetailComponent } from './components/sections/factor-section/factor-detail/factor-detail.component';
 import { FactorItemFormModalComponent } from './components/sections/factor-section/factor-item-form-modal/factor-item-form-modal.component';
 import { WeblogSectionComponent } from './components/sections/weblog-section/weblog-section.component';
-import { FormWeblogComponent } from './components/sections/weblog-section/form-weblog/form-weblog.component';
-import { GridWeblogComponent } from './components/sections/weblog-section/grid-weblog/grid-weblog.component';
-import { ViewWeblogComponent } from './components/sections/weblog-section/view-weblog/view-weblog.component';
+import { WeblogFormComponent } from './components/sections/weblog-section/weblog-form/weblog-form.component';
+import { WeblogListComponent } from './components/sections/weblog-section/weblog-list/weblog-list.component';
+import { WeblogViewComponent } from './components/sections/weblog-section/weblog-view/weblog-view.component';
 import { PostCategorySectionComponent } from './components/sections/post-category-section/post-category-section.component';
 import { PostCategoryListComponent } from './components/sections/post-category-section/post-category-list/post-category-list.component';
 import { PostCategoryFormModalComponent } from './components/sections/post-category-section/post-category-form-modal/post-category-form-modal.component';
 import { PostCategorySelectModalComponent } from './components/sections/post-category-section/post-category-select-modal/post-category-select-modal.component';
-import { SectionHeaderComponent } from './components/shared/section-header/section-header.component';
+import { SectionHeaderComponent } from './components/shared/layout/section-header/section-header.component';
 import { InvoiceViewComponent } from './components/sections/invoice-view/invoice-view.component';
 import { WeblogComponent } from './components/weblog/weblog.component';
-import { StorePublicComponent } from './components/store-public/store-public.component';
 
 @NgModule({
   declarations: [
@@ -118,9 +117,9 @@ import { StorePublicComponent } from './components/store-public/store-public.com
     FactorDetailComponent,
     FactorItemFormModalComponent,
     WeblogSectionComponent,
-    FormWeblogComponent,
-    GridWeblogComponent,
-    ViewWeblogComponent,
+    WeblogFormComponent,
+    WeblogListComponent,
+    WeblogViewComponent,
     PostCategorySectionComponent,
     PostCategoryListComponent,
     PostCategoryFormModalComponent,
@@ -128,7 +127,6 @@ import { StorePublicComponent } from './components/store-public/store-public.com
     SectionHeaderComponent,
     InvoiceViewComponent,
     WeblogComponent,
-    StorePublicComponent,
   ],
   imports: [
     BrowserModule,

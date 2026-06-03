@@ -1,131 +1,142 @@
-<div class="row" class="mb-4">
-    <div class="col">
-        <div class="mb-2">
-            <button type="button" *ngIf="!factor?.isClosed" class="btn btn-success me-1">بستن فاکتور</button>
-            <button type="button" class="btn btn-success me-1">حذف</button>
-        </div>
-    </div>
-</div>
+<div class="factor-detail-page">
+    <div class="card factor-top-card mb-3">
+        <div class="card-body factor-top-body">
+            <div class="factor-title-wrap">
+                <h4 class="factor-title mb-1">جزئیات فاکتور</h4>
+                <p class="factor-subtitle mb-0">مدیریت اقلام، تخفیف‌ها و وضعیت نهایی فاکتور</p>
+            </div>
 
+            <div class="factor-header-actions">
+                <span *ngIf="factor?.isClosed" class="app-list-chip app-list-status--danger">بسته شده</span>
+                <span *ngIf="factor && !factor?.isClosed" class="app-list-chip app-list-status--success">باز</span>
 
-<div class="row" class="mb-4">
-    <div class="col">
-        <app-alert *ngIf="!errorMessages && !factor" AlertType="Download"
-            TextMessage="در حال واکشی اطلاعات ..."></app-alert>
-        <!-- <app-alert *ngIf="error?.message" [AlertType]="'Error'" [TextMessage]="'خطا در واکشی اطلاعات'"></app-alert> -->
-        <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'"
-            [TextMessage]="errorMessage"></app-alert>
-        <app-alert *ngIf="factor?.id==''" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
-        {{factor?.isClosed}}
-        <app-alert *ngIf="factor?.isClosed" AlertType="Warning" TextMessage="این فاکتور بسته شده است"></app-alert>
-
-        <app-alert *ngIf="formSuccessful" [AlertType]="'Success'"
-            [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
-
-    </div>
-</div>
-
-<div class="row mb-3" *ngIf="factor">
-    <div class="col">
-        <div class="card">
-            <div class="card-body">
-                <div class="px-md-2">
-                    <div class="row row-hover pt-3 border-top">
-                        <div class="col-md-2">
-                            <p>مشتری:</p>
-                        </div>
-                        <div class="col-md-2">
-                            <p class="ms-1 fw-bold">{{factor.owner.fullName}}</p>
-                        </div>
-                        <div class="col-md-2">
-
-                        </div>
-                    </div>
-
-                    <div class="row row-hover pt-3 border-top">
-                        <div class="col-md-2">
-                            <p>تاریخ فروش:</p>
-                        </div>
-                        <div class="col-md-2">
-                            <p class="ms-1 fw-bold">{{factor.sellDateTime}}</p>
-                        </div>
-                        <div class="col-md-2">
-                            <p>تاریخ ثبت:</p>
-                        </div>
-                        <div class="col-md-2">
-                            <p class="ms-1 fw-bold">{{factor.insertDateTime}}</p>
-                        </div>
-                        <div class="col-md-2" *ngIf="factor.isDeleted">
-                            <p>تاریخ حذف:</p>
-                        </div>
-                        <div class="col-md-2" *ngIf="factor.isDeleted">
-                            <p class="ms-1 fw-bold">{{factor.deleteDateTime}}</p>
-                        </div>
-                    </div>
-
-                    <div class="row row-hover pt-3 border-top border-bottom">
-                        <div class="col-md-2">
-                            <p>توضیحات:</p>
-                        </div>
-                        <div class="col-md-2">
-                            <p class="ms-1 fw-bold">{{factor.description}}</p>
-                        </div>
-                    </div>
-
-                </div>
+                <button type="button" *ngIf="!factor?.isClosed" class="btn btn-success btn-sm" (click)="onClickCloseFactor()">
+                    <mat-icon class="small me-1">task_alt</mat-icon>
+                    بستن فاکتور
+                </button>
+                <button type="button" *ngIf="factor" class="btn btn-danger btn-sm" (click)="onClickDeleteFactor()">
+                    <mat-icon class="small me-1">delete</mat-icon>
+                    حذف فاکتور
+                </button>
             </div>
         </div>
     </div>
-</div>
-<div class="col">
-    <div class="mb-2">
-        <button type="button" *ngIf="!factor?.isClosed" class="btn btn-success me-1" (click)="onClickAddNew()">آیتم جدید</button>
+
+    <div class="mb-3">
+        <app-alert *ngIf="!errorMessages?.length && !factor" AlertType="Download" TextMessage="در حال واکشی اطلاعات ..."></app-alert>
+        <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error" [TextMessage]="errorMessage"></app-alert>
+        <app-alert *ngIf="factor?.id == ''" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
+        <app-alert *ngIf="factor?.isClosed" AlertType="Warning" TextMessage="این فاکتور بسته شده است و امکان ویرایش ندارد"></app-alert>
+        <app-alert *ngIf="formSuccessful" AlertType="Success" TextMessage="اطلاعات با موفقیت ثبت گردید"></app-alert>
     </div>
-</div>
 
-<div class="row" *ngIf="!factor?.factorItems || factor.factorItems?.length==0">
-    <app-alert AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
-</div>
-
-<div class="row" *ngIf="factor?.factorItems?.length">
-
-    <div class="col-md-4" *ngFor="let item of factor.factorItems">
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title mb-3 d-flex">
-                    <span class="w-100"> {{item.product?.name}}</span>
-
-                    <div class="flex-shrink-1 d-flex align-items-center">
-
-                        <mat-icon *ngIf="!factor?.isClosed" class="me-1 finger-cursor"
-                            (click)="onClickIncQuantity(item)">add_circle</mat-icon>
-                        <span class="badge bg-gradient me-1">{{item.quantity | persianNumber}}</span>
-                        <mat-icon *ngIf="!factor?.isClosed" class="finger-cursor"
-                            (click)="onClickDecQuantity(item)">do_not_disturb_on</mat-icon>
-
+    <div class="card mb-3" *ngIf="factor">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="factor-summary-box">
+                        <span class="factor-summary-label">مشتری</span>
+                        <strong class="factor-summary-value">{{ factor.owner?.fullName || '-' }}</strong>
                     </div>
-                </h5>
-                <p class="card-text mb-2">{{item.description}}</p>
-
-                <div class="card-text d-flex justify-content-around">
-                    <div class="card-text">تخفیف: {{item.offPercent | persianNumber}}%</div>
-                    <div class="card-text">قیمت: {{item.price | rial}}</div>
                 </div>
 
-
-            </div>
-            <div class=" d-flex justify-content-center bg-success py-2">
-                <mat-icon class="me-2">payments</mat-icon>
-                قیمت نهایی: {{(item.price * item.quantity) *
-                (1 - item.offPercent / 100) | rial}}
-            </div>
-            <div class="card-footer text-light fw-bold d-flex" *ngIf="!factor?.isClosed">
-                <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-outline-primary btn-sm me-1"
-                        (click)="onClickEdit(item)">ویرایش</button>
-                    <button type="button" class="btn btn-outline-danger btn-sm me-1"
-                        (click)="onClickDelete(item)">حذف</button>
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="factor-summary-box">
+                        <span class="factor-summary-label">تاریخ فروش</span>
+                        <strong class="factor-summary-value">{{ factor.sellDateTime || '-' }}</strong>
+                    </div>
                 </div>
+
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="factor-summary-box">
+                        <span class="factor-summary-label">تاریخ ثبت</span>
+                        <strong class="factor-summary-value">{{ factor.insertDateTime || '-' }}</strong>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-3" *ngIf="factor.isDeleted">
+                    <div class="factor-summary-box">
+                        <span class="factor-summary-label">تاریخ حذف</span>
+                        <strong class="factor-summary-value">{{ factor.deleteDateTime || '-' }}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="factor-description mt-3">
+                <span class="factor-summary-label">توضیحات</span>
+                <p class="mb-0">{{ factor.description || 'توضیحی ثبت نشده است' }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" *ngIf="factor">
+        <div class="card-body">
+            <div class="factor-items-head mb-3">
+                <h5 class="mb-0">آیتم‌های فاکتور</h5>
+                <button type="button" *ngIf="!factor?.isClosed" class="btn btn-success btn-sm" (click)="onClickAddNew()">
+                    <mat-icon class="small me-1">add</mat-icon>
+                    افزودن آیتم
+                </button>
+            </div>
+
+            <app-alert *ngIf="!factor?.factorItems || factor.factorItems?.length == 0" AlertType="Info"
+                TextMessage="برای این فاکتور هنوز آیتمی ثبت نشده است"></app-alert>
+
+            <div class="table-responsive app-list-table-wrap" *ngIf="factor?.factorItems?.length">
+                <table class="table table-hover table-sm align-middle app-list-table factor-items-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">محصول</th>
+                            <th scope="col">توضیحات</th>
+                            <th scope="col" class="text-center">تعداد</th>
+                            <th scope="col">تخفیف</th>
+                            <th scope="col">قیمت واحد</th>
+                            <th scope="col">مبلغ نهایی</th>
+                            <th scope="col" class="text-end">عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of factor.factorItems; trackBy: trackFactorItem">
+                            <td class="fw-semibold">{{ item.product?.name || '-' }}</td>
+                            <td class="factor-muted">{{ item.description || '-' }}</td>
+                            <td class="text-center">
+                                <div class="factor-qty-control">
+                                    <button type="button" class="btn btn-outline-light btn-sm factor-qty-btn"
+                                        *ngIf="!factor?.isClosed" (click)="onClickDecQuantity(item)">
+                                        <mat-icon class="small">remove</mat-icon>
+                                    </button>
+                                    <span class="factor-qty-badge">{{ (item.quantity || 0) | persianNumber }}</span>
+                                    <button type="button" class="btn btn-outline-light btn-sm factor-qty-btn"
+                                        *ngIf="!factor?.isClosed" (click)="onClickIncQuantity(item)">
+                                        <mat-icon class="small">add</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>{{ (item.offPercent || 0) | persianNumber }}%</td>
+                            <td>{{ (item.price || 0) | rial }}</td>
+                            <td class="fw-bold">{{ getItemFinalPrice(item) | rial }}</td>
+                            <td class="text-end">
+                                <div class="app-list-actions" *ngIf="!factor?.isClosed">
+                                    <button type="button" class="btn btn-outline-primary btn-sm app-list-action"
+                                        (click)="onClickEdit(item)">ویرایش</button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm app-list-action"
+                                        (click)="onClickDelete(item)">حذف</button>
+                                </div>
+                                <span *ngIf="factor?.isClosed" class="factor-muted">فاکتور بسته است</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="fw-semibold">جمع کل</td>
+                            <td class="text-center">{{ getTotalQuantity() | persianNumber }}</td>
+                            <td>تخفیف کل</td>
+                            <td>{{ getTotalDiscount() | rial }}</td>
+                            <td class="fw-bold">{{ getTotalFinalPrice() | rial }}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>

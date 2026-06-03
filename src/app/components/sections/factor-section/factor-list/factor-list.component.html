@@ -1,17 +1,17 @@
-﻿<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+﻿<div class="app-list-toolbar">
     <button type="button" class="btn btn-success" (click)="onClickAddNew()">جدید</button>
-    <div class="btn-group btn-group-sm" role="group" *ngIf="factors?.length > 0">
+    <div class="btn-group btn-group-sm app-list-filters" role="group" *ngIf="factors?.length > 0">
         <input type="radio" class="btn-check" (click)="filter('all')" name="filterStatus" id="factorFilterAll"
             autocomplete="off" checked>
-        <label class="btn btn-outline-secondary" for="factorFilterAll">همه</label>
+        <label class="btn" for="factorFilterAll">همه</label>
 
         <input type="radio" class="btn-check" (click)="filter('not deleted')" name="filterStatus" id="factorFilterActive"
             autocomplete="off">
-        <label class="btn btn-outline-secondary" for="factorFilterActive">حذف نشده</label>
+        <label class="btn" for="factorFilterActive">حذف نشده</label>
 
         <input type="radio" class="btn-check" (click)="filter('deleted')" name="filterStatus" id="factorFilterDeleted"
             autocomplete="off">
-        <label class="btn btn-outline-secondary" for="factorFilterDeleted">حذف شده</label>
+        <label class="btn" for="factorFilterDeleted">حذف شده</label>
     </div>
 </div>
 
@@ -23,9 +23,9 @@
     <app-alert *ngIf="formSuccessful" [AlertType]="'Success'" [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
 </div>
 
-<div class="table-responsive" *ngIf="filterFactors?.length">
-    <table class="table table-hover table-sm bg-white align-middle">
-        <thead class="bg-secondary text-light">
+<div class="table-responsive app-list-table-wrap" *ngIf="filterFactors?.length">
+    <table class="table table-hover table-sm align-middle app-list-table">
+        <thead>
             <tr>
                 <th scope="col">توضیحات</th>
                 <th scope="col">وضعیت</th>
@@ -37,23 +37,15 @@
             <tr>
                 <td class="fw-semibold">{{factor.description}}</td>
                 <td>
-                    <span *ngIf="factor.isDeleted" class="badge bg-danger">حذف شده</span>
-                    <span *ngIf="!factor.isDeleted" class="badge bg-success">فعال</span>
+                    <span *ngIf="factor.isDeleted" class="app-list-chip app-list-status--danger">حذف شده</span>
+                    <span *ngIf="!factor.isDeleted" class="app-list-chip app-list-status--success">فعال</span>
                 </td>
                 <td class="text-end">
-                    <div class="btn-group btn-group-sm" *ngIf="factor.isDeleted == false">
-                        <button type="button" class="btn btn-outline-secondary" (click)="onClickEdit(factor)">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button type="button" class="btn btn-outline-danger" (click)="onClickDelete(factor)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" (click)="onClickDetail(factor)">
-                            <mat-icon>view_headline</mat-icon>
-                        </button>
-                        <button type="button" class="btn btn-outline-primary" (click)="onClickViewInvoice(factor)" title="نمایش فاکتور">
-                            <mat-icon>print</mat-icon>
-                        </button>
+                    <div class="app-list-actions" *ngIf="factor.isDeleted == false">
+                        <button type="button" class="btn btn-outline-primary btn-sm app-list-action" (click)="onClickEdit(factor)">ویرایش</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm app-list-action" (click)="onClickDelete(factor)">حذف</button>
+                        <button type="button" class="btn btn-outline-light btn-sm app-list-action" (click)="onClickDetail(factor)">جزئیات</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm app-list-action" (click)="onClickViewInvoice(factor)" title="نمایش فاکتور">چاپ</button>
                     </div>
                 </td>
             </tr>

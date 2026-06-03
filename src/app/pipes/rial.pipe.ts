@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'rial'
 })
 export class RialPipe implements PipeTransform {
-  private readonly rialLabel = '\u0631\u06cc\u0627\u0644';
+  private readonly rialLabel = 'ریال';
   private readonly locale = 'fa-IR';
 
   transform(value: number | string | null | undefined): string {

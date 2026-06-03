@@ -1,1 +1,24 @@
-<p>error403 works!</p>
+<main class="error-shell error-shell--403">
+  <div class="error-glow error-glow--warning"></div>
+  <div class="error-glow error-glow--safe"></div>
+
+  <section class="error-card" aria-labelledby="error403Title">
+    <div class="error-icon-wrap">
+      <mat-icon>lock</mat-icon>
+    </div>
+    <p class="error-overline">عدم دسترسی</p>
+    <h1 id="error403Title" class="error-code">403</h1>
+    <h2 class="error-title">مجوز لازم را ندارید</h2>
+    <p class="error-description">
+      این بخش فقط برای نقش‌های مشخص قابل مشاهده است.
+      اگر تصور می‌کنید این دسترسی باید برای شما فعال باشد، با مدیر سیستم هماهنگ کنید.
+    </p>
+
+    <div class="error-actions">
+      <a routerLink="/dashboard" class="btn btn-success">بازگشت به داشبورد</a>
+      <a routerLink="/login" class="btn btn-outline-light">ورود با کاربر دیگر</a>
+    </div>
+
+    <div class="error-meta">HTTP 403</div>
+  </section>
+</main>

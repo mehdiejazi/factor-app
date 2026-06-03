@@ -1,0 +1,74 @@
+<div class="post-shell">
+  <app-alert *ngIf="isLoading" AlertType="Download" TextMessage="در حال واکشی اطلاعات پست ..."></app-alert>
+  <app-alert *ngIf="error?.message && !isLoading" AlertType="Error" TextMessage="خطا در واکشی اطلاعات پست"></app-alert>
+  <app-alert *ngIf="!isLoading && !error?.message && !blogPost?.id" AlertType="Info"
+    TextMessage="پستی برای نمایش پیدا نشد"></app-alert>
+
+  <article *ngIf="blogPost?.id && !isLoading" class="post-card">
+    <header class="post-hero" [class.no-cover]="!blogPost.coverImage?.url">
+      <img *ngIf="blogPost.coverImage?.url" [lazyLoad]="blogPost.coverImage.url" class="post-cover"
+        [alt]="blogPost.title">
+      <div class="hero-overlay"></div>
+      <div class="post-title-wrap">
+        <h1 class="post-title">{{ blogPost.title }}</h1>
+        <div class="post-statuses">
+          <span class="app-list-chip" [ngClass]="blogPost.isPublished ? 'app-list-status--success' : 'app-list-status--danger'">
+            {{ blogPost.isPublished ? 'منتشر شده' : 'پیش نویس' }}
+          </span>
+          <span class="app-list-chip" [ngClass]="blogPost.isHot ? 'app-list-status--danger' : ''">
+            {{ blogPost.isHot ? 'داغ' : 'عادی' }}
+          </span>
+          <span class="app-list-chip" [ngClass]="blogPost.isStarRatingEnabled ? 'app-list-status--primary' : ''">
+            {{ blogPost.isStarRatingEnabled ? 'امتیازدهی فعال' : 'امتیازدهی غیرفعال' }}
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <section class="post-meta">
+      <div class="author-row">
+        <img *ngIf="!blogPost.owner?.avatar" src="assets/images/noavatar.png" class="author-avatar" alt="no avatar">
+        <img *ngIf="blogPost.owner?.avatar?.url" [lazyLoad]="blogPost.owner.avatar.url" class="author-avatar"
+          [alt]="blogPost.owner?.fullName || 'author avatar'">
+        <div class="author-info">
+          <div class="author-name">{{ blogPost.owner?.fullName || 'بدون نویسنده' }}</div>
+          <div class="author-subtitle">منتشر شده در {{ blogPost.publishDateTime || '-' }}</div>
+        </div>
+      </div>
+
+      <div class="meta-chips">
+        <span class="app-list-chip">بازدید: {{ blogPost.visitCount | persianNumber }}</span>
+        <span class="app-list-chip app-list-status--primary">امتیاز: {{ blogPost.starRate | persianNumber }}</span>
+      </div>
+    </section>
+
+    <section class="post-categories" *ngIf="blogPost.postCategories?.length">
+      <span class="section-label">دسته‌بندی‌ها:</span>
+      <div class="category-chips">
+        <span *ngFor="let postCategory of blogPost.postCategories" class="app-list-chip">
+          {{ postCategory.name }}
+        </span>
+      </div>
+    </section>
+
+    <section class="post-summary" *ngIf="blogPost.body">
+      <h3>خلاصه</h3>
+      <p>{{ blogPost.body }}</p>
+    </section>
+
+    <section class="post-content" *ngIf="blogPost.extendedBody">
+      <h3>متن کامل</h3>
+      <p>{{ blogPost.extendedBody }}</p>
+    </section>
+
+    <section class="post-gallery" *ngIf="blogPost.images?.length">
+      <h3>پیوست‌ها</h3>
+      <div class="gallery-grid">
+        <a *ngFor="let image of blogPost.images" [href]="image.url" target="_blank" rel="noopener"
+          class="gallery-item">
+          <img [lazyLoad]="image.url" [alt]="image.fileName || 'post attachment'">
+        </a>
+      </div>
+    </section>
+  </article>
+</div>

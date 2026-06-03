@@ -1,4 +1,4 @@
-﻿<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+﻿<div class="app-list-toolbar">
     <button type="button" class="btn btn-success" (click)="onClickAddNew()">جدید</button>
 </div>
 
@@ -10,9 +10,9 @@
     <app-alert *ngIf="formSuccessful" [AlertType]="'Success'" [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
 </div>
 
-<div class="table-responsive" *ngIf="stores?.length">
-    <table class="table table-hover table-sm bg-white align-middle">
-        <thead class="bg-secondary text-light">
+<div class="table-responsive app-list-table-wrap" *ngIf="stores?.length">
+    <table class="table table-hover table-sm align-middle app-list-table">
+        <thead>
             <tr>
                 <th scope="col">تصویر</th>
                 <th scope="col">نام</th>
@@ -33,13 +33,13 @@
                     <span *ngIf="!store.url">{{store.name}}</span>
                     <a *ngIf="store.url" [href]="store.url" target="_blank" rel="noopener">{{store.name}}</a>
                 </td>
-                <td class="text-muted">{{store.storeEnglishName}}</td>
-                <td><span class="badge bg-success">فعال</span></td>
+                <td>{{store.storeEnglishName}}</td>
+                <td><span class="app-list-chip app-list-status--success">فعال</span></td>
                 <td class="text-truncate" style="max-width: 280px;">{{store.description}}</td>
                 <td class="text-end">
-                    <div class="btn-group btn-group-sm">
-                        <button type="button" class="btn btn-outline-primary" (click)="onClickEdit(store)">ویرایش</button>
-                        <button type="button" class="btn btn-outline-danger" (click)="onClickDelete(store)">حذف</button>
+                    <div class="app-list-actions">
+                        <button type="button" class="btn btn-outline-primary btn-sm app-list-action" (click)="onClickEdit(store)">ویرایش</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm app-list-action" (click)="onClickDelete(store)">حذف</button>
                     </div>
                 </td>
             </tr>

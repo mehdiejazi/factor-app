@@ -1,2 +1,132 @@
-<p>dashboard-section works!</p>
-{{settings.getToken()}}
+﻿<div class="container dashboard-shell">
+  <app-section-header></app-section-header>
+
+  <div *ngIf="isLoading" class="mb-3">
+    <app-alert AlertType="Download" TextMessage="در حال بارگذاری داده های داشبورد ..."></app-alert>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <div *ngIf="!hasSelectedStore" class="mb-3">
+      <app-alert AlertType="Info" TextMessage="لطفا اول فروشگاه را انتخاب کنید"></app-alert>
+    </div>
+
+    <ng-container *ngIf="hasSelectedStore">
+    <div class="row g-3 mb-3">
+      <div class="col-12 col-md-6 col-xl-4">
+        <div class="card metric-card h-100">
+          <div class="card-body">
+            <div class="metric-head">
+              <span>درآمد امروز</span>
+              <mat-icon>payments</mat-icon>
+            </div>
+            <div class="metric-value">{{ formatCurrency(todayRevenue) }}</div>
+            <span class="badge text-bg-success rounded-pill">{{ todayFactorsCount }} فاکتور</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-xl-4">
+        <div class="card metric-card h-100">
+          <div class="card-body">
+            <div class="metric-head">
+              <span>فاکتورهای امروز</span>
+              <mat-icon>receipt_long</mat-icon>
+            </div>
+            <div class="metric-value">{{ todayFactorsCount }}</div>
+            <span class="badge text-bg-primary rounded-pill">ثبت شده</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-xl-4">
+        <div class="card metric-card metric-warning h-100">
+          <div class="card-body">
+            <div class="metric-head">
+              <span>محصولات کم موجود</span>
+              <mat-icon>inventory_2</mat-icon>
+            </div>
+            <div class="metric-value">{{ lowStockProducts.length }}</div>
+            <span class="badge rounded-pill metric-warning-badge">نیاز به سفارش</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card panel-card mb-3">
+      <div class="card-header panel-header d-flex align-items-center gap-2">
+        <mat-icon>query_stats</mat-icon>
+        <span>درآمد 7 روز گذشته</span>
+      </div>
+      <div class="card-body">
+        <div *ngIf="revenueData && revenueData.length > 0; else noRevenueData" class="chart-wrap">
+          <div class="bar-chart">
+            <div *ngFor="let item of revenueData" class="bar-item" [title]="formatCurrency(item.revenue)">
+              <div class="bar-track">
+                <div class="bar" [style.height.%]="getBarHeight(item.revenue)"></div>
+              </div>
+              <div class="bar-label">{{ item.label }}</div>
+              <div class="bar-value">{{ item.revenue | number }}</div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noRevenueData>
+          <div class="empty-inline">
+            <mat-icon>insert_chart_outlined</mat-icon>
+            <span>هیچ داده ای برای نمایش وجود ندارد</span>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="card panel-card" *ngIf="lowStockProducts.length > 0">
+      <div class="card-header panel-header d-flex align-items-center gap-2">
+        <mat-icon>warning_amber</mat-icon>
+        <span>محصولات کم موجود</span>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle low-stock-table mb-0">
+          <thead>
+            <tr>
+              <th>نام محصول</th>
+              <th>موجودی</th>
+              <th>قیمت</th>
+              <th class="text-end">عملیات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of lowStockProducts">
+              <td class="fw-semibold">{{ product.name }}</td>
+              <td>
+                <span class="stock-badge">{{ product.quantity || 0 }}</span>
+              </td>
+              <td>{{ formatCurrency(product.price) }}</td>
+              <td class="text-end">
+                <button type="button" class="btn btn-sm btn-outline-light" title="ویرایش">
+                  <mat-icon class="small">edit</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card panel-card" *ngIf="lowStockProducts.length === 0 && totalProductsCount === 0">
+      <div class="card-body empty-state">
+        <mat-icon>inventory</mat-icon>
+        <h5 class="mb-1">هنوز محصولی ثبت نشده است</h5>
+        <p class="mb-0">ابتدا محصول جدید ثبت کنید تا وضعیت موجودی نمایش داده شود</p>
+      </div>
+    </div>
+
+    <div class="card panel-card" *ngIf="lowStockProducts.length === 0 && totalProductsCount > 0">
+      <div class="card-body empty-state">
+        <mat-icon>task_alt</mat-icon>
+        <h5 class="mb-1">موجودی ها کافی است</h5>
+        <p class="mb-0">تمام محصولات موجودی لازم را دارند</p>
+      </div>
+    </div>
+    </ng-container>
+  </ng-container>
+</div>

@@ -4,7 +4,6 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import * as Interfaces from '../../../interfaces/image-asset/image-asset';
 import { ConfirmationModalComponent } from '../../modals/confirmation-modal/confirmation-modal.component';
 import { ImageAssetService } from '../../../services/image-asset.service';
-import { LogManagerService } from '../../../services/log-manager.service';
 import { SettingsService } from '../../../services/settings.service';
 import { GalleryModalComponent } from '../../modals/gallery-modal/gallery-modal.component';
 
@@ -16,17 +15,17 @@ import { GalleryModalComponent } from '../../modals/gallery-modal/gallery-modal.
 export class ImageAssetSectionComponent implements OnInit {
 
   public formSuccessful: boolean;
+  public searchText: string = '';
 
   public errorMessages: string[] = [];
   public warningMessages: string[] = [];
   public informationMessages: string[] = [];
 
-  public imageAssets: Interfaces.ImageAsset[]
+  public imageAssets: Interfaces.ImageAsset[];
   public error: Error;
 
   public constructor(
     private _imagesService: ImageAssetService,
-    private _logManageService: LogManagerService,
     private _bsModalService: BsModalService,
     private _settingsService: SettingsService
   ) { }
@@ -46,7 +45,7 @@ export class ImageAssetSectionComponent implements OnInit {
     (<GalleryModalComponent>modal.content).onClose.subscribe(result => {
       if (result === true) {
 
-        // alert(modal.content?.selectedImageAssets.id);
+        // intentionally left empty
 
       } else if (result === false) {
 
@@ -63,14 +62,17 @@ export class ImageAssetSectionComponent implements OnInit {
 
   public fillGallery() {
 
+    this.errorMessages = [];
+    this.warningMessages = [];
+    this.informationMessages = [];
 
     this._imagesService.getNotDeletedAsync()
       .subscribe(
         result => {
 
           if (result.isSuccessful) {
-            
-            this.imageAssets = result.data;
+
+            this.imageAssets = result.data ?? [];
 
           }
           else {
@@ -141,8 +143,29 @@ export class ImageAssetSectionComponent implements OnInit {
       }
     });
 
+  }
 
+  public get filteredImageAssets(): Interfaces.ImageAsset[] {
+    const assets = this.imageAssets ?? [];
+    const search = this.normalizeValue(this.searchText);
 
+    if (!search) {
+      return assets;
+    }
+
+    return assets.filter(asset => {
+      const fileName = this.normalizeValue(asset.fileName);
+      const ownerName = this.normalizeValue(asset.ownerUser?.fullName);
+      return fileName.includes(search) || ownerName.includes(search);
+    });
+  }
+
+  public trackImageAsset(index: number, image: Interfaces.ImageAsset): string | number {
+    return image?.id || index;
+  }
+
+  private normalizeValue(value: string | null | undefined): string {
+    return (value ?? '').trim().toLowerCase();
   }
 
 }

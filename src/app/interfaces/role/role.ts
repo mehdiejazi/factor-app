@@ -1,11 +1,10 @@
-import * as Interfaces from '../user/user';
 import { ModelBase } from '../base/model-base';
-import { Category } from '../category/category';
+import { RoleActionPermission } from '../role-action-permission/role-action-permission';
 
 export interface Role extends ModelBase {
     name:string;
     description:string;
-    //public virtual ICollection<RoleActionPermission> RoleActionPermissions { get; set; }
+    roleActionPermissions: RoleActionPermission[];
     isDefault:boolean;
 }
 

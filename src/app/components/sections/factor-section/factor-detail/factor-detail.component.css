@@ -1,0 +1,126 @@
+.factor-detail-page {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.factor-top-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.factor-title {
+  margin: 0;
+  font-weight: 700;
+  color: var(--text-on-dark);
+}
+
+.factor-subtitle {
+  color: var(--text-muted-on-dark);
+  font-size: 0.9rem;
+}
+
+.factor-header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.factor-summary-box {
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0.7rem;
+  padding: 0.65rem 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.factor-summary-label {
+  font-size: 0.78rem;
+  color: var(--text-muted-on-dark);
+}
+
+.factor-summary-value {
+  color: var(--text-on-dark);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.factor-description {
+  border-top: 1px dashed rgba(255, 255, 255, 0.22);
+  padding-top: 0.8rem;
+  color: var(--text-on-dark);
+}
+
+.factor-items-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.factor-items-head h5 {
+  color: var(--text-on-dark);
+}
+
+.factor-muted {
+  color: var(--text-muted-on-dark);
+}
+
+.factor-items-table {
+  min-width: 860px;
+}
+
+.factor-items-table tfoot td {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.factor-qty-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.factor-qty-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.factor-qty-btn:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.factor-qty-badge {
+  min-width: 2rem;
+  text-align: center;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-on-dark);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .factor-top-body {
+    align-items: flex-start;
+  }
+
+  .factor-header-actions {
+    width: 100%;
+  }
+}

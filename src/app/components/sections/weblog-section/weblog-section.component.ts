@@ -25,9 +25,9 @@ export class WeblogSectionComponent implements OnInit {
     this._router.navigate(['/weblog/form'], { queryParams: {} });
   
   }
-  public viewGrid() {
+  public viewList() {
 
-    this._router.navigate(['/weblog/grid'], { queryParams: {} });
+    this._router.navigate(['/weblog/list'], { queryParams: {} });
   
   }
 }

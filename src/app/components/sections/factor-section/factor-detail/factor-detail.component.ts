@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Factor } from '../../../../models/factor/factor';
 import { FactorService } from '../../../../services/factor.service';
 import { FactorItem } from '../../../../models/factor-item/factor-item';
@@ -11,7 +11,7 @@ import { ConfirmationModalComponent } from '../../../modals/confirmation-modal/c
 @Component({
   selector: 'app-factor-detail',
   templateUrl: './factor-detail.component.html',
-  styleUrl: './factor-detail.component.css'
+  styleUrls: ['./factor-detail.component.css']
 })
 export class FactorDetailComponent implements OnInit {
 
@@ -19,7 +19,8 @@ export class FactorDetailComponent implements OnInit {
     private _route: ActivatedRoute,
     private _factorService: FactorService,
     private _factorItemService: FactorItemService,
-    private _bsModalService: BsModalService) {
+    private _bsModalService: BsModalService,
+    private _router: Router) {
   }
 
   public factor: Factor;
@@ -54,17 +55,92 @@ export class FactorDetailComponent implements OnInit {
     });
 
   }
+
+  public onClickCloseFactor(): void {
+    if (!this.factor || this.factor.isClosed) {
+      return;
+    }
+
+    const modal = this._bsModalService.show(ConfirmationModalComponent,
+      { class: 'modal-dialog-centered modal-dialog' });
+
+    (<ConfirmationModalComponent>modal.content).showConfirmationModal(
+      'بستن فاکتور',
+      'آیا از بستن این فاکتور مطمئن هستید؟'
+    );
+
+    (<ConfirmationModalComponent>modal.content).onClose.subscribe(result => {
+      if (result !== true) {
+        return;
+      }
+
+      const updateReq: Factor = { ...this.factor, isClosed: true };
+      this._factorService.updateAsync(updateReq).subscribe(
+        updateResult => {
+          if (updateResult.isSuccessful) {
+            this.formSuccessful = true;
+            this.factor = updateResult.data;
+            return;
+          }
+
+          this.errorMessages = updateResult.errorMessages ?? [];
+        },
+        error => {
+          this.error = error;
+          console.error(error);
+        }
+      );
+    });
+  }
+
+  public onClickDeleteFactor(): void {
+    if (!this.factor) {
+      return;
+    }
+
+    const modal = this._bsModalService.show(ConfirmationModalComponent,
+      { class: 'modal-dialog-centered modal-dialog' });
+
+    (<ConfirmationModalComponent>modal.content).showConfirmationModal(
+      'حذف فاکتور',
+      'آیا از حذف این فاکتور مطمئن هستید؟'
+    );
+
+    (<ConfirmationModalComponent>modal.content).onClose.subscribe(result => {
+      if (result !== true) {
+        return;
+      }
+
+      this._factorService.deleteByIdAsync(this.factor).subscribe(
+        deleteResult => {
+          if (deleteResult.isSuccessful) {
+            this._router.navigate(['/factors/list']);
+            return;
+          }
+
+          this.errorMessages = deleteResult.errorMessages ?? [];
+        },
+        error => {
+          this.error = error;
+          console.error(error);
+        }
+      );
+    });
+  }
+
   public onClickDecQuantity(item: FactorItem) {
 
     if (item.quantity == 1) return;
     item.quantity--;
 
   }
+
   public onClickIncQuantity(item: FactorItem) {
 
     item.quantity++;
 
   }
+
   public onClickAddNew() {
 
     let factorItem = new FactorItem();
@@ -108,6 +184,7 @@ export class FactorDetailComponent implements OnInit {
     });
 
   }
+
   public onClickEdit(factorItem: FactorItem) {
 
     const modal = this._bsModalService.show(FactorItemFormModalComponent,
@@ -124,7 +201,7 @@ export class FactorDetailComponent implements OnInit {
           if (result.isSuccessful) {
 
             this.formSuccessful = true;
-            factorItem = result.data;
+            Object.assign(factorItem, result.data);
 
           }
           else {
@@ -150,10 +227,11 @@ export class FactorDetailComponent implements OnInit {
     });
 
   }
+
   public onClickDelete(factorItem: FactorItem) {
 
     let strTitle = 'حذف';
-    let strBody = 'آیا مایل به حذف هستید؟'
+    let strBody = 'آیا مایل به حذف هستید؟';
 
     const modal = this._bsModalService.show(ConfirmationModalComponent,
       { class: 'modal-dialog-centered modal-dialog' });
@@ -194,5 +272,56 @@ export class FactorDetailComponent implements OnInit {
     });
   }
 
+  public trackFactorItem(index: number, item: FactorItem): string | number {
+    return item?.id || index;
+  }
+
+  public getItemFinalPrice(item: FactorItem): number {
+    const quantity = this.toNumber(item?.quantity);
+    const price = this.toNumber(item?.price);
+    const offPercent = this.toNumber(item?.offPercent);
+    const normalizedOffPercent = Math.min(100, Math.max(0, offPercent));
+    return price * quantity * (1 - normalizedOffPercent / 100);
+  }
+
+  public getTotalQuantity(): number {
+    if (!this.factor?.factorItems?.length) {
+      return 0;
+    }
+
+    return this.factor.factorItems
+      .reduce((sum, item) => sum + this.toNumber(item?.quantity), 0);
+  }
+
+  public getTotalDiscount(): number {
+    return this.getSubtotalPrice() - this.getTotalFinalPrice();
+  }
+
+  public getTotalFinalPrice(): number {
+    if (!this.factor?.factorItems?.length) {
+      return 0;
+    }
+
+    return this.factor.factorItems
+      .reduce((sum, item) => sum + this.getItemFinalPrice(item), 0);
+  }
+
+  private getSubtotalPrice(): number {
+    if (!this.factor?.factorItems?.length) {
+      return 0;
+    }
+
+    return this.factor.factorItems
+      .reduce((sum, item) => {
+        const quantity = this.toNumber(item?.quantity);
+        const price = this.toNumber(item?.price);
+        return sum + (price * quantity);
+      }, 0);
+  }
+
+  private toNumber(value: unknown): number {
+    const numberValue = Number(value);
+    return Number.isFinite(numberValue) ? numberValue : 0;
+  }
 
 }
