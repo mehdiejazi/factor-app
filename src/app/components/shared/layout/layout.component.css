@@ -10,14 +10,13 @@
     display: flex;
     width: 100%;
     min-height: calc(100vh - 60px);
+    direction: ltr;
 }
 
 .layout-main--rtl {
-    flex-direction: row-reverse;
 }
 
 .layout-main--ltr {
-    flex-direction: row;
 }
 
 .layout-nav.fade {
@@ -26,7 +25,8 @@
 
 .layout-sidebar {
     flex: 0 0 280px;
-    max-width: 280px;
+    width: 280px;
+    max-width: 100%;
     min-height: calc(100vh - 60px);
     animation: sidebar-enter .2s ease-out both;
 }
@@ -100,8 +100,7 @@
     }
 
     .layout-sidebar {
-        flex-basis: auto;
-        max-width: none;
+        width: 100%;
         min-height: auto;
     }
 

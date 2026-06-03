@@ -3,22 +3,25 @@
     <div *ngIf="isLoading" class="alert alert-info mb-3">در حال بارگذاری صفحه فروشگاه...</div>
 
     <div *ngIf="!isLoading && errorMessages.length" class="alert alert-danger mb-3">
-      <div *ngFor="let msg of errorMessages">{{ msg }}</div>
+      <div *ngFor="let msg of errorMessages" data-localization-skip>{{ msg }}</div>
     </div>
 
     <ng-container *ngIf="!isLoading && store">
       <section class="surface hero mb-4">
         <div class="logo-wrap">
-          <img *ngIf="store.logo?.url; else logoFallback" [src]="store.logo?.url" [alt]="store.name" />
+          <img *ngIf="store.logo?.url; else logoFallback" [src]="store.logo?.url" [alt]="store.name" data-localization-skip />
           <ng-template #logoFallback>
-            <span>{{ (store.name || '?').slice(0, 1) }}</span>
+            <span data-localization-skip>{{ (store.name || '?').slice(0, 1) }}</span>
           </ng-template>
         </div>
 
         <div class="hero-content">
           <p class="hint">معرفی فروشگاه</p>
-          <h1>{{ store.name }}</h1>
-          <p class="desc">{{ store.description || 'برای این فروشگاه هنوز توضیحی ثبت نشده است.' }}</p>
+          <h1 data-localization-skip>{{ store.name }}</h1>
+          <p class="desc">
+            <span *ngIf="store.description; else emptyStoreDescription" data-localization-skip>{{ store.description }}</span>
+            <ng-template #emptyStoreDescription>برای این فروشگاه هنوز توضیحی ثبت نشده است.</ng-template>
+          </p>
           <div class="hero-actions">
             <a routerLink="/home" class="btn btn-outline-light btn-sm">بازگشت</a>
             <a *ngIf="storeExternalUrl" [href]="storeExternalUrl" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
@@ -38,11 +41,11 @@
 
         <div *ngIf="slides.length" class="slide-grid">
           <article class="surface card-item" *ngFor="let slide of slides">
-            <img [src]="slide.coverImage?.url || 'assets/images/noimage.png'" [alt]="slide.title" class="thumb" />
+            <img [src]="slide.coverImage?.url || 'assets/images/noimage.png'" [alt]="slide.title" class="thumb" data-localization-skip />
             <div class="item-body">
-              <h3>{{ slide.title }}</h3>
-              <p>{{ slide.body | slice:0:120 }}<span *ngIf="slide.body?.length > 120">...</span></p>
-              <small>{{ slide.publishDateTime || slide.insertDateTime }}</small>
+              <h3 data-localization-skip>{{ slide.title }}</h3>
+              <p data-localization-skip>{{ slide.body | slice:0:120 }}<span *ngIf="slide.body?.length > 120">...</span></p>
+              <small data-localization-skip>{{ slide.publishDateTime || slide.insertDateTime }}</small>
             </div>
           </article>
         </div>
@@ -50,7 +53,7 @@
 
       <section>
         <div class="head">
-          <h2>وبلاگ {{ store.name }}</h2>
+          <h2>وبلاگ <span data-localization-skip>{{ store.name }}</span></h2>
           <span class="badge text-bg-light">{{ blogPosts.length | persianNumber }} مطلب</span>
         </div>
 
@@ -58,11 +61,11 @@
 
         <div *ngIf="blogPosts.length" class="post-grid">
           <article class="surface card-item" *ngFor="let post of blogPosts">
-            <img [src]="post.coverImage?.url || 'assets/images/noimage.png'" [alt]="post.title" class="thumb" />
+            <img [src]="post.coverImage?.url || 'assets/images/noimage.png'" [alt]="post.title" class="thumb" data-localization-skip />
             <div class="item-body">
-              <h3>{{ post.title }}</h3>
-              <p>{{ post.body | slice:0:160 }}<span *ngIf="post.body?.length > 160">...</span></p>
-              <small>{{ post.publishDateTime || post.insertDateTime }}</small>
+              <h3 data-localization-skip>{{ post.title }}</h3>
+              <p data-localization-skip>{{ post.body | slice:0:160 }}<span *ngIf="post.body?.length > 160">...</span></p>
+              <small data-localization-skip>{{ post.publishDateTime || post.insertDateTime }}</small>
             </div>
           </article>
         </div>

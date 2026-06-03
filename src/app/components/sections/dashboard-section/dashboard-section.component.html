@@ -20,7 +20,7 @@
               <mat-icon>payments</mat-icon>
             </div>
             <div class="metric-value">{{ formatCurrency(todayRevenue) }}</div>
-            <span class="badge text-bg-success rounded-pill">{{ todayFactorsCount }} فاکتور</span>
+            <span class="badge text-bg-success rounded-pill">{{ todayFactorsCount | persianNumber }} فاکتور</span>
           </div>
         </div>
       </div>
@@ -32,7 +32,7 @@
               <span>فاکتورهای امروز</span>
               <mat-icon>receipt_long</mat-icon>
             </div>
-            <div class="metric-value">{{ todayFactorsCount }}</div>
+            <div class="metric-value">{{ todayFactorsCount | persianNumber }}</div>
             <span class="badge text-bg-primary rounded-pill">ثبت شده</span>
           </div>
         </div>
@@ -45,7 +45,7 @@
               <span>محصولات کم موجود</span>
               <mat-icon>inventory_2</mat-icon>
             </div>
-            <div class="metric-value">{{ lowStockProducts.length }}</div>
+            <div class="metric-value">{{ lowStockProducts.length | persianNumber }}</div>
             <span class="badge rounded-pill metric-warning-badge">نیاز به سفارش</span>
           </div>
         </div>
@@ -65,7 +65,7 @@
                 <div class="bar" [style.height.%]="getBarHeight(item.revenue)"></div>
               </div>
               <div class="bar-label">{{ item.label }}</div>
-              <div class="bar-value">{{ item.revenue | number }}</div>
+              <div class="bar-value">{{ item.revenue | rial }}</div>
             </div>
           </div>
         </div>
@@ -96,9 +96,9 @@
           </thead>
           <tbody>
             <tr *ngFor="let product of lowStockProducts">
-              <td class="fw-semibold">{{ product.name }}</td>
+              <td class="fw-semibold" data-localization-skip>{{ product.name }}</td>
               <td>
-                <span class="stock-badge">{{ product.quantity || 0 }}</span>
+                <span class="stock-badge">{{ (product.quantity || 0) | persianNumber }}</span>
               </td>
               <td>{{ formatCurrency(product.price) }}</td>
               <td class="text-end">

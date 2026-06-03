@@ -5,7 +5,7 @@
 <div class="mb-3">
     <app-alert *ngIf="isLoading" AlertType="Download" TextMessage="در حال واکشی اطلاعات ..."></app-alert>
     <app-alert *ngIf="error?.message" [AlertType]="'Error'" [TextMessage]="'خطا در واکشی اطلاعات'"></app-alert>
-    <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'" [TextMessage]="errorMessage"></app-alert>
+    <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'" [TextMessage]="errorMessage" data-localization-skip></app-alert>
     <app-alert *ngIf="roles?.length == 0 && !isLoading" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
     <app-alert *ngIf="formSuccessful" [AlertType]="'Success'" [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
 </div>
@@ -24,8 +24,8 @@
         <tbody>
             @for (role of roles; track role.id) {
             <tr>
-                <td class="fw-semibold">{{ role.name }}</td>
-                <td>{{ role.description || '-' }}</td>
+                <td class="fw-semibold" data-localization-skip>{{ role.name }}</td>
+                <td data-localization-skip>{{ role.description || '-' }}</td>
                 <td><span class="app-list-chip">{{ role.roleActionPermissions?.length || 0 }}</span></td>
                 <td>
                     <span class="app-list-chip"

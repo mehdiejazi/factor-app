@@ -18,7 +18,7 @@
 <div class="mb-3">
     <app-alert *ngIf="isLoading" AlertType="Download" TextMessage="در حال واکشی اطلاعات ..."></app-alert>
     <app-alert *ngIf="error?.message" [AlertType]="'Error'" [TextMessage]="'خطا در واکشی اطلاعات'"></app-alert>
-    <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error" [TextMessage]="errorMessage"></app-alert>
+    <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error" [TextMessage]="errorMessage" data-localization-skip></app-alert>
     <app-alert *ngIf="factors?.length == 0 && !isLoading" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
     <app-alert *ngIf="formSuccessful" [AlertType]="'Success'" [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
 </div>
@@ -35,7 +35,7 @@
         <tbody>
             @for (factor of filterFactors; track factor.id) {
             <tr>
-                <td class="fw-semibold">{{factor.description}}</td>
+                <td class="fw-semibold" data-localization-skip>{{factor.description}}</td>
                 <td>
                     <span *ngIf="factor.isDeleted" class="app-list-chip app-list-status--danger">حذف شده</span>
                     <span *ngIf="!factor.isDeleted" class="app-list-chip app-list-status--success">فعال</span>

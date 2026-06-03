@@ -29,11 +29,7 @@ export class NavBarComponent implements OnInit {
 
 
   public onClickLogout() {
-
-    // this._settingsService.setUser(null);
-    // this._settingsService.setToken('');
-    // this._settingsService.setRefreshToken('');
-    localStorage.clear();
+    this._settingsService.clearSessionData();
     this._router.navigate(['/login']);
 
   }

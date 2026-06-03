@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
+import { SettingsService } from '../services/settings.service';
 import { EN_TRANSLATIONS } from './translations';
 
 export type AppLanguage = 'fa' | 'en';
@@ -16,6 +17,7 @@ interface PatternTranslation {
 })
 export class LanguageService {
   private readonly storageKey = 'app-language';
+  private readonly userStorageKeyPrefix = 'app-language:';
   private readonly languageSubject = new BehaviorSubject<AppLanguage>(this.readInitialLanguage());
   private readonly englishLabelMap: Record<string, string> = {
     'تاریخ ثبت': 'Created at',
@@ -82,7 +84,8 @@ export class LanguageService {
 
   public constructor(
     @Inject(DOCUMENT) private readonly document: Document,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    private readonly settingsService: SettingsService
   ) {
     this.applyLanguage(this.currentLanguage);
   }
@@ -100,13 +103,26 @@ export class LanguageService {
   }
 
   public setLanguage(language: AppLanguage): void {
+    this.persistLanguage(language);
+
     if (this.currentLanguage === language) {
       return;
     }
 
     this.languageSubject.next(language);
-    localStorage.setItem(this.storageKey, language);
     this.applyLanguage(language);
+  }
+
+  public syncLanguageWithCurrentUser(): void {
+    const currentUserId = this.getCurrentUserId();
+    const storedLanguage = this.readStoredLanguage(currentUserId) ?? this.readStoredLanguage();
+
+    if (storedLanguage) {
+      this.setLanguage(storedLanguage);
+      return;
+    }
+
+    this.persistLanguage(this.currentLanguage);
   }
 
   public translate(text: string, language: AppLanguage = this.currentLanguage): string {
@@ -159,8 +175,36 @@ export class LanguageService {
   }
 
   private readInitialLanguage(): AppLanguage {
-    const storedLanguage = localStorage.getItem(this.storageKey);
-    return storedLanguage === 'en' ? 'en' : 'fa';
+    const storedLanguage = this.readStoredLanguage(this.getCurrentUserId()) ?? this.readStoredLanguage();
+    return storedLanguage ?? 'fa';
+  }
+
+  private persistLanguage(language: AppLanguage): void {
+    localStorage.setItem(this.storageKey, language);
+
+    const currentUserId = this.getCurrentUserId();
+    if (currentUserId) {
+      localStorage.setItem(this.resolveUserStorageKey(currentUserId), language);
+    }
+  }
+
+  private readStoredLanguage(userId?: string | null): AppLanguage | null {
+    const storageKey = userId ? this.resolveUserStorageKey(userId) : this.storageKey;
+    const storedLanguage = localStorage.getItem(storageKey);
+
+    if (storedLanguage === 'fa' || storedLanguage === 'en') {
+      return storedLanguage;
+    }
+
+    return null;
+  }
+
+  private getCurrentUserId(): string | null {
+    return this.settingsService.getUser()?.id ?? null;
+  }
+
+  private resolveUserStorageKey(userId: string): string {
+    return `${this.userStorageKeyPrefix}${userId}`;
   }
 
   private normalizeText(value: string): string {

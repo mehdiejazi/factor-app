@@ -55,7 +55,7 @@
                     <app-alert *ngIf="isLoadingPermissions" AlertType="Download"
                         TextMessage="در حال واکشی دسترسی‌ها ..."></app-alert>
                     <app-alert *ngFor="let errorMessage of permissionErrorMessages" [AlertType]="'Error'"
-                        [TextMessage]="errorMessage"></app-alert>
+                        [TextMessage]="errorMessage" data-localization-skip></app-alert>
 
                     <div class="permission-wrap" *ngIf="!isLoadingPermissions && actionPermissions?.length">
                         <div class="table-responsive">
@@ -76,9 +76,9 @@
                                                 [checked]="isPermissionSelected(permission.id)"
                                                 (change)="onPermissionToggle(permission.id, $event)">
                                         </td>
-                                        <td>{{ permission.controllerName }}</td>
-                                        <td>{{ permission.actionName }}</td>
-                                        <td><span class="permission-url">{{ permission.url }}</span></td>
+                                        <td data-localization-skip>{{ permission.controllerName }}</td>
+                                        <td data-localization-skip>{{ permission.actionName }}</td>
+                                        <td><span class="permission-url" data-localization-skip>{{ permission.url }}</span></td>
                                     </tr>
                                     }
                                 </tbody>

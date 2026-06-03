@@ -5,9 +5,9 @@
             <p class="mb-0">برای افزودن تصویر، فایل را انتخاب و بارگذاری کنید.</p>
         </div>
 
-        <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error" [TextMessage]="errorMessage"></app-alert>
-        <app-alert *ngFor="let warningMessage of warningMessages" AlertType="Warning" [TextMessage]="warningMessage"></app-alert>
-        <app-alert *ngFor="let informationMessage of informationMessages" AlertType="Info" [TextMessage]="informationMessage"></app-alert>
+        <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error" [TextMessage]="errorMessage" data-localization-skip></app-alert>
+        <app-alert *ngFor="let warningMessage of warningMessages" AlertType="Warning" [TextMessage]="warningMessage" data-localization-skip></app-alert>
+        <app-alert *ngFor="let informationMessage of informationMessages" AlertType="Info" [TextMessage]="informationMessage" data-localization-skip></app-alert>
         <app-alert class="mb-3" *ngIf="formSuccessful" AlertType="Success" TextMessage="اطلاعات با موفقیت ثبت گردید"></app-alert>
         <app-alert *ngIf="error?.message" AlertType="Error" TextMessage="خطا در بارگذاری اطلاعات"></app-alert>
 
@@ -21,7 +21,7 @@
                     بارگذاری
                 </button>
             </div>
-            <small class="gallery-upload-file" *ngIf="file">فایل انتخاب‌شده: {{ file.name }}</small>
+            <small class="gallery-upload-file" *ngIf="file">فایل انتخاب‌شده: <span data-localization-skip>{{ file.name }}</span></small>
         </div>
     </div>
 </div>

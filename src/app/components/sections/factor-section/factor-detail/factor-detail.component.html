@@ -24,7 +24,7 @@
 
     <div class="mb-3">
         <app-alert *ngIf="!errorMessages?.length && !factor" AlertType="Download" TextMessage="در حال واکشی اطلاعات ..."></app-alert>
-        <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error" [TextMessage]="errorMessage"></app-alert>
+        <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error" [TextMessage]="errorMessage" data-localization-skip></app-alert>
         <app-alert *ngIf="factor?.id == ''" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
         <app-alert *ngIf="factor?.isClosed" AlertType="Warning" TextMessage="این فاکتور بسته شده است و امکان ویرایش ندارد"></app-alert>
         <app-alert *ngIf="formSuccessful" AlertType="Success" TextMessage="اطلاعات با موفقیت ثبت گردید"></app-alert>
@@ -36,35 +36,38 @@
                 <div class="col-12 col-md-6 col-xl-3">
                     <div class="factor-summary-box">
                         <span class="factor-summary-label">مشتری</span>
-                        <strong class="factor-summary-value">{{ factor.owner?.fullName || '-' }}</strong>
+                        <strong class="factor-summary-value" data-localization-skip>{{ factor.owner?.fullName || '-' }}</strong>
                     </div>
                 </div>
 
                 <div class="col-12 col-md-6 col-xl-3">
                     <div class="factor-summary-box">
                         <span class="factor-summary-label">تاریخ فروش</span>
-                        <strong class="factor-summary-value">{{ factor.sellDateTime || '-' }}</strong>
+                        <strong class="factor-summary-value" data-localization-skip>{{ factor.sellDateTime || '-' }}</strong>
                     </div>
                 </div>
 
                 <div class="col-12 col-md-6 col-xl-3">
                     <div class="factor-summary-box">
                         <span class="factor-summary-label">تاریخ ثبت</span>
-                        <strong class="factor-summary-value">{{ factor.insertDateTime || '-' }}</strong>
+                        <strong class="factor-summary-value" data-localization-skip>{{ factor.insertDateTime || '-' }}</strong>
                     </div>
                 </div>
 
                 <div class="col-12 col-md-6 col-xl-3" *ngIf="factor.isDeleted">
                     <div class="factor-summary-box">
                         <span class="factor-summary-label">تاریخ حذف</span>
-                        <strong class="factor-summary-value">{{ factor.deleteDateTime || '-' }}</strong>
+                        <strong class="factor-summary-value" data-localization-skip>{{ factor.deleteDateTime || '-' }}</strong>
                     </div>
                 </div>
             </div>
 
             <div class="factor-description mt-3">
                 <span class="factor-summary-label">توضیحات</span>
-                <p class="mb-0">{{ factor.description || 'توضیحی ثبت نشده است' }}</p>
+                <p class="mb-0">
+                    <span *ngIf="factor.description; else emptyFactorDescription" data-localization-skip>{{ factor.description }}</span>
+                    <ng-template #emptyFactorDescription>توضیحی ثبت نشده است</ng-template>
+                </p>
             </div>
         </div>
     </div>
@@ -97,8 +100,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of factor.factorItems; trackBy: trackFactorItem">
-                            <td class="fw-semibold">{{ item.product?.name || '-' }}</td>
-                            <td class="factor-muted">{{ item.description || '-' }}</td>
+                            <td class="fw-semibold" data-localization-skip>{{ item.product?.name || '-' }}</td>
+                            <td class="factor-muted" data-localization-skip>{{ item.description || '-' }}</td>
                             <td class="text-center">
                                 <div class="factor-qty-control">
                                     <button type="button" class="btn btn-outline-light btn-sm factor-qty-btn"

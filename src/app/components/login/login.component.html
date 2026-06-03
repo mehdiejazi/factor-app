@@ -78,6 +78,7 @@
         <app-alert 
           *ngFor="let errorMessage of errorMessages" 
           AlertType="Error"
+          data-localization-skip
           [TextMessage]="errorMessage">
         </app-alert>
       </div>
@@ -87,6 +88,7 @@
         <app-alert 
           *ngFor="let informationMessage of informationMessages" 
           AlertType="Info"
+          data-localization-skip
           [TextMessage]="informationMessage">
         </app-alert>
       </div>
@@ -96,6 +98,7 @@
         <app-alert 
           *ngFor="let warningMessage of warningMessages" 
           AlertType="Warning"
+          data-localization-skip
           [TextMessage]="warningMessage">
         </app-alert>
       </div>

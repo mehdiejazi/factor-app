@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LanguageService } from '../../i18n/language.service';
 import { SettingsService } from '../../services/settings.service';
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../models/auth/login-request';
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
   public constructor(
     private _settingsService: SettingsService,
     private _authService: AuthService,
+    private _languageService: LanguageService,
     private _router: Router,
     private _route: ActivatedRoute) {
 
@@ -68,6 +70,7 @@ export class LoginComponent implements OnInit {
         this._settingsService.setUser(this.loginResponse.user);
         this._settingsService.setToken(this.loginResponse.token);
         this._settingsService.setRefreshToken(this.loginResponse.refreshToken);
+        this._languageService.syncLanguageWithCurrentUser();
 
         if (this.returnUrl != "")
           this._router.navigate([this.returnUrl]);

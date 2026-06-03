@@ -5,7 +5,7 @@
 <div class="mb-3">
     <app-alert *ngIf="isLoading" AlertType="Download" TextMessage="در حال واکشی اطلاعات ..."></app-alert>
     <app-alert *ngIf="error?.message" [AlertType]="'Error'" [TextMessage]="'خطا در واکشی اطلاعات'"></app-alert>
-    <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'" [TextMessage]="errorMessage"></app-alert>
+    <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'" [TextMessage]="errorMessage" data-localization-skip></app-alert>
     <app-alert *ngIf="stores?.length == 0 && !isLoading" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
     <app-alert *ngIf="formSuccessful" [AlertType]="'Success'" [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
 </div>
@@ -30,12 +30,12 @@
                     <img *ngIf="store.logo" class="table-thumb" [lazyLoad]="store.logo.url" alt="Store image">
                 </td>
                 <td>
-                    <span *ngIf="!store.url">{{store.name}}</span>
-                    <a *ngIf="store.url" [href]="store.url" target="_blank" rel="noopener">{{store.name}}</a>
+                    <span *ngIf="!store.url" data-localization-skip>{{store.name}}</span>
+                    <a *ngIf="store.url" [href]="store.url" target="_blank" rel="noopener" data-localization-skip>{{store.name}}</a>
                 </td>
-                <td>{{store.storeEnglishName}}</td>
+                <td data-localization-skip>{{store.storeEnglishName}}</td>
                 <td><span class="app-list-chip app-list-status--success">فعال</span></td>
-                <td class="text-truncate" style="max-width: 280px;">{{store.description}}</td>
+                <td class="text-truncate" style="max-width: 280px;" data-localization-skip>{{store.description}}</td>
                 <td class="text-end">
                     <div class="app-list-actions">
                         <button type="button" class="btn btn-outline-primary btn-sm app-list-action" (click)="onClickEdit(store)">ویرایش</button>

@@ -5,7 +5,7 @@
 <div class="mb-3">
     <app-alert *ngIf="isLoading" AlertType="Download" TextMessage="در حال واکشی اطلاعات ..."></app-alert>
     <app-alert *ngIf="error?.message" [AlertType]="'Error'" [TextMessage]="'خطا در واکشی اطلاعات'"></app-alert>
-    <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'" [TextMessage]="errorMessage"></app-alert>
+    <app-alert *ngFor="let errorMessage of errorMessages" [AlertType]="'Error'" [TextMessage]="errorMessage" data-localization-skip></app-alert>
     <app-alert *ngIf="users?.length == 0 && !isLoading" AlertType="Info" TextMessage="اطلاعاتی برای نمایش وجود ندارد"></app-alert>
     <app-alert *ngIf="formSuccessful" [AlertType]="'Success'" [TextMessage]="'اطلاعات با موفقیت ثبت گردید'"></app-alert>
 </div>
@@ -30,9 +30,9 @@
                     <img *ngIf="!user.avatar" src="assets/images/noavatar.png" class="table-avatar" alt="User avatar">
                     <img *ngIf="user.avatar" [src]="user.avatar.url" class="table-avatar" alt="User avatar">
                 </td>
-                <td class="fw-semibold">{{ user.fullName }}</td>
-                <td><span class="app-list-chip">{{ user.userName }}</span></td>
-                <td><span class="app-list-chip app-list-status--primary">{{ user.role.name }}</span></td>
+                <td class="fw-semibold" data-localization-skip>{{ user.fullName }}</td>
+                <td><span class="app-list-chip" data-localization-skip>{{ user.userName }}</span></td>
+                <td><span class="app-list-chip app-list-status--primary" data-localization-skip>{{ user.role.name }}</span></td>
                 <td>
                     <span [ngClass]="{ 'app-list-status--success': user.isActive , 'app-list-status--danger': !user.isActive }"
                         class="app-list-chip">{{ user.isActive | active}}</span>
@@ -40,7 +40,7 @@
                 <td>
                     <div class="d-flex flex-wrap gap-1">
                         @for (store of user.stores; track store.id) {
-                        <span class="app-list-chip">{{store.name}}</span>
+                        <span class="app-list-chip" data-localization-skip>{{store.name}}</span>
                         }
                     </div>
                 </td>

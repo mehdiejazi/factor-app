@@ -36,9 +36,9 @@
     </div>
 
     <div class="mb-3">
-        <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error" [TextMessage]="errorMessage"></app-alert>
-        <app-alert *ngFor="let warningMessage of warningMessages" AlertType="Warning" [TextMessage]="warningMessage"></app-alert>
-        <app-alert *ngFor="let informationMessage of informationMessages" AlertType="Info" [TextMessage]="informationMessage"></app-alert>
+        <app-alert *ngFor="let errorMessage of errorMessages" AlertType="Error" [TextMessage]="errorMessage" data-localization-skip></app-alert>
+        <app-alert *ngFor="let warningMessage of warningMessages" AlertType="Warning" [TextMessage]="warningMessage" data-localization-skip></app-alert>
+        <app-alert *ngFor="let informationMessage of informationMessages" AlertType="Info" [TextMessage]="informationMessage" data-localization-skip></app-alert>
         <app-alert class="mb-3" *ngIf="formSuccessful" AlertType="Success" TextMessage="اطلاعات با موفقیت ثبت گردید"></app-alert>
 
         <app-alert *ngIf="errorMessages.length == 0 && !error?.message && !imageAssets" AlertType="Download"
@@ -55,15 +55,15 @@
     <div class="gallery-grid" *ngIf="filteredImageAssets.length">
         <article class="gallery-tile" *ngFor="let image of filteredImageAssets; trackBy: trackImageAsset">
             <div class="gallery-tile-media">
-                <img [lazyLoad]="image.url" [alt]="image.fileName" class="gallery-image bg-light">
+                <img [lazyLoad]="image.url" [alt]="image.fileName" class="gallery-image bg-light" data-localization-skip>
 
                 <div class="gallery-tile-overlay">
-                    <span class="gallery-chip" [title]="image.ownerUser?.fullName || '-'">
+                    <span class="gallery-chip" [title]="image.ownerUser?.fullName || '-'" data-localization-skip>
                         <mat-icon class="small">person</mat-icon>
                         {{ image.ownerUser?.fullName || '-' }}
                     </span>
 
-                    <span class="gallery-chip" [title]="image.insertDateTime || '-'">
+                    <span class="gallery-chip" [title]="image.insertDateTime || '-'" data-localization-skip>
                         <mat-icon class="small">schedule</mat-icon>
                         {{ image.insertDateTime || '-' }}
                     </span>
@@ -71,7 +71,7 @@
             </div>
 
             <div class="gallery-tile-body">
-                <h6 class="gallery-file-name mb-0" [title]="image.fileName">{{ image.fileName || '-' }}</h6>
+                <h6 class="gallery-file-name mb-0" [title]="image.fileName" data-localization-skip>{{ image.fileName || '-' }}</h6>
 
                 <div class="gallery-tile-actions">
                     <a [href]="image.url" target="_blank" rel="noopener" class="btn btn-outline-light btn-sm app-list-action">

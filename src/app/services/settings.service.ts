@@ -7,6 +7,10 @@ import { Store } from '../models/store/store';
   providedIn: 'root'
 })
 export class SettingsService {
+  private readonly userStorageKey = 'user';
+  private readonly storeStorageKey = 'store';
+  private readonly tokenStorageKey = 'token';
+  private readonly refreshTokenStorageKey = 'refresh-token';
 
   public constructor() {
 
@@ -31,48 +35,75 @@ export class SettingsService {
   };
 
   public getUser(): User {
-    const userJson = localStorage.getItem('user');
+    const userJson = localStorage.getItem(this.userStorageKey);
     return userJson ? JSON.parse(userJson) : null;
   }
   
-  public setUser(user: User): void {
+  public setUser(user: User | null): void {
+    if (!user) {
+      localStorage.removeItem(this.userStorageKey);
+      return;
+    }
+
     const userJson = JSON.stringify(user);
-    localStorage.setItem('user', userJson);
+    localStorage.setItem(this.userStorageKey, userJson);
   }
 
 
   public getStore(): Store {
-    const storeJson = localStorage.getItem('store');
+    const storeJson = localStorage.getItem(this.storeStorageKey);
     return storeJson ? JSON.parse(storeJson) : new Store();
   }
   
-  public setStore(store: Store): void {
+  public setStore(store: Store | null): void {
+    if (!store) {
+      localStorage.removeItem(this.storeStorageKey);
+      return;
+    }
+
     const storeJson = JSON.stringify(store);
-    localStorage.setItem('store', storeJson);
+    localStorage.setItem(this.storeStorageKey, storeJson);
   }
   
   public getToken(): string {
 
-    return localStorage.getItem('token') as string;
+    return localStorage.getItem(this.tokenStorageKey) as string;
 
   }
 
   public setToken(jwt: string): void {
 
-    localStorage.setItem('token', jwt);
+    if (!jwt) {
+      localStorage.removeItem(this.tokenStorageKey);
+      return;
+    }
+
+    localStorage.setItem(this.tokenStorageKey, jwt);
 
   }
 
   public getRefreshToken(): string {
 
-    return localStorage.getItem('refresh-token') as string;
+    return localStorage.getItem(this.refreshTokenStorageKey) as string;
 
   }
 
   public setRefreshToken(rToken: string): void {
 
-    localStorage.setItem('refresh-token', rToken);
+    if (!rToken) {
+      localStorage.removeItem(this.refreshTokenStorageKey);
+      return;
+    }
 
+    localStorage.setItem(this.refreshTokenStorageKey, rToken);
+
+  }
+
+  public clearSessionData(): void {
+    this.setStore(null);
+    this.setUser(null);
+    this.setToken('');
+    this.setRefreshToken('');
   }
 
   public isAuthenticated(): boolean {

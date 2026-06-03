@@ -140,11 +140,7 @@ export class JwtInterceptor implements HttpInterceptor {
     }
 
     public logoutUser() {
-
-        // this._settingsService.setRefreshToken("");
-        // this._settingsService.setToken("");
-        // this._settingsService.setUser(null);
-        localStorage.clear();
+        this._settingsService.clearSessionData();
         this._router.navigate(['/login']);
 
         return observableThrowError("");

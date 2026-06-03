@@ -2,6 +2,7 @@
 import { SettingsService } from '../../../services/settings.service';
 import { FactorService } from '../../../services/factor.service';
 import { ProductService } from '../../../services/product.service';
+import { LanguageService } from '../../../i18n/language.service';
 
 interface DayRevenue {
   day: string;
@@ -27,7 +28,8 @@ export class DashboardSectionComponent implements OnInit {
   constructor(
     _settings: SettingsService,
     private _factorService: FactorService,
-    private _productService: ProductService
+    private _productService: ProductService,
+    private readonly languageService: LanguageService
   ) {
     this.settings = _settings;
   }
@@ -149,7 +151,9 @@ export class DashboardSectionComponent implements OnInit {
   }
 
   public formatCurrency(value: number): string {
-    return new Intl.NumberFormat('fa-IR', {
+    const locale = this.languageService.currentLanguage === 'fa' ? 'fa-IR' : 'en-US';
+
+    return new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: 'IRR',
       minimumFractionDigits: 0

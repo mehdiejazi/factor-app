@@ -21,7 +21,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let blogPost of blogPosts">
-                <td class="fw-semibold">{{ blogPost.title }}</td>
+                <td class="fw-semibold" data-localization-skip>{{ blogPost.title }}</td>
                 <td>{{ blogPost.visitCount | persianNumber }}</td>
                 <td>{{ blogPost.starRate | persianNumber }}</td>
                 <td>
@@ -39,9 +39,9 @@
                         {{ blogPost.isStarRatingEnabled ? 'فعال' : 'غیرفعال' }}
                     </span>
                 </td>
-                <td>{{ blogPost.insertDateTime }}</td>
-                <td>{{ blogPost.publishDateTime }}</td>
-                <td>{{ blogPost.updateDateTime }}</td>
+                <td data-localization-skip>{{ blogPost.insertDateTime }}</td>
+                <td data-localization-skip>{{ blogPost.publishDateTime }}</td>
+                <td data-localization-skip>{{ blogPost.updateDateTime }}</td>
                 <td class="text-end">
                     <div class="app-list-actions flex-wrap justify-content-end">
                         <button type="button" class="btn btn-outline-light btn-sm app-list-action" (click)="viewPost(blogPost)">نمایش</button>

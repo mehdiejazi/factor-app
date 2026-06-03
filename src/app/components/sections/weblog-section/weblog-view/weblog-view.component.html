@@ -7,10 +7,10 @@
   <article *ngIf="blogPost?.id && !isLoading" class="post-card">
     <header class="post-hero" [class.no-cover]="!blogPost.coverImage?.url">
       <img *ngIf="blogPost.coverImage?.url" [lazyLoad]="blogPost.coverImage.url" class="post-cover"
-        [alt]="blogPost.title">
+        [alt]="blogPost.title" data-localization-skip>
       <div class="hero-overlay"></div>
       <div class="post-title-wrap">
-        <h1 class="post-title">{{ blogPost.title }}</h1>
+        <h1 class="post-title" data-localization-skip>{{ blogPost.title }}</h1>
         <div class="post-statuses">
           <span class="app-list-chip" [ngClass]="blogPost.isPublished ? 'app-list-status--success' : 'app-list-status--danger'">
             {{ blogPost.isPublished ? 'منتشر شده' : 'پیش نویس' }}
@@ -29,10 +29,13 @@
       <div class="author-row">
         <img *ngIf="!blogPost.owner?.avatar" src="assets/images/noavatar.png" class="author-avatar" alt="no avatar">
         <img *ngIf="blogPost.owner?.avatar?.url" [lazyLoad]="blogPost.owner.avatar.url" class="author-avatar"
-          [alt]="blogPost.owner?.fullName || 'author avatar'">
+          [alt]="blogPost.owner?.fullName || 'author avatar'" data-localization-skip>
         <div class="author-info">
-          <div class="author-name">{{ blogPost.owner?.fullName || 'بدون نویسنده' }}</div>
-          <div class="author-subtitle">منتشر شده در {{ blogPost.publishDateTime || '-' }}</div>
+          <div class="author-name">
+            <span *ngIf="blogPost.owner?.fullName; else noAuthor" data-localization-skip>{{ blogPost.owner?.fullName }}</span>
+            <ng-template #noAuthor>بدون نویسنده</ng-template>
+          </div>
+          <div class="author-subtitle">منتشر شده در <span data-localization-skip>{{ blogPost.publishDateTime || '-' }}</span></div>
         </div>
       </div>
 
@@ -45,7 +48,7 @@
     <section class="post-categories" *ngIf="blogPost.postCategories?.length">
       <span class="section-label">دسته‌بندی‌ها:</span>
       <div class="category-chips">
-        <span *ngFor="let postCategory of blogPost.postCategories" class="app-list-chip">
+        <span *ngFor="let postCategory of blogPost.postCategories" class="app-list-chip" data-localization-skip>
           {{ postCategory.name }}
         </span>
       </div>
@@ -53,12 +56,12 @@
 
     <section class="post-summary" *ngIf="blogPost.body">
       <h3>خلاصه</h3>
-      <p>{{ blogPost.body }}</p>
+      <p data-localization-skip>{{ blogPost.body }}</p>
     </section>
 
     <section class="post-content" *ngIf="blogPost.extendedBody">
       <h3>متن کامل</h3>
-      <p>{{ blogPost.extendedBody }}</p>
+      <p data-localization-skip>{{ blogPost.extendedBody }}</p>
     </section>
 
     <section class="post-gallery" *ngIf="blogPost.images?.length">
