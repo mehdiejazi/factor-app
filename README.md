@@ -1,27 +1,78 @@
 # FactorApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.8.
+A modern invoicing application frontend built with Angular.
 
-## Development server
+## Description
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+FactorApp is an Angular-based web application for managing invoices and billing operations. It provides a user-friendly interface for creating, managing, and tracking invoices with discount capabilities and total calculations.
 
-## Code scaffolding
+## Technologies Used
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Framework**: Angular 17+
+- **Language**: TypeScript
+- **Styling**: CSS/SCSS
+- **Package Manager**: npm
+- **Build Tool**: Angular CLI
+- **State Management**: RxJS
 
-## Build
+## Key Features
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Invoice creation and management
+- Discount and deduction handling
+- Total calculation and summary
+- Responsive design
+- Component-based architecture
+- Real-time updates with RxJS
 
-## Running unit tests
+## Getting Started
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Prerequisites
 
-## Running end-to-end tests
+- Node.js (v16 or higher)
+- npm or yarn
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Installation
 
-## Further help
+```bash
+npm install
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Development Server
+
+Run `npm start` or `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+### Building
+
+```bash
+npm run build
+```
+
+The build artifacts will be stored in the `dist/` directory.
+
+### Running Tests
+
+```bash
+npm test
+```
+
+Executes unit tests via Karma.
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── components/
+│   │   ├── invoice/
+│   │   ├── discount/
+│   │   └── summary/
+│   ├── services/
+│   ├── models/
+│   └── app.module.ts
+├── assets/
+└── environments/
+```
+
+## License
+
+This project is part of the FactorApp ecosystem.
