@@ -4,21 +4,26 @@ chcp 65001 | Out-Null
 [Console]::InputEncoding = [System.Text.UTF8Encoding]::new()
 [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
 
-$baseUrl = 'https://localhost:5001'
-$storeId = 'ab047df8-2f0a-4d3a-99a9-5c3da29449a0'
-$jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJGdWxsTmFtZSI6IlByb2dyYW1tZXIgUHJvZ3JhbW1lciIsInVuaXF1ZV9uYW1lIjoiUHJvZ3JhbW1lciIsIm5hbWVpZCI6IjYwM2M5Y2NlLTQ1YzItNDE5Yi1hNzliLTQ5N2E2YTdjZjg1MyIsIm5iZiI6MTc3MDkyNjkxOSwiZXhwIjoxNzcxMDQ2OTE5LCJpYXQiOjE3NzA5MjY5MTl9.iP3lfRascPGLPL2u7UP_y26nmWVxMtWPK0_YwalRMzw'
+param(
+  [string]$BaseUrl = 'https://localhost:5001',
+  [string]$UserName = 'Programmer',
+  [string]$Password = 'prog123'
+)
 
 function Invoke-CurlJsonGet {
-  param([Parameter(Mandatory = $true)][string]$Url)
+  param(
+    [Parameter(Mandatory = $true)][string]$Url,
+    [Parameter(Mandatory = $false)][string]$Jwt
+  )
 
   $outFile = New-TemporaryFile
   try {
-    & curl.exe -sS -k $Url `
-      -H "Authorization: Bearer $jwt" `
-      --connect-timeout 20 `
-      --max-time 90 `
-      -o $outFile.FullName | Out-Null
+    $args = @('-sS', '-k', $Url, '--connect-timeout', '20', '--max-time', '120', '-o', $outFile.FullName)
+    if ($Jwt) {
+      $args += @('-H', "Authorization: Bearer $Jwt")
+    }
 
+    & curl.exe @args | Out-Null
     if ($LASTEXITCODE -ne 0) {
       throw "GET request failed: $Url"
     }
@@ -40,7 +45,8 @@ function Invoke-CurlJsonGet {
 function Invoke-CurlJsonPost {
   param(
     [Parameter(Mandatory = $true)][string]$Url,
-    [Parameter(Mandatory = $true)]$BodyObject
+    [Parameter(Mandatory = $true)]$BodyObject,
+    [Parameter(Mandatory = $false)][string]$Jwt
   )
 
   $bodyFile = New-TemporaryFile
@@ -49,14 +55,12 @@ function Invoke-CurlJsonPost {
     $json = $BodyObject | ConvertTo-Json -Depth 20 -Compress
     [System.IO.File]::WriteAllText($bodyFile.FullName, $json, [System.Text.UTF8Encoding]::new($false))
 
-    & curl.exe -sS -k -X POST $Url `
-      -H "Authorization: Bearer $jwt" `
-      -H "Content-Type: application/json; charset=utf-8" `
-      --data-binary "@$($bodyFile.FullName)" `
-      --connect-timeout 20 `
-      --max-time 90 `
-      -o $outFile.FullName | Out-Null
+    $args = @('-sS', '-k', '-X', 'POST', $Url, '-H', 'Content-Type: application/json; charset=utf-8', '--data-binary', "@$($bodyFile.FullName)", '--connect-timeout', '20', '--max-time', '120', '-o', $outFile.FullName)
+    if ($Jwt) {
+      $args += @('-H', "Authorization: Bearer $Jwt")
+    }
 
+    & curl.exe @args | Out-Null
     if ($LASTEXITCODE -ne 0) {
       throw "POST request failed: $Url"
     }
@@ -78,211 +82,220 @@ function Invoke-CurlJsonPost {
   }
 }
 
+function Ensure-Success {
+  param(
+    [Parameter(Mandatory = $true)]$Response,
+    [Parameter(Mandatory = $true)][string]$Message
+  )
+
+  if (-not $Response.isSuccessful) {
+    throw "$Message: $($Response.errorMessages -join '; ')"
+  }
+}
+
+$loginResponse = Invoke-CurlJsonPost "$BaseUrl/Auth/LoginAsync" @{ userName = $UserName; password = $Password }
+Ensure-Success $loginResponse 'Login failed'
+$jwt = $loginResponse.data.token
+$userId = $loginResponse.data.user.id
+
+$storesResponse = Invoke-CurlJsonGet "$BaseUrl/Store/GetByOwnerAsync" $jwt
+Ensure-Success $storesResponse 'Cannot fetch stores'
+$stores = @()
+if ($storesResponse.data) { $stores = @($storesResponse.data) }
+
+$primaryStore = $stores | Where-Object { $_.storeEnglishName -eq 'factormaker-demo' } | Select-Object -First 1
+if (-not $primaryStore) {
+  $createStoreResponse = Invoke-CurlJsonPost "$BaseUrl/Store/InsertAsync" @{
+    storeEnglishName = 'factormaker-demo'
+    name = 'فروشگاه نمونه فکتور میکر'
+    url = 'https://factormaker.local/demo'
+    description = 'فروشگاه نمایشی برای تست سناریوهای فروش و داشبورد'
+  } $jwt
+  Ensure-Success $createStoreResponse 'Cannot create store'
+  $primaryStore = $createStoreResponse.data
+}
+
+$storeId = $primaryStore.id
+
 $categoryNames = @(
-  'نوشیدنی‌های گرم',
-  'نوشیدنی‌های سرد',
-  'اسنک و تنقلات',
-  'صبحانه',
-  'لبنیات',
-  'مواد پروتئینی',
-  'میوه و سبزیجات',
-  'غلات و حبوبات',
-  'چاشنی و ادویه',
-  'بهداشتی',
-  'شوینده',
-  'لوازم تحریر',
-  'کالای دیجیتال',
-  'خانه و آشپزخانه'
+  'قهوه و نوشیدنی گرم', 'نوشیدنی سرد', 'صبحانه', 'اسنک', 'لبنیات', 'پروتئینی',
+  'میوه و سبزیجات', 'غلات و حبوبات', 'ادویه و چاشنی', 'بهداشتی', 'شوینده', 'لوازم تحریر'
 )
 
 $productSeeds = @(
-  @{ name = 'قهوه ترک'; price = 95000 },
-  @{ name = 'قهوه اسپرسو'; price = 85000 },
-  @{ name = 'چای دارچین'; price = 52000 },
-  @{ name = 'چای ماسالا'; price = 72000 },
-  @{ name = 'آب معدنی کوچک'; price = 12000 },
-  @{ name = 'آبمیوه پرتقال'; price = 34000 },
-  @{ name = 'نوشابه قوطی'; price = 28000 },
-  @{ name = 'دوغ نعناع'; price = 25000 },
-  @{ name = 'چیپس نمکی'; price = 42000 },
-  @{ name = 'پفک پنیری'; price = 39000 },
-  @{ name = 'شکلات تلخ'; price = 68000 },
-  @{ name = 'بیسکویت کرمدار'; price = 31000 },
-  @{ name = 'عسل طبیعی'; price = 155000 },
-  @{ name = 'کره بادام‌زمینی'; price = 98000 },
-  @{ name = 'مربای توت‌فرنگی'; price = 76000 },
-  @{ name = 'نان تست'; price = 26000 },
-  @{ name = 'شیر کم‌چرب'; price = 24000 },
-  @{ name = 'ماست موسیر'; price = 46000 },
-  @{ name = 'پنیر سفید'; price = 52000 },
-  @{ name = 'خامه صبحانه'; price = 41000 },
-  @{ name = 'سینه مرغ'; price = 135000 },
-  @{ name = 'گوشت چرخ‌کرده'; price = 215000 },
-  @{ name = 'تخم‌مرغ ۱۵ عددی'; price = 78000 },
-  @{ name = 'سوسیس کوکتل'; price = 98000 },
-  @{ name = 'سیب قرمز'; price = 45000 },
-  @{ name = 'خیار'; price = 22000 },
-  @{ name = 'گوجه فرنگی'; price = 26000 },
-  @{ name = 'کاهو پیچ'; price = 30000 },
-  @{ name = 'برنج ایرانی'; price = 245000 },
-  @{ name = 'ماکارونی'; price = 28000 },
-  @{ name = 'عدس'; price = 52000 },
-  @{ name = 'نخود'; price = 56000 },
-  @{ name = 'نمک دریا'; price = 18000 },
-  @{ name = 'فلفل سیاه'; price = 34000 },
-  @{ name = 'زعفران ۱ گرمی'; price = 165000 },
-  @{ name = 'رب گوجه'; price = 45000 },
-  @{ name = 'مایع دستشویی'; price = 69000 },
-  @{ name = 'دستمال کاغذی'; price = 38000 },
-  @{ name = 'مسواک نرم'; price = 26000 },
-  @{ name = 'خمیر دندان'; price = 42000 },
-  @{ name = 'مایع ظرفشویی'; price = 61000 },
-  @{ name = 'پودر لباسشویی'; price = 125000 },
-  @{ name = 'شیشه پاک‌کن'; price = 47000 },
-  @{ name = 'سفیدکننده'; price = 53000 },
-  @{ name = 'دفتر ۸۰ برگ'; price = 32000 },
-  @{ name = 'خودکار آبی'; price = 12000 },
-  @{ name = 'مداد مشکی'; price = 9000 },
-  @{ name = 'پاک‌کن'; price = 8000 },
-  @{ name = 'فلش ۳۲ گیگ'; price = 185000 },
-  @{ name = 'هدفون سیمی'; price = 210000 }
+  @{ name = 'قهوه ترک'; price = 95000; category = 'قهوه و نوشیدنی گرم' },
+  @{ name = 'اسپرسو سینگل'; price = 89000; category = 'قهوه و نوشیدنی گرم' },
+  @{ name = 'لاته'; price = 118000; category = 'قهوه و نوشیدنی گرم' },
+  @{ name = 'آب معدنی'; price = 14000; category = 'نوشیدنی سرد' },
+  @{ name = 'آب پرتقال طبیعی'; price = 52000; category = 'نوشیدنی سرد' },
+  @{ name = 'لیموناد'; price = 46000; category = 'نوشیدنی سرد' },
+  @{ name = 'نان تست'; price = 32000; category = 'صبحانه' },
+  @{ name = 'عسل طبیعی'; price = 168000; category = 'صبحانه' },
+  @{ name = 'کره بادام زمینی'; price = 112000; category = 'صبحانه' },
+  @{ name = 'چیپس خلالی'; price = 43000; category = 'اسنک' },
+  @{ name = 'بیسکویت کره ای'; price = 38000; category = 'اسنک' },
+  @{ name = 'شکلات تلخ'; price = 76000; category = 'اسنک' },
+  @{ name = 'شیر کم چرب'; price = 29000; category = 'لبنیات' },
+  @{ name = 'ماست موسیر'; price = 54000; category = 'لبنیات' },
+  @{ name = 'پنیر سفید'; price = 62000; category = 'لبنیات' },
+  @{ name = 'فیله مرغ'; price = 185000; category = 'پروتئینی' },
+  @{ name = 'گوشت چرخ کرده'; price = 268000; category = 'پروتئینی' },
+  @{ name = 'تخم مرغ 15 عددی'; price = 94000; category = 'پروتئینی' },
+  @{ name = 'گوجه فرنگی'; price = 34000; category = 'میوه و سبزیجات' },
+  @{ name = 'خیار گلخانه ای'; price = 28000; category = 'میوه و سبزیجات' },
+  @{ name = 'سیب قرمز'; price = 56000; category = 'میوه و سبزیجات' },
+  @{ name = 'برنج ایرانی'; price = 298000; category = 'غلات و حبوبات' },
+  @{ name = 'عدس'; price = 64000; category = 'غلات و حبوبات' },
+  @{ name = 'ماکارونی'; price = 33000; category = 'غلات و حبوبات' },
+  @{ name = 'رب گوجه'; price = 62000; category = 'ادویه و چاشنی' },
+  @{ name = 'فلفل سیاه'; price = 41000; category = 'ادویه و چاشنی' },
+  @{ name = 'زعفران یک گرمی'; price = 195000; category = 'ادویه و چاشنی' },
+  @{ name = 'مایع دستشویی'; price = 72000; category = 'بهداشتی' },
+  @{ name = 'خمیر دندان'; price = 48000; category = 'بهداشتی' },
+  @{ name = 'مسواک نرم'; price = 34000; category = 'بهداشتی' },
+  @{ name = 'مایع ظرفشویی'; price = 69000; category = 'شوینده' },
+  @{ name = 'پودر لباسشویی'; price = 138000; category = 'شوینده' },
+  @{ name = 'شیشه پاک کن'; price = 52000; category = 'شوینده' },
+  @{ name = 'دفتر 80 برگ'; price = 36000; category = 'لوازم تحریر' },
+  @{ name = 'خودکار آبی'; price = 15000; category = 'لوازم تحریر' },
+  @{ name = 'مداد مشکی'; price = 12000; category = 'لوازم تحریر' }
 )
 
-$catRes = Invoke-CurlJsonGet "$baseUrl/Category/GetByStoreIdAsync?storeId=$storeId"
-if (-not $catRes.isSuccessful) {
-  throw "Cannot fetch categories: $($catRes.errorMessages -join '; ')"
-}
+$customerSeeds = @(
+  @{ firstName = 'مهدی'; lastName = 'رحیمی'; nationalCode = '1401000001' },
+  @{ firstName = 'سارا'; lastName = 'قاسمی'; nationalCode = '1401000002' },
+  @{ firstName = 'الهام'; lastName = 'کریمی'; nationalCode = '1401000003' },
+  @{ firstName = 'رضا'; lastName = 'جعفری'; nationalCode = '1401000004' },
+  @{ firstName = 'ندا'; lastName = 'احمدی'; nationalCode = '1401000005' },
+  @{ firstName = 'علی'; lastName = 'صبوری'; nationalCode = '1401000006' },
+  @{ firstName = 'حسین'; lastName = 'موسوی'; nationalCode = '1401000007' },
+  @{ firstName = 'بهاره'; lastName = 'خسروی'; nationalCode = '1401000008' },
+  @{ firstName = 'نگار'; lastName = 'حسینی'; nationalCode = '1401000009' },
+  @{ firstName = 'کیان'; lastName = 'عباسی'; nationalCode = '1401000010' },
+  @{ firstName = 'پریسا'; lastName = 'زارع'; nationalCode = '1401000011' },
+  @{ firstName = 'نوید'; lastName = 'یوسفی'; nationalCode = '1401000012' }
+)
+
+$categoriesResponse = Invoke-CurlJsonGet "$BaseUrl/Category/GetByStoreIdAsync?storeId=$storeId" $jwt
+Ensure-Success $categoriesResponse 'Cannot fetch categories'
 $categories = @()
-if ($catRes.data) {
-  $categories = @($catRes.data)
+if ($categoriesResponse.data) { $categories = @($categoriesResponse.data) }
+
+foreach ($categoryName in $categoryNames) {
+  $existing = $categories | Where-Object { $_.name -eq $categoryName } | Select-Object -First 1
+  if ($existing) { continue }
+
+  $response = Invoke-CurlJsonPost "$BaseUrl/Category/InsertAsync" @{ storeId = $storeId; name = $categoryName } $jwt
+  Ensure-Success $response "Cannot create category $categoryName"
+  $categories += $response.data
 }
 
-$createdCategories = @()
-foreach ($name in $categoryNames) {
-  if ($categories.Count -ge 14) { break }
-
-  $exists = $categories | Where-Object { $_.name -eq $name } | Select-Object -First 1
-  if ($exists) { continue }
-
-  $insertRes = Invoke-CurlJsonPost "$baseUrl/Category/InsertAsync" @{
-    storeId = $storeId
-    name = $name
-  }
-  if (-not $insertRes.isSuccessful) {
-    throw "Category insert failed for '$name': $($insertRes.errorMessages -join '; ')"
-  }
-
-  $categories += $insertRes.data
-  $createdCategories += $insertRes.data
-}
-
-$idx = 1
-while ($categories.Count -lt 14) {
-  $name = "دسته بندی $idx"
-  $exists = $categories | Where-Object { $_.name -eq $name } | Select-Object -First 1
-  if (-not $exists) {
-    $insertRes = Invoke-CurlJsonPost "$baseUrl/Category/InsertAsync" @{
-      storeId = $storeId
-      name = $name
-    }
-    if (-not $insertRes.isSuccessful) {
-      throw "Category insert failed for '$name': $($insertRes.errorMessages -join '; ')"
-    }
-    $categories += $insertRes.data
-    $createdCategories += $insertRes.data
-  }
-  $idx++
-}
-
-$prodRes = Invoke-CurlJsonGet "$baseUrl/Product/GetByStoreIdAsync?storeId=$storeId"
-if (-not $prodRes.isSuccessful) {
-  throw "Cannot fetch products: $($prodRes.errorMessages -join '; ')"
-}
+$productsResponse = Invoke-CurlJsonGet "$BaseUrl/Product/GetByStoreIdAsync?storeId=$storeId" $jwt
+Ensure-Success $productsResponse 'Cannot fetch products'
 $products = @()
-if ($prodRes.data) {
-  $products = @($prodRes.data)
-}
+if ($productsResponse.data) { $products = @($productsResponse.data) }
 
-$existingProductNames = @{}
-foreach ($p in $products) {
-  if ($p.name) { $existingProductNames[$p.name] = $true }
-}
-
-$createdProducts = @()
-$catIndex = 0
 foreach ($seed in $productSeeds) {
-  if (($products.Count + $createdProducts.Count) -ge 50) { break }
-  if ($existingProductNames.ContainsKey($seed.name)) { continue }
+  $existing = $products | Where-Object { $_.name -eq $seed.name } | Select-Object -First 1
+  if ($existing) { continue }
 
-  $cat = $categories[$catIndex % $categories.Count]
-  $body = @{
+  $category = $categories | Where-Object { $_.name -eq $seed.category } | Select-Object -First 1
+  $response = Invoke-CurlJsonPost "$BaseUrl/Product/InsertAsync" @{
     storeId = $storeId
     name = $seed.name
     price = [int]$seed.price
-    categoryId = $cat.id
-    category = @{
-      id = $cat.id
-      storeId = $storeId
-      name = $cat.name
-    }
-  }
-
-  $insertRes = Invoke-CurlJsonPost "$baseUrl/Product/InsertAsync" $body
-  if (-not $insertRes.isSuccessful) {
-    throw "Product insert failed for '$($seed.name)': $($insertRes.errorMessages -join '; ')"
-  }
-
-  $createdProducts += $insertRes.data
-  $existingProductNames[$seed.name] = $true
-  $catIndex++
+    categoryId = $category.id
+  } $jwt
+  Ensure-Success $response "Cannot create product $($seed.name)"
+  $products += $response.data
 }
 
-$counter = 1
-while (($products.Count + $createdProducts.Count) -lt 50) {
-  $name = "محصول $counter"
-  if (-not $existingProductNames.ContainsKey($name)) {
-    $cat = $categories[$counter % $categories.Count]
-    $body = @{
-      storeId = $storeId
-      name = $name
-      price = 20000 + ($counter * 1000)
-      categoryId = $cat.id
-      category = @{
-        id = $cat.id
-        storeId = $storeId
-        name = $cat.name
-      }
-    }
+$customersResponse = Invoke-CurlJsonGet "$BaseUrl/Customer/GetByStoreIdAsync?storeId=$storeId" $jwt
+Ensure-Success $customersResponse 'Cannot fetch customers'
+$customers = @()
+if ($customersResponse.data) { $customers = @($customersResponse.data) }
 
-    $insertRes = Invoke-CurlJsonPost "$baseUrl/Product/InsertAsync" $body
-    if (-not $insertRes.isSuccessful) {
-      throw "Product insert failed for '$name': $($insertRes.errorMessages -join '; ')"
-    }
+foreach ($seed in $customerSeeds) {
+  $existing = $customers | Where-Object { $_.nationalCode -eq $seed.nationalCode } | Select-Object -First 1
+  if ($existing) { continue }
 
-    $createdProducts += $insertRes.data
-    $existingProductNames[$name] = $true
+  $response = Invoke-CurlJsonPost "$BaseUrl/Customer/InsertAsync" @{
+    firstName = $seed.firstName
+    lastName = $seed.lastName
+    nationalCode = $seed.nationalCode
+    storeId = $storeId
+  } $jwt
+  Ensure-Success $response "Cannot create customer $($seed.firstName) $($seed.lastName)"
+  $customers += $response.data
+}
+
+$factorsResponse = Invoke-CurlJsonGet "$BaseUrl/Factor/GetByStoreIdAsync?storeId=$storeId" $jwt
+Ensure-Success $factorsResponse 'Cannot fetch factors'
+$factors = @()
+if ($factorsResponse.data) { $factors = @($factorsResponse.data) }
+
+$targetClosedFactors = 36
+$existingClosedFactors = @($factors | Where-Object { $_.isClosed -eq $true }).Count
+$newFactorsCount = [Math]::Max(0, $targetClosedFactors - $existingClosedFactors)
+
+for ($i = 0; $i -lt $newFactorsCount; $i++) {
+  $customer = Get-Random -InputObject $customers
+  $daysAgo = Get-Random -Minimum 0 -Maximum 45
+  $hour = Get-Random -Minimum 8 -Maximum 22
+  $minute = Get-Random -Minimum 0 -Maximum 59
+  $sellDate = (Get-Date).Date.AddDays(-$daysAgo).AddHours($hour).AddMinutes($minute)
+
+  $factorResponse = Invoke-CurlJsonPost "$BaseUrl/Factor/InsertAsync" @{
+    ownerId = $customer.id
+    storeId = $storeId
+    description = "فاکتور فروش روزانه شماره $($existingClosedFactors + $i + 1)"
+    sellDateTime = $sellDate.ToString('o')
+    isClosed = $false
+    totalPrice = 0
+  } $jwt
+  Ensure-Success $factorResponse 'Cannot create factor'
+  $factor = $factorResponse.data
+
+  $itemsCount = Get-Random -Minimum 2 -Maximum 6
+  for ($j = 0; $j -lt $itemsCount; $j++) {
+    $product = Get-Random -InputObject $products
+    $quantity = Get-Random -Minimum 1 -Maximum 5
+    $offPercent = (Get-Random -InputObject @(0, 0, 0, 5, 10, 15))
+
+    $itemResponse = Invoke-CurlJsonPost "$BaseUrl/FactorItem/InsertAsync" @{
+      factorId = $factor.id
+      productId = $product.id
+      quantity = $quantity
+      offPercent = $offPercent
+      price = [int]$product.price
+      description = "آیتم فروش $($product.name)"
+    } $jwt
+    Ensure-Success $itemResponse 'Cannot create factor item'
   }
-  $counter++
+
+  $factorDetailResponse = Invoke-CurlJsonGet "$BaseUrl/Factor/GetFactorWithItemsByIdAsync?id=$($factor.id)" $jwt
+  Ensure-Success $factorDetailResponse 'Cannot fetch factor detail'
+  $factorDetail = $factorDetailResponse.data
+  $factorDetail.isClosed = $true
+
+  $closeResponse = Invoke-CurlJsonPost "$BaseUrl/Factor/UpdateAsync" $factorDetail $jwt
+  Ensure-Success $closeResponse 'Cannot close factor'
 }
 
-$finalCatRes = Invoke-CurlJsonGet "$baseUrl/Category/GetByStoreIdAsync?storeId=$storeId"
-$finalProdRes = Invoke-CurlJsonGet "$baseUrl/Product/GetByStoreIdAsync?storeId=$storeId"
-
-if (-not $finalCatRes.isSuccessful -or -not $finalProdRes.isSuccessful) {
-  throw "Final verification failed."
-}
-
-$finalCategories = @()
-if ($finalCatRes.data) { $finalCategories = @($finalCatRes.data) }
-
-$finalProducts = @()
-if ($finalProdRes.data) { $finalProducts = @($finalProdRes.data) }
+$verifyProductsResponse = Invoke-CurlJsonGet "$BaseUrl/Product/GetByStoreIdAsync?storeId=$storeId" $jwt
+$verifyCustomersResponse = Invoke-CurlJsonGet "$BaseUrl/Customer/GetByStoreIdAsync?storeId=$storeId" $jwt
+$verifyFactorsResponse = Invoke-CurlJsonGet "$BaseUrl/Factor/GetByStoreIdAsync?storeId=$storeId" $jwt
+Ensure-Success $verifyProductsResponse 'Product verification failed'
+Ensure-Success $verifyCustomersResponse 'Customer verification failed'
+Ensure-Success $verifyFactorsResponse 'Factor verification failed'
 
 [ordered]@{
-  categoriesCount = $finalCategories.Count
-  productsCount = $finalProducts.Count
-  createdCategoriesCount = $createdCategories.Count
-  createdProductsCount = $createdProducts.Count
-  sampleCategories = @($finalCategories | Select-Object -First 5 -Property id, name)
-  sampleProducts = @($finalProducts | Select-Object -First 5 -Property id, name, price, categoryId)
-} | ConvertTo-Json -Depth 8
+  baseUrl = $BaseUrl
+  storeId = $storeId
+  storeName = $primaryStore.name
+  productsCount = @($verifyProductsResponse.data).Count
+  customersCount = @($verifyCustomersResponse.data).Count
+  factorsCount = @($verifyFactorsResponse.data).Count
+  closedFactorsCount = @($verifyFactorsResponse.data | Where-Object { $_.isClosed -eq $true }).Count
+  sampleLogin = @{ userName = $UserName; password = $Password }
+} | ConvertTo-Json -Depth 6

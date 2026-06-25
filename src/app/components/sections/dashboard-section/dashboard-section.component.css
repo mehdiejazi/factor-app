@@ -22,25 +22,20 @@
   font-weight: 500;
 }
 
-.metric-head mat-icon {
-  font-size: 1.4rem;
+.metric-head mat-icon,
+.panel-header mat-icon {
   color: var(--text-accent-on-dark);
 }
 
 .metric-value {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.4;
   color: var(--text-on-dark);
 }
 
-.metric-warning .metric-head mat-icon {
-  color: #ffcc80;
-}
-
-.metric-warning-badge {
-  background-color: rgba(255, 152, 0, 0.22);
-  color: #ffd89b;
+.metric-secondary .metric-head mat-icon {
+  color: #80cbc4;
 }
 
 .panel-card {
@@ -51,10 +46,6 @@
   background-color: rgba(255, 255, 255, 0.03);
   border-bottom: 1px solid var(--surface-card-border);
   font-weight: 500;
-}
-
-.panel-header mat-icon {
-  color: var(--text-accent-on-dark);
 }
 
 .chart-wrap {
@@ -93,7 +84,6 @@
   min-height: 8px;
   border-radius: 0.55rem;
   background-image: linear-gradient(180deg, #8bc34a 0%, #2f7d35 100%);
-  transition: height 0.2s ease;
 }
 
 .bar-label {
@@ -106,8 +96,47 @@
   color: var(--text-on-dark);
 }
 
-.empty-inline,
-.empty-state {
+.mini-chart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.mini-chart-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 100px;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.mini-chart-label,
+.mini-chart-value {
+  font-size: 0.8rem;
+  color: var(--text-on-dark);
+}
+
+.mini-chart-track {
+  height: 10px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.mini-chart-bar {
+  height: 100%;
+  border-radius: 999px;
+  background-image: linear-gradient(90deg, #4fc3f7 0%, #0288d1 100%);
+}
+
+.mini-chart-bar.weekday {
+  background-image: linear-gradient(90deg, #ffd54f 0%, #ff8f00 100%);
+}
+
+.mini-chart-bar.accent {
+  background-image: linear-gradient(90deg, #ce93d8 0%, #8e24aa 100%);
+}
+
+.empty-inline {
   min-height: 160px;
   display: flex;
   flex-direction: column;
@@ -118,8 +147,7 @@
   color: var(--text-muted-on-dark);
 }
 
-.empty-inline mat-icon,
-.empty-state mat-icon {
+.empty-inline mat-icon {
   font-size: 2rem;
   width: auto;
   height: auto;
@@ -144,25 +172,23 @@
   border-color: rgba(255, 255, 255, 0.08);
 }
 
-.low-stock-table tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.04);
-}
-
-.stock-badge {
-  display: inline-block;
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  background-color: rgba(255, 152, 0, 0.2);
-  color: #ffd89b;
-  font-weight: 600;
+@media (max-width: 991.98px) {
+  .mini-chart-row {
+    grid-template-columns: 90px 1fr 80px;
+  }
 }
 
 @media (max-width: 767.98px) {
   .metric-value {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
   }
 
   .bar-chart {
     min-width: 520px;
+  }
+
+  .mini-chart-row {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
   }
 }

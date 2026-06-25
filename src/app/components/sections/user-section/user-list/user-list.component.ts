@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../services/user.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { SettingsService } from '../../../../services/settings.service';
@@ -299,3 +299,4 @@ export class UserListComponent implements OnInit {
   }
 
 }
+

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { FactorService } from '../../../../services/factor.service';
 import { SettingsService } from '../../../../services/settings.service';
@@ -235,3 +235,4 @@ export class FactorListComponent implements OnInit {
   }
 
 }
+
